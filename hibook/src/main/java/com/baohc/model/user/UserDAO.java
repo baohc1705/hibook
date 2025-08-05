@@ -1,5 +1,195 @@
 package com.baohc.model.user;
 
-public class UserDAO {
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.baohc.model.DAOInterface;
+import com.baohc.utils.ConnectionKit;
+
+public class UserDAO implements DAOInterface<UserDTO> {
+	private static UserDAO instance = null;
+	private UserDAO() {}
+	public static synchronized UserDAO getInstance() {
+		if (instance == null)
+			instance = new UserDAO();
+		return instance;
+	}
+	
+	@Override
+	public List<UserDTO> getData() {
+		List<UserDTO> list = new ArrayList<UserDTO>();
+		
+		try {
+			Connection con = ConnectionKit.getConnection();
+			
+			if (con == null) return list;
+			
+			String query = "SELECT * FROM user";
+			
+			PreparedStatement pmt = con.prepareStatement(query);
+			ResultSet rs = pmt.executeQuery();
+			
+			while (rs.next()) {
+				UserDTO user = new UserDTO();
+				user.setId(rs.getString("id"));
+				CateUserDTO tmp = CateUserDAO.getInstance().find(new CateUserDTO(rs.getInt("cateUser_id"), ""));
+				user.setCateUser(tmp);
+				user.setEmail(rs.getString("email"));
+				user.setPassword(rs.getString("password"));
+				user.setFullname(rs.getString("fullname"));
+				user.setBirthDate(rs.getDate("birthDate"));
+				
+				list.add(user);
+			}
+			
+			if (rs != null)
+				rs.close();
+			if (pmt != null)
+				pmt.close();
+			ConnectionKit.closeConnection(con);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		return list;
+		
+	}
+
+	@Override
+	public UserDTO find(UserDTO o) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	 
+	public UserDTO findByEmail(UserDTO o) {
+		UserDTO res = null;
+		try {
+			Connection con = ConnectionKit.getConnection();
+			if (con == null) return res;
+			
+			String query = "SELECT * FROM user WHERE email=?";
+			PreparedStatement pmt = con.prepareStatement(query);
+			pmt.setString(1, o.getEmail());
+			ResultSet rs = pmt.executeQuery();
+			
+			while (rs.next()) {
+				UserDTO user = new UserDTO();
+				user.setId(rs.getString("id"));
+				CateUserDTO tmp = CateUserDAO.getInstance().find(new CateUserDTO(rs.getInt("cateUser_id"), ""));
+				user.setCateUser(tmp);
+				user.setEmail(rs.getString("email"));
+				user.setPassword(rs.getString("password"));
+				user.setFullname(rs.getString("fullname"));
+				user.setBirthDate(rs.getDate("birthDate"));
+				
+				res = user;
+			}
+			
+			if (rs != null)
+				rs.close();
+			if (pmt != null)
+				pmt.close();
+			ConnectionKit.closeConnection(con);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return res;
+	}
+	
+	public UserDTO login(UserDTO u) {
+		UserDTO res = null;
+		
+		try {
+			Connection con = ConnectionKit.getConnection();
+			
+			if(con == null)
+				return res;
+			
+			String query = "SELECT * FROM user WHERE email=? and password=?";
+			PreparedStatement pmt = con.prepareStatement(query);
+			pmt.setString(1, u.getEmail());
+			pmt.setString(2, u.getPassword());
+			ResultSet rs = pmt.executeQuery();
+			while(rs.next()) {
+				UserDTO user = new UserDTO();
+				user.setId(rs.getString("id"));
+				CateUserDTO tmp = CateUserDAO.getInstance().find(new CateUserDTO(rs.getInt("cateUser_id"), ""));
+				user.setCateUser(tmp);
+				user.setEmail(rs.getString("email"));
+				user.setPassword(rs.getString("password"));
+				user.setFullname(rs.getString("fullname"));
+				user.setBirthDate(rs.getDate("birthDate"));
+				
+				res = user;
+			}
+			
+			if (rs != null)
+				rs.close();
+			if (pmt != null)
+				pmt.close();
+			ConnectionKit.closeConnection(con);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return res;
+	}
+
+	@Override
+	public int insert(UserDTO o) {
+		int res = 0;
+		
+		try {
+			Connection con = ConnectionKit.getConnection();
+			if (con == null) return res;
+			
+			String query = "INSERT INTO user(id, cateUser_id, email, password, fullname, birthDate) VALUES(?,?,?,?,?,?)";
+			PreparedStatement pmt = con.prepareStatement(query);
+			pmt.setString(1, o.getId());
+			pmt.setInt(2, o.getCateUser().getId());
+			pmt.setString(3, o.getEmail());
+			pmt.setString(4, o.getPassword());
+			pmt.setString(5, o.getFullname());
+			pmt.setDate(6, o.getBirthDate());
+			
+			int row = pmt.executeUpdate();
+			res = row > 0 ? 1 : 0;
+			
+			if (pmt != null)
+				pmt.close();
+			ConnectionKit.closeConnection(con);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		return res;
+	}
+
+	@Override
+	public int insertAll(List<UserDTO> arr) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int delete(UserDTO o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int deleteAll(List<UserDTO> arr) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 }

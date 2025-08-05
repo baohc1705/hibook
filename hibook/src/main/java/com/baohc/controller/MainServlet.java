@@ -1,29 +1,23 @@
-package com.baohc.controller.user;
+package com.baohc.controller;
 
 import java.io.IOException;
-import java.util.List;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.baohc.model.user.CateUserDAO;
-import com.baohc.model.user.CateUserDTO;
-
 /**
- * Servlet implementation class LoadCateUserServlet
+ * Servlet implementation class MainServlet
  */
-@WebServlet(name = "load-cate-user", urlPatterns = { "/load-cate-user" })
-public class LoadCateUserServlet extends HttpServlet {
+@WebServlet(name = "main-controller", urlPatterns = { "/main-controller" })
+public class MainServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoadCateUserServlet() {
+    public MainServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,11 +27,7 @@ public class LoadCateUserServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			List<CateUserDTO> list = CateUserDAO.getInstance().getData();
-			if (list.size() > 0) {
-				request.setAttribute("list_cateUser", list);
-				request.getRequestDispatcher("index.jsp").forward(request, response);
-			}
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();

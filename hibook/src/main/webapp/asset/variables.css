@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Chango&family=Paytone+One&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+:root {
+    --dark-blue-950: #222a49;
+    --dark-blue-950-o50: rgba(34, 42, 73, 0.5);
+    --dark-blue-800: #3D52A0;
+    --dark-blue-600: #496ec7;
+    --dark-blue-50: #f2f6fc;
+    --bg-gradient-darkblue: radial-gradient( #496ec7 , #3D52A0 20%,#222A49 80%);
+    
+    --clr-danger: #FF3D00;
+    --clr-success: green;
+
+    --font-PaytoneOne: "Paytone One", sans-serif;
+    --font-Roboto:'Roboto';
+} 
