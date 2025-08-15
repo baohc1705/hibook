@@ -35,7 +35,7 @@ Here is the Figma link for the UX design:
 ## Database
 - MySQL is used as the database. You can create it using the **hibookdb.sql** file located in the **database** folder.
 - The database follows the ERD diagram below:  
-  ![ERD diagram]
+  ![ERD diagram](https://github.com/baohc1705/hibook/blob/main/screenshot/erd-hibook.png)
 - Tomcat version: **9**  
 - Configure the **ConnectionKit** file to connect to your local database.
 
@@ -44,14 +44,14 @@ Here is the Figma link for the UX design:
 ## Screenshots
 
 ### User & Guest
-![Login]  
-![Register]  
-![Homepage]  
-![Cart]  
-![Checkout]  
+![Login](https://github.com/baohc1705/hibook/blob/main/screenshot/login.png)  
+![Register](https://github.com/baohc1705/hibook/blob/main/screenshot/register.png)  
+![Homepage](https://github.com/baohc1705/hibook/blob/main/screenshot/homepage1.png)
+![Cart](https://github.com/baohc1705/hibook/blob/main/screenshot/homepage2.png)  
+
 
 ### Admin
-![Dashboard]  
+![Dashboard](https://github.com/baohc1705/hibook/blob/main/screenshot/dashboard.png)  
 
 ---
 
