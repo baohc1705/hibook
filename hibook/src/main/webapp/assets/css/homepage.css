@@ -1,0 +1,281 @@
+body {
+    display: grid;
+    grid-template-rows: 1fr auto;
+}
+body .wrapper-navbar {
+    position: sticky;
+    top: 0;
+    align-items: start;
+    z-index: 1000;
+}
+
+.bn-wrapper-text p:nth-child(1) {
+    letter-spacing: 0.3rem;
+}
+
+.wrapper-img-bn {
+    overflow: hidden;
+}
+
+.carousel-indicators [data-bs-target] {
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: var(--dark-blue-50); 
+    opacity: 0.5;
+    transition: opacity 0.3s;
+    border: none;
+}
+
+.carousel-indicators .active {
+    opacity: 1;
+    background-color: var(--dark-blue-800);
+    width: 30px;
+    border-radius: 30px;
+    transition: all .3s;
+}
+
+.bestseller-poster  {
+    position: relative;
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.bestseller-poster .wrapper-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    background: linear-gradient(rgba(34, 42, 73, 0.3) , rgba(34, 42, 73, 1));
+    backdrop-filter: blur(5px) brightness(100%);
+    -webkit-backdrop-filter: blur(17.5px) brightness(100%);
+    overflow: hidden;
+}
+
+.bestseller-poster .img-bg {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.bestseller-poster #bookPhoto {
+    border: 1px var(--dark-blue-50) solid;
+}
+
+.carousel-bestseller-poster .carousel-item {
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+/* custom menu */
+.menu ul {
+    border-radius: 1rem;
+}
+
+.menu ul li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 1rem;
+}
+
+.menu ul li p {
+    color: var(--dark-blue-800);
+    margin: 0;
+}
+
+.menu ul li .icon {
+    background-color: var(--dark-blue-200);
+    border-radius: 1rem;
+}
+
+/* section flash sale */
+.bg-flash-sale {
+    background: radial-gradient( #496ec7 , #3D52A0 ,#222A49 80%);;
+}
+
+.bg-flash-sale .wrapper-text p:nth-child(1) {
+    letter-spacing: 0.5rem;
+}
+
+.special-books .card {
+    position: relative;
+    border: 1px var(--dark-blue-50) solid;
+    background-color: var(--dark-blue-50);
+    box-shadow: 6px 6px 10px rgb(203, 219, 242, 0.5);
+}
+
+
+.special-books .card .coupon{
+    position: absolute;
+    top: 20px;
+    right: -60px;
+    transform: rotate(45deg);
+}
+
+#btn-prev-fill {
+    display: none;
+}
+
+#btn-next-fill {
+    display: none;
+}
+
+.btn-border {
+    border: 2px var(--dark-blue-800) solid;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1.5rem;
+    color: var(--dark-blue-800);
+}
+
+.library-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px; 
+    justify-items: center; 
+    padding: 20px;
+    background-image: url(../images/backgrounds/cricle-icon.png);
+    background-position: start center;
+    background-size: 30rem;
+    background-repeat: no-repeat;
+}
+
+.book-item {
+    background-color: var(--dark-blue-50);
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    padding: 10px;
+    transition: transform 0.2s ease;
+}
+
+.book-item img {
+    max-width: 150px;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+}
+
+.book-item:hover {
+    transform: scale(1.05);
+}
+.new-books {
+    background-image: url(../images/backgrounds/circle-purple.png);
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    background-size: 20rem;
+}   
+.new-books .dot-end img {
+    transform: rotate(180deg);
+}
+
+.book-content {
+    box-shadow: 6px 12px 10px rgb(61, 82, 160,0.5)
+}
+
+.new-trend .wrapper-book .row .item {
+    border-radius: 1rem;
+    border: 1px var(--dark-blue-200) solid;
+}
+
+.wrapper-combo {
+    background: linear-gradient(
+    0deg,
+    rgba(242, 246, 252, 1) 40%,
+    rgba(61, 82, 160, 1) 60%,
+    rgba(61, 82, 160, 1) 100%
+  );
+}
+
+.wrapper-combo .item {
+    background-color: var(--dark-blue-50);
+    border-radius: 1rem;
+}
+
+.wrapper-combo .item .combo-photo {
+    position: relative;
+}
+
+.wrapper-combo .item .combo-photo .img-1 {
+    position: absolute;
+    top: 0;
+    left: 20%;
+    z-index: 0;
+}
+
+.wrapper-combo .item .combo-photo .img-2 {
+    position: absolute;
+    top: 10%;
+    right: 20%;
+    z-index: 1;
+}
+.review .group {
+    position: relative;
+    width: 300px;
+    height: 70px;
+    
+}
+.review .group  .group-avatar{
+    position: absolute;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 5px var(--clr-gray-50) solid;
+    margin: auto;
+}
+
+.review .group .img-1 {
+    left:20%;
+    z-index: 1;
+}
+
+.review .group .img-2 {
+    left:35%;
+    z-index: 2;
+    
+}
+
+.review .group .img-3 {
+    left:50%;
+    z-index: 3;
+}
+
+.review .group span {
+    width: 64px; 
+    height: 64px;
+    left: 65%;
+    background-color: var(--dark-blue-50);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 4;
+}
+
+.email-contact {
+    background-image: url(../images/backgrounds/bg-email.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+
+.email-contact .custom-input-group {
+    border: none;
+}
+
+.email-contact .custom-input-group .form-control {
+    background-color: var(--dark-blue-200);
+    padding: 0.75rem ;
+    color: var(--dark-blue-800);
+}
+.email-contact .custom-input-group .form-control::placeholder {
+    color: var(--dark-blue-800);
+}
+
+.email-contact .custom-input-group .input-group-text {
+    background-color: var(--dark-blue-50);
+    color: var(--dark-blue-800);
+    border: none;
+    text-transform: uppercase;
+    font-weight: bold;
+}

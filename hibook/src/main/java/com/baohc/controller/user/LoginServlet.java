@@ -18,50 +18,59 @@ import com.baohc.utils.EncryptPassword;
 @WebServlet(name = "login", urlPatterns = { "/login" })
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public LoginServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public LoginServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		doPost(request, response);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		try {
 			request.setCharacterEncoding("UTF-8");
 			String email = request.getParameter("email");
 			String password = request.getParameter("password");
-			
+
 			password = EncryptPassword.toSHA1(password);
 
 			UserDTO user_found = UserDAO.getInstance().login(new UserDTO(null, email, password, null, null));
-			
+
 			HttpSession session = request.getSession();
-			
+
 			if (user_found != null) {
-				session.setAttribute("user_account", user_found);
-				request.getRequestDispatcher("homepage.jsp").forward(request, response);
-			}
-			else {
-				System.out.println("Dang nhap that bai");
+				System.out.println(user_found);
+				if (user_found.getCateUser().getId() == 3) {
+					
+					session.setAttribute("user_account", user_found);
+					request.getRequestDispatcher("/views/homepage.jsp").forward(request, response);
+				}else if (user_found.getCateUser().getId() == 1 || user_found.getCateUser().getId() == 2) {
+					session.setAttribute("user_account", user_found);
+					request.getRequestDispatcher("/views/admin/dashboard.jsp").forward(request, response);
+				}
+				
+			} else {
 				request.setAttribute("errMsg_Login", "Đăng nhập thất bại.");
-				request.getRequestDispatcher("login.jsp").forward(request, response);
+				request.getRequestDispatcher("/views/login.jsp").forward(request, response);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
 	}
 
 }
