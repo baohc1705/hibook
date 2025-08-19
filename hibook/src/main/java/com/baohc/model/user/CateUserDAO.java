@@ -105,4 +105,9 @@ public class CateUserDAO implements DAOInterface<CateUserDTO>{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	@Override
+	public int update(CateUserDTO o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

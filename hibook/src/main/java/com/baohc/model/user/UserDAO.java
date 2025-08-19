@@ -54,16 +54,47 @@ public class UserDAO implements DAOInterface<UserDTO> {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
+
 		return list;
 		
 	}
 
 	@Override
 	public UserDTO find(UserDTO o) {
-		// TODO Auto-generated method stub
-		return null;
+		UserDTO res = null;
+		try {
+			Connection con = ConnectionKit.getConnection();
+			if (con == null) return res;
+			
+			String query = "SELECT * FROM user WHERE id=?";
+			PreparedStatement pmt = con.prepareStatement(query);
+			pmt.setString(1, o.getId());
+			ResultSet rs = pmt.executeQuery();
+			
+			while (rs.next()) {
+				UserDTO user = new UserDTO();
+				user.setId(rs.getString("id"));
+				CateUserDTO tmp = CateUserDAO.getInstance().find(new CateUserDTO(rs.getInt("cateUser_id"), ""));
+				user.setCateUser(tmp);
+				user.setEmail(rs.getString("email"));
+				user.setPassword(rs.getString("password"));
+				user.setFullname(rs.getString("fullname"));
+				user.setBirthDate(rs.getDate("birthDate"));
+				user.setAvatar(rs.getString("avatar"));
+				res = user;
+			}
+			
+			if (rs != null)
+				rs.close();
+			if (pmt != null)
+				pmt.close();
+			ConnectionKit.closeConnection(con);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return res;
 	}
 	 
 	public UserDTO findByEmail(UserDTO o) {
@@ -126,7 +157,7 @@ public class UserDAO implements DAOInterface<UserDTO> {
 				user.setPassword(rs.getString("password"));
 				user.setFullname(rs.getString("fullname"));
 				user.setBirthDate(rs.getDate("birthDate"));
-				
+				user.setAvatar(rs.getString("avatar"));
 				res = user;
 			}
 			
@@ -176,13 +207,16 @@ public class UserDAO implements DAOInterface<UserDTO> {
 
 	@Override
 	public int insertAll(List<UserDTO> arr) {
-		// TODO Auto-generated method stub
-		return 0;
+		int dem = 0;
+		for (UserDTO item : arr) {
+			dem += this.insert(item);
+		}
+		return dem;
 	}
 
 	@Override
 	public int delete(UserDTO o) {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
@@ -191,5 +225,60 @@ public class UserDAO implements DAOInterface<UserDTO> {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	@Override
+	public int update(UserDTO o) {
+		int res = 0;
+		
+		try {
+			Connection con = ConnectionKit.getConnection();
+			
+			if (con == null) return res;
+			String query = "UPDATE user SET email=?, fullname=?, birthDate=?, avatar=? WHERE id=?";
+			PreparedStatement pmt = con.prepareStatement(query);
+			pmt.setString(1, o.getEmail());
+			pmt.setString(2, o.getFullname());
+			pmt.setDate(3, o.getBirthDate());
+			pmt.setString(4, o.getAvatar());
+			pmt.setString(5, o.getId());
+			
+			int row = pmt.executeUpdate();
+			res = row > 0 ? 1 : 0;
+			
+			if (pmt != null)
+				pmt.close();
+			ConnectionKit.closeConnection(con);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+	
+	public int updateAvatar(UserDTO o) {
+		int res = 0;
+		
+		try {
+			Connection con = ConnectionKit.getConnection();
+			
+			if (con == null) return res;
+			
+			String query = "UPDATE user SET avatar=? WHERE id=?";
+			PreparedStatement pmt = con.prepareStatement(query);
+			pmt.setString(1, o.getAvatar());
+			pmt.setString(2, o.getId());
+			
+			int row = pmt.executeUpdate();
+			res = row > 0 ? 1 : 0;
+			
+			if (pmt != null)
+				pmt.close();
+			ConnectionKit.closeConnection(con);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} 
+		return res;
 
+	}
 }

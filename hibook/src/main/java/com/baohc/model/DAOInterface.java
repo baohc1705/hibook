@@ -15,4 +15,6 @@ public interface DAOInterface <Obj>{
 	
 	public int deleteAll(List<Obj> arr);
 	
+	public int update(Obj o);
+	
 }

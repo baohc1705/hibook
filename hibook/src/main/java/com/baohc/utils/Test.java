@@ -13,8 +13,10 @@ public class Test {
 //			System.out.println(item);
 //		}
 		
-		for (UserDTO item : UserDAO.getInstance().getData()) {
-			System.out.println(item);
-		}
+//		for (UserDTO item : UserDAO.getInstance().getData()) {
+//			System.out.println(item);
+//		}
+		
+		System.out.println(StringKit.RandomOTP());
 	}
 }

@@ -54,13 +54,11 @@ public class LoginServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 
 			if (user_found != null) {
-				System.out.println(user_found);
-				if (user_found.getCateUser().getId() == 3) {
-					
-					session.setAttribute("user_account", user_found);
+				if (user_found.getCateUser().getId() == 3) {	
+					session.setAttribute("USER_ACC", user_found);
 					request.getRequestDispatcher("/views/homepage.jsp").forward(request, response);
 				}else if (user_found.getCateUser().getId() == 1 || user_found.getCateUser().getId() == 2) {
-					session.setAttribute("user_account", user_found);
+					session.setAttribute("ADMIN_ACC", user_found);
 					request.getRequestDispatcher("/views/admin/dashboard.jsp").forward(request, response);
 				}
 				

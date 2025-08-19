@@ -2,13 +2,17 @@
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!-- navbar -->
+<%
+	String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+%>
+
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/component.css">
     <div class="wrapper-navbar container-fluid bg_dark-blue-50 my-1 py-2">
         <nav class="container ">
                 <div class="row justify-content-between align-items-center">
                     <!-- logo -->
                     <div class="logo col-md-2 d-flex justify-content-center align-items-center">
-                        <a class="navbar-brand" href="#"><img src="${pageContext.request.contextPath}/assets/images/logos/logo.png" alt="" width="50"></a>
+                        <a class="navbar-brand" href="${pageContext.request.contextPath}/main-controller"><img src="${pageContext.request.contextPath}/assets/images/logos/logo.png" alt="" width="50"></a>
                         <div class="wrapper-text">
                             <p class="font-Chango text_dark-blue-950 fs-large">HiBook</p>
                             <p class="text_dark-blue-600 fs-small">Book Store Webstie</p>
@@ -74,14 +78,70 @@
                                 </div>
                                 <a href="cart.html" class="nav-link text_dark-blue-800 fs-small">Giỏ hàng</a>
                             </li>
-
-                            <li class="list-group-item">
-                                <a href="" class="btn nav-link px-3 py-2 bg_dark-blue-200 text_dark-blue-800 rounded-pill fs-base">Đăng ký</a>
-                            </li>
-
-                            <li class="list-group-item ">
-                                <a href="" class="btn nav-link px-3 py-2 bg_dark-blue-800 text_dark-blue-50 rounded-pill fs-base">Đăng nhập</a>
-                            </li>
+							<c:if test="${empty sessionScope.USER_ACC }">
+							
+							
+								<li class="list-group-item">
+	                                <a href="<%=url %>/views/register.jsp" class="btn nav-link px-3 py-2 bg_dark-blue-200 text_dark-blue-800 rounded-pill fs-base">Đăng ký</a>
+	                            </li>
+	
+	                            <li class="list-group-item ">
+	                                <a href="<%=url %>/views/login.jsp" class="btn nav-link px-3 py-2 bg_dark-blue-800 text_dark-blue-50 rounded-pill fs-base">Đăng nhập</a>
+	                            </li>
+							</c:if>
+								
+							<c:if test="${not empty sessionScope.USER_ACC }">
+								<li class="list-group-item">
+	                                <span class="fs-small text_dark-blue-950">${sessionScope.USER_ACC.fullname }</span>
+	                            </li>
+	
+								<li class="list-group-item">
+	                            	<div class="dropdown">
+									  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+									   	<span>
+									   		<c:if test="${ empty USER_ACC.avatar }">
+									   		<img alt="avatar" src="${pageContext.request.contextPath}/assets/images/avatars/invalid-avatar.png"  
+									   				width="32" height="32" class="object-fit-cover d-block rounded-circle">
+									   		</c:if>
+									   		
+									   		<c:if test="${not empty USER_ACC.avatar }">
+									   		<img alt="avatar" src="${pageContext.request.contextPath}/assets/images/avatars/${sessionScope.USER_ACC.avatar}"  
+									   				width="32" height="32" class="object-fit-cover d-block rounded-circle">
+									   		</c:if>
+									   	</span>
+									  </button>
+									  <ul class="dropdown-menu">
+									    <li class="d-flex flex-row border-bottom mb-3">
+											<span class="nav-photo p-2">
+											<c:if test="${empty USER_ACC.avatar }">
+												<img alt="avatar" src="${pageContext.request.contextPath}/assets/images/avatars/invalid-avatar.png" 
+								   						width="24" height="24" class="object-fit-cover d-block rounded-circle">
+								   			</c:if>
+								   			
+											<c:if test="${not empty USER_ACC.avatar }">
+												<img alt="avatar" src="${pageContext.request.contextPath}/assets/images/avatars/${sessionScope.USER_ACC.avatar}" 
+								   						width="24" height="24" class="object-fit-cover d-block rounded-circle">
+								   			</c:if>
+								   			</span>
+								   			<span class="nav-label p-2 text-start">
+								   				${sessionScope.USER_ACC.fullname }
+								   			</span>
+									    </li>
+									    <li class="mb-3">
+									    	<a class="dropdown-item" href="${pageContext.request.contextPath }/views/account.jsp"><i class="fa-solid fa-user me-2"></i>Tài khoản của tôi</a>
+									    </li>
+									    <li class="mb-3">
+									    	<a class="dropdown-item" href="#"><i class="fa-solid fa-gear me-2"></i>Cài đặt</a>
+									    </li>
+									    <li class="mb-3">
+									    	<a class="dropdown-item" href="${pageContext.request.contextPath }/logout"><i class="fa-solid fa-right-from-bracket me-2"></i>Thoát</a>
+									    </li>
+									  </ul>
+									</div>
+								</li>
+							</c:if>
+                            
+                            
                        </ul>
                     </div>
                     <!-- end navbar link -->

@@ -1,4 +1,4 @@
-package com.baohc.controller;
+package com.baohc.controller.user;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -6,20 +6,20 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
- * Servlet implementation class MainServlet
+ * Servlet implementation class LogoutServlet
  */
-@WebServlet(name = "main-controller", urlPatterns = { "/main-controller" })
-public class MainServlet extends HttpServlet {
+@WebServlet(name = "logout", urlPatterns = { "/logout" })
+public class LogoutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final String INVALID_PAGE = "views/errors/invalid.jsp";
-	private static final String HOME_PAGE = "views/homepage.jsp";
+	private static final String MAIN_CONTROLLER = "main-controller";
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public MainServlet() {
+    public LogoutServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -28,19 +28,16 @@ public class MainServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		try {
-			request.setCharacterEncoding("UTF-8");
-			response.setContentType("text/html;charset=UTF-8");
-			String url = INVALID_PAGE;
-			String action = request.getParameter("action");
-			if (action == null) {
-				url = HOME_PAGE;
-			}
+			HttpSession session = request.getSession();
+			if (session != null) 
+				session.invalidate();
 			
-			request.getRequestDispatcher(url).forward(request, response);
 		} catch (Exception e) {
-			
 			e.printStackTrace();
+		} finally {
+			request.getRequestDispatcher(MAIN_CONTROLLER).forward(request, response);
 		}
 	}
 
@@ -48,7 +45,6 @@ public class MainServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

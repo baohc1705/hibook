@@ -154,6 +154,9 @@
                                 ĐĂNG KÝ
                             </button>
                         </div>
+                        <p class="text-dark-blue-50 fs-6">
+                            Bạn đã có tài khoản? <a href="login.jsp" class="text-decoration-none ">Đăng nhập tại đây</a>
+                        </p>
                     </form>
                 </div>
             </div>
@@ -163,7 +166,7 @@
     <script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/register.js"></script>
     
     <script type="text/javascript">
-    	$(document).ready(function () {
+    	/* $(document).ready(function () {
     	    $("form").on("submit", function (e) {
     	        e.preventDefault(); 
     	        if (!validateForm()) {
@@ -216,7 +219,7 @@
     	            }
     	        });
     	    });
-    	});
+    	}); */
     	
     </script>
     

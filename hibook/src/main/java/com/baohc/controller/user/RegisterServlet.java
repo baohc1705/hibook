@@ -15,7 +15,9 @@ import com.baohc.model.user.CateUserDAO;
 import com.baohc.model.user.CateUserDTO;
 import com.baohc.model.user.UserDAO;
 import com.baohc.model.user.UserDTO;
+import com.baohc.utils.EmailKit;
 import com.baohc.utils.EncryptPassword;
+import com.baohc.utils.StringKit;
 
 /**
  * Servlet implementation class RegisterServlet
@@ -47,7 +49,6 @@ public class RegisterServlet extends HttpServlet {
 			request.setCharacterEncoding("UTF-8");
 			response.setContentType("text/plain");
 
-			String url = "";
 			String email = request.getParameter("email");	
 			String password = request.getParameter("password");
 			
@@ -63,20 +64,29 @@ public class RegisterServlet extends HttpServlet {
 			UserDTO user = new UserDTO(id, CateUserDAO.getInstance().find(new CateUserDTO(3,"")), email, password, fullname, birthDate);
 			
 			UserDTO userGetByEmail = UserDAO.getInstance().findByEmail(user);
+			HttpSession session = request.getSession();
 			if (userGetByEmail == null) {
-				int inserted = UserDAO.getInstance().insert(user);
-				if (inserted == 1) {
-					response.getWriter().write("success");
+				String code_OTP = StringKit.RandomOTP();
+				try {
+					EmailKit.sendEmail(user.getEmail(), "Xác thực email tại HiBOOK.com", "Xin chào " + user.getFullname() + ",\nMã OTP của bạn là: " + code_OTP
+							+ "\n(OTP có hiệu lực 1 phút)");
+					System.out.println("Đã gửi mail xác thực thành công");
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-				else {
-					response.getWriter().write("fail");
-					
-				}
+				
+				session.setAttribute("user_verification_otp", user);
+				
+				code_OTP = EncryptPassword.toSHA1(code_OTP);
+				
+				session.setAttribute("code_OTP", code_OTP);
+				session.setAttribute("code_OTP_Time", System.currentTimeMillis() + (60 * 1000)); // Hiệu lực 1 phút
+				
+				request.getRequestDispatcher("/views/verification.jsp").forward(request, response);
 			}
 			else {
-				HttpSession session = request.getSession();
-				session.setAttribute("existed_email", user.getEmail());
-				response.getWriter().write("exists");
+				request.setAttribute("errMsg", "Email đã tồn tại");
+				request.getRequestDispatcher("/views/register.jsp").forward(request, response);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

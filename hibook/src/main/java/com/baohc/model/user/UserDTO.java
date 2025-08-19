@@ -10,6 +10,8 @@ public class UserDTO {
 	private String password;
 	private String fullname;
 	private Date birthDate;
+	private String avatar;
+	
 	public UserDTO() {
 		super();
 		this.id = "";
@@ -28,7 +30,6 @@ public class UserDTO {
 		this.fullname = fullname;
 		this.birthDate = birthDate;
 	}
-	
 	public UserDTO(CateUserDTO cateUser, String email, String password, String fullname, Date birthDate) {
 		super();
 		this.cateUser = cateUser;
@@ -37,6 +38,19 @@ public class UserDTO {
 		this.fullname = fullname;
 		this.birthDate = birthDate;
 	}
+	
+	public UserDTO(String id, CateUserDTO cateUser, String email, String password, String fullname, Date birthDate,
+			String avatar) {
+		super();
+		this.id = id;
+		this.cateUser = cateUser;
+		this.email = email;
+		this.password = password;
+		this.fullname = fullname;
+		this.birthDate = birthDate;
+		this.avatar = avatar;
+	}
+	
 	public String getId() {
 		return id;
 	}
@@ -73,10 +87,17 @@ public class UserDTO {
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
 	}
+	
+	public String getAvatar() {
+		return avatar;
+	}
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
 	@Override
 	public String toString() {
 		return "UserDTO [id=" + id + ", cateUser=" + cateUser + ", email=" + email + ", password=" + password
-				+ ", fullname=" + fullname + ", birthDate=" + birthDate + "]";
+				+ ", fullname=" + fullname + ", birthDate=" + birthDate + ", avatar=" + avatar + "]";
 	}
 	@Override
 	public int hashCode() {

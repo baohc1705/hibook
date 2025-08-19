@@ -14,10 +14,7 @@
     
 </head>
 <body>
-<%-- 	<h1>Homepage</h1>
-	<c:set var="user_account " value="${sessionScope.user_account }"></c:set>
-	<p>Xin chào: ${user_account.fullname }</p> --%>
-	
+
 	<!-- Navigation bar -->
 	<%@include file="../components/navbar.jsp" %>
 	
