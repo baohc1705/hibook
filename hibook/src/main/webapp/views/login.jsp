@@ -104,7 +104,8 @@
 	    <c:if test="${not empty requestScope.errMsg_Login}">
 			Swal.fire({
 				icon: 'error',
-				title: 'Đăng nhập thất bại'
+				title: 'Đăng nhập thất bại',
+				text: 'Kiểm tra lại email hoặc mật khẩu'
 			}).then(()=>{
 				document.getElementById('inputEmail').focus();
 			});

@@ -89,8 +89,7 @@ public class RegisterServlet extends HttpServlet {
 				request.getRequestDispatcher("/views/register.jsp").forward(request, response);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
-			response.getWriter().write("error");
+			e.printStackTrace();	
 		}
 	}
 }

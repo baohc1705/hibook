@@ -110,7 +110,14 @@ public class EditAccountServlet extends HttpServlet {
 					}
 				}
 			}
-
+			
+			UserDTO userFindByEmail = UserDAO.getInstance().findByEmail(user);
+			if (userFindByEmail != null) {
+				resp.put("status", "error");
+				resp.put("message", "Email đã tồn tại không thể cập nhật với email này");
+				response.getWriter().print(gson.toJson(resp));
+				return;
+			}
 			if (UserDAO.getInstance().update(user) > 0) {
 				UserDTO user_res = UserDAO.getInstance().find(user);
 				session.setAttribute("USER_ACC", user_res);

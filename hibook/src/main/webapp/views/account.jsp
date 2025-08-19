@@ -38,6 +38,13 @@
 	padding: .25rem;
 	font-size: var(--fs-base);
 }
+
+#input-email {
+	outline: none;
+	border: none;
+	background: transparent;
+	font-size: var(--fs-base);
+}
 </style>
 
 </head>
@@ -64,11 +71,15 @@
 						<form action="<%=url1%>/edit-account" 
 							method="post"
 							enctype="multipart/form-data" 
-							class="form d-flex w-100">
+							class="form d-flex w-100"
+							id="formEdit">
 							<div class="profile-form pe-3 w-50">
 								<div class="form-row">
-									<span class="label">Email</span> <input type="email"
-										class="form-input" value="${USER_ACC.email}" name="email">
+									<span class="label">Email</span> 
+									<div class="form-input d-flex justify-content-between">
+										<input id="input-email" type="email" value="${USER_ACC.email}" name="email" readonly="readonly">
+										<button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"><span class="fs-small ms-auto">Thay đổi</span></button>
+									</div>
 								</div>
 
 								<div class="form-row">
@@ -116,6 +127,36 @@
 	</c:if>
 	<!-- Footer -->
 	<%@include file="../components/footer.jsp"%>
+	
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h1 class="modal-title fs-5" id="exampleModalLabel">Thay đổi email</h1>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      </div>
+	      
+	      <div class="modal-body">
+	        <form id="formVerifyEmail" action="<%=url1%>/verify-email" method="post">
+	        	 <div class="mb-3">
+				    <label for="newEmail" class="form-label">Email</label>
+				    <input type="email" class="form-control" id="newEmail" name="newEmail">
+					<button id="btnGetOTP" type="button" class="btn btn-primary">
+					  Gửi mã OTP
+					</button>
+				  </div>
+				  
+				 <div class="mb-3">
+				    <label for="codeOTP" class="form-label">Mã xác nhận OTP</label>
+				    <input type="text" class="form-control" id="otp_user" name="otp_user">
+				 </div>
+				 <button type="submit" class="btn btn-primary">Save changes</button>
+	        </form>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 
 	<script type="text/javascript">
 		const buttonTrigger = document.getElementById('btn-trigger_upload');
@@ -135,7 +176,7 @@
 		});
 		
 		$(document).ready(function() {
-			$('form').on('submit', function(e) {
+			$('#formEdit').on('submit', function(e) {
 				e.preventDefault();
 				
 				var formData = new FormData(this);
@@ -163,6 +204,106 @@
     	                        title: "Thất bại",
     	                        text: response.message
     	                    });
+						}
+					},
+					error: function() {
+						Swal.fire({
+    	                    icon: "error",
+    	                    title: "Máy chủ bị lỗi",
+    	                    text: "Không thể kết nối đến server!"
+    	                });
+					}
+				});
+			});
+			
+			$('#btnGetOTP').on('click', function(e) {
+				let email = $("#newEmail").val().trim();
+				let btn = $(this);
+				
+				if (!email) {
+					Swal.fire({
+	                    icon: "error",
+	                    title: "Email lỗi",
+	                    text: "Kiểm tra lại email!"
+	                });
+					return;
+				}
+				
+				 // Bắt đầu loading
+			    btn.prop("disabled", true);
+			    btn.html(`
+			        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+			        <span role="status">Đang gửi...</span>
+			    `);
+				
+				$.ajax({
+					url: "<%=url1%>/get-otp-code",
+					method: "POST",
+					data: {newEmail : email},
+					success: function(response) {
+						if (response.status === "success") {
+							Swal.fire({
+		                        icon: "success",
+		                        title: "Thành công!",
+		                     	text: response.message,
+		                        confirmButtonText: "OK"
+	                    	});
+						}
+						else {
+							Swal.fire({
+	    	                    icon: "error",
+	    	                    title: "Thất bại",
+	    	                    text: response.message
+	    	                });
+						}
+						
+					},
+					error: function(response) {
+						Swal.fire({
+    	                    icon: "error",
+    	                    title: "Máy chủ bị lỗi",
+    	                    text: "Không thể kết nối đến server!"
+    	                });
+					},
+					complete: function() {
+						// Reset lại nút sau khi xong
+			            btn.prop("disabled", false);
+			            btn.html("Gửi OTP");
+			        }
+				});
+			});
+			
+			$("#formVerifyEmail").on("submit", function(e) {
+				e.preventDefault();
+				
+				let email = $("#newEmail").val().trim();
+				let otp = $("#otp_user").val().trim();
+				
+				$.ajax({
+					url: "<%=url1%>/verify-email",
+					method: "POST",
+					data: {
+							newEmail: email, 
+							otp_user: otp
+						   },
+					success: function(response) {
+						if (response.status === "success") {
+							Swal.fire({
+		                        icon: "success",
+		                        title: "Thành công!",
+		                     	text: response.message,
+		                        confirmButtonText: "OK"
+	                    	}).then (() => {
+	                    		$("#input-email").val(response.newEmail);
+	                    		$("#exampleModal").modal("hide");
+	                    	});
+						}
+						else {
+							Swal.fire({
+	    	                    icon: "error",
+	    	                    title: "Thất bại",
+	    	                    text: response.message
+	    	                });
 						}
 					},
 					error: function() {
