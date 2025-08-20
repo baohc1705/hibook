@@ -52,8 +52,11 @@
                             <div class="d-flex justify-content-between">
                                 <label for="inputPassword" class="form-label text-dark-blue-50 font-roboto fw-bold">Mật
                                     khẩu</label>
-                                <label for="inputPassword" class="form-label text-dark-blue-50 font-roboto"><a href="" class="text-decoration-none text-dark-blue-50">Quên mật
-                                    khẩu?</a></label>
+                                <label for="inputPassword" class="form-label text-dark-blue-50 font-roboto">
+	                                <a href="${pageContext.request.contextPath}/views/forgotPassword.jsp" tabindex="-1" class="nav-link">
+									  Quên mật khẩu ?
+									</a>
+								</label>
                             </div>
                             <div class="input-group custom-input-group">
                                 <span class="input-group-text">
@@ -99,7 +102,29 @@
             </div>
         </div>
     </div>
-    
+    <!-- Button trigger modal -->
+	
+	
+	<!-- Modal -->
+	<%-- <div class="modal fade" id="forgetPassword" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h1 class="modal-title fs-5" id="exampleModalLabel">Quên mật khẩu</h1>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      </div>
+	      <div class="modal-body">
+	       	<form action="${pageContext.request.contextPath}/forgot-password" method="post">
+			    <label>Nhập email của bạn:</label>
+			    <input type="email" name="email" required />
+			    <button type="submit">Gửi liên kết reset</button>
+			</form>
+	      </div>
+	      
+	    </div>
+	  </div>
+	</div> --%>
+	
     <script type="text/javascript">
 	    <c:if test="${not empty requestScope.errMsg_Login}">
 			Swal.fire({

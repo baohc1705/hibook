@@ -1,6 +1,7 @@
 package com.baohc.utils;
 
 import java.util.Random;
+import java.util.UUID;
 
 public class StringKit {
 	
@@ -14,5 +15,26 @@ public class StringKit {
 		String char6 = rd.nextInt(10) + "";
 		
 		return char1 + char2 + char3 + char4 + char5 + char6;
+	}
+	
+	public static String RandomPassword() {
+		Random rd = new Random();
+		String alphabet = "abcdefghijklmnopqrstuvwxyz";
+		StringBuilder sb = new StringBuilder();
+		
+		for (int i = 0 ; i < 6; i++) {
+			int index = rd.nextInt(alphabet.length());
+			sb.append(alphabet.charAt(index));
+		}
+		
+		return sb.toString();
+	}
+	
+	public static String RandomToken() {
+		return UUID.randomUUID().toString();
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(StringKit.RandomPassword());
 	}
 }

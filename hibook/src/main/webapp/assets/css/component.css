@@ -94,3 +94,74 @@ body {
     border: none;
 }
 /* end button style here */
+
+/* custom input */
+.input-custom_border {
+	width: 100%;
+	background: transparent;
+	padding: .75rem;
+	color: var(--dark-blue-50);
+	border-radius: .75rem;
+	box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+	outline: none;
+	border: none;
+}
+
+.input-custom_border:focus {
+	box-shadow: 0px 5px 10px rgba(255, 255, 255, 0.5);
+	outline: none;
+	border: none;
+}
+
+.input-custom_border:hover {
+	box-shadow: 0px 5px 10px rgba(255, 255, 255, 0.5);
+}
+.wrapper-input {
+	width:100%;
+	display: flex;
+	border-radius: .75rem;
+	border: none;
+	box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+}
+
+.wrapper-input:hover {
+	box-shadow: 0px 5px 10px rgba(255, 255, 255, 0.5);
+}
+
+.wrapper-input .w-input {
+	flex-grow: 7;
+	background: transparent;
+	padding: .75rem;
+	color: var(--dark-blue-50);
+	border-top-left-radius: .75rem;
+	border-bottom-left-radius: .75rem;
+	outline: none;
+	border:none;
+}
+
+.wrapper-input .w-input:focus {
+	outline: none;
+	border: none;
+	transition: all .5s ease;
+}
+
+.wrapper-input .w-icon {
+	flex-grow:1;
+	background: transparent;
+	padding: .75rem;
+	color: var(--dark-blue-50);
+	border-top-right-radius: .75rem;
+	border-bottom-right-radius: .75rem;
+	outline: none;
+	border:none;
+}
+
+.button-link {
+	background: transparent;
+	border: none;
+	outline: none;
+}
+
+.text-success {
+	
+}

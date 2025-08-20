@@ -63,12 +63,12 @@ checkEmail = () => {
 	let txtEmail = document.getElementById('email').value;
 	var flag = false;
 	if (txtEmail.trim().length == 0) {
-		document.getElementById('errMsg-email').innerHTML = "Hãy điền vào email..";
+		document.getElementById('errMsg-email').innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Hãy điền vào email..`;
 		document.querySelector(".successEmail").style.display = "none";
 		return false;
 	} 
 	else if (!validateEmail(txtEmail)) {
-		document.getElementById('errMsg-email').innerHTML = "Email không đúng dạng";
+		document.getElementById('errMsg-email').innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Email không đúng dạng`;
 		document.querySelector(".successEmail").style.display = "none";
 		return false;
 	}

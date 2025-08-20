@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.baohc.model.user.UserDAO;
 import com.baohc.model.user.UserDTO;
 import com.baohc.utils.EmailKit;
 import com.baohc.utils.EncryptPassword;
@@ -51,7 +52,15 @@ public class GetOTPMailServlet extends HttpServlet {
 				response.getWriter().print(gson.toJson(resp));
 				return;
 			}
-			
+			UserDTO user = new UserDTO();
+			user.setEmail(email);
+			UserDTO userFindByEmail = UserDAO.getInstance().findByEmail(user);
+			if (userFindByEmail != null) {
+				resp.put("status", "error");
+				resp.put("message", "Email đã tồn tại không thể cập nhật với email này");
+				response.getWriter().print(gson.toJson(resp));
+				return;
+			}
 			String otp = StringKit.RandomOTP();
 			
 			Long otp_time = System.currentTimeMillis() + (60*1000);

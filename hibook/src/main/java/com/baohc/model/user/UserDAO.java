@@ -3,6 +3,7 @@ package com.baohc.model.user;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -280,5 +281,88 @@ public class UserDAO implements DAOInterface<UserDTO> {
 		} 
 		return res;
 
+	}
+	
+	public int saveResetToken(String user_id, String token, Timestamp expiry) {
+		int res = 0;
+		try {
+			Connection con = ConnectionKit.getConnection();
+			if (con == null)
+				return res;
+			String query = "INSERT INTO password_reset_token(user_id, token, expiry) VALUES (?,?,?)";
+			PreparedStatement pmt = con.prepareStatement(query);
+			pmt.setString(1, user_id);
+			pmt.setString(2, token);
+			pmt.setTimestamp(3, expiry);
+			
+			int row = pmt.executeUpdate();
+			res = row > 0 ? 1 : 0;
+			if (pmt != null)
+				pmt.close();
+			ConnectionKit.closeConnection(con);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return res;
+	}
+	
+	public UserDTO findUserByToken(PasswordResetTokenDTO token) {
+		UserDTO res = null;
+		
+		try {
+			Connection con = ConnectionKit.getConnection();
+			if (con == null) return res;
+			
+			String query = "SELECT * FROM user u JOIN password_reset_token t on u.id = t.user_id WHERE t.token=? AND t.expiry > NOW()";	
+			PreparedStatement pmt = con.prepareStatement(query);
+			pmt.setString(1, token.getToken());
+			ResultSet rs = pmt.executeQuery();
+			
+			while(rs.next()) {
+				UserDTO user = new UserDTO();
+				user.setId(rs.getString("id"));
+				CateUserDTO tmp = CateUserDAO.getInstance().find(new CateUserDTO(rs.getInt("cateUser_id"), ""));
+				user.setCateUser(tmp);
+				user.setEmail(rs.getString("email"));
+				user.setPassword(rs.getString("password"));
+				user.setFullname(rs.getString("fullname"));
+				user.setBirthDate(rs.getDate("birthDate"));
+				user.setAvatar(rs.getString("avatar"));
+				res = user;
+			}
+			
+			if (rs != null)
+				rs.close();
+			if (pmt != null)
+				pmt.close();
+			ConnectionKit.closeConnection(con);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return res;
+	}
+	
+	public int updatePasswordByToken(String user_id, String newPassword) {
+		int res = 0;
+		try {
+			Connection con = ConnectionKit.getConnection();
+			String query = "UPDATE user SET password=? WHERE id=?";
+			PreparedStatement pmt = con.prepareStatement(query);
+			pmt.setString(1, newPassword);
+			pmt.setString(2, user_id);
+			int row = pmt.executeUpdate();
+			res = row > 0 ? 1 : 0;
+			
+			if (pmt != null)
+				pmt.close();
+			ConnectionKit.closeConnection(con);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res;
 	}
 }
