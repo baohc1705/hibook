@@ -17,7 +17,8 @@ Here is the Figma link for the UX design:
 - **Front-end:** HTML, CSS, JavaScript, Java(JSP).
 - **Back-end:** Java(Servlet)  
 - **Database:** MySQL  
-- **Server:** Apache Tomcat  
+- **Server:** Apache Tomcat
+- **Libary:** Bootstrap
 
 ---
 
