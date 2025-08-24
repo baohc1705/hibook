@@ -9,7 +9,7 @@ Here is the Figma link for the UX design:
 ---
 
 ## Features
-- Authentication with OTP/Token.
+- Verify email by **OTP/Token** when registering or editing account.
 - (Updating...)
 
 ---
@@ -24,7 +24,8 @@ Here is the Figma link for the UX design:
 ---
 
 ## Tools & Project Structure
-- Built with **Maven** following the **MVC** model  
+- Built with **Maven** following the **MVC** model.
+- Route dispatcher with support for **route-based redirection**.
 - (Updating...)
 
 ---
