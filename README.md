@@ -9,6 +9,7 @@ Here is the Figma link for the UX design:
 ---
 
 ## Features
+- Authentication with OTP/Token.
 - (Updating...)
 
 ---
