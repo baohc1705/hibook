@@ -1,8 +1,25 @@
 package com.baohc.core.utils;
 
 
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import com.baohc.app.dao.author.AuthorDAO;
+import com.baohc.app.dao.author.AuthorDAOImpl;
+import com.baohc.app.dao.book.BookDAO;
+import com.baohc.app.dao.book.BookDAOImpl;
+import com.baohc.app.dao.book.CateBookDAO;
+import com.baohc.app.dao.book.CateBookDAOImpl;
+import com.baohc.app.dao.promotion.PromotionDAO;
+import com.baohc.app.dao.promotion.PromotionDAOImpl;
 import com.baohc.app.dao.user.CateUserDAOImpl;
+import com.baohc.app.model.AuthorDTO;
+import com.baohc.app.model.BookDTO;
+import com.baohc.app.model.CateBookDTO;
 import com.baohc.app.model.CateUserDTO;
+import com.baohc.app.model.PromotionDTO;
 import com.baohc.app.model.UserDTO;
 import com.baohc.app.service.user.CateUserService;
 import com.baohc.app.service.user.CateUserServiceImpl;
@@ -11,26 +28,14 @@ import com.baohc.app.service.user.UserServiceImpl;
 
 public class Test {
 	public static void main(String[] args) {
-//		for (CateUserDTO item : CateUserDAO.getInstance().getData()) {
-//			System.out.println(item);
-//		}
-		
-//		for (UserDTO item : UserDAO.getInstance().getData()) {
-//			System.out.println(item);
-//		}
-		
-		CateUserService service = CateUserServiceImpl.getInstance();
-		
-		for (CateUserDTO item : service.getData()) {
-			System.out.println(item);
-		}
-		
-		UserService userService = UserServiceImpl.getInstance();
-		
-		for (UserDTO item : userService.getAllUser()) {
-			System.out.println(item);
-		}
-		
-		System.out.println("found login : " + userService.login(new UserDTO(null,"devblue404@gmail.com", EncryptPassword.toSHA1("123"), null, null)));
+		  BookDAO bookDAO = BookDAOImpl.getInstance();
+	        // ===== GET ALL =====
+	        List<BookDTO> list = bookDAO.getAllBook();
+	        System.out.println("Danh sách sách trong DB:");
+	        for (BookDTO b : list) {
+	            System.out.println(b);
+	        }
+
+	       
 	}
 }

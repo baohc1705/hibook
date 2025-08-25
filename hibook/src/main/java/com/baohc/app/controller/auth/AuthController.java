@@ -74,11 +74,11 @@ public class AuthController{
 					response.sendRedirect(request.getContextPath() + HOME_PAGE);
 				} else if (user_found.getCateUser().getId() == 1 || user_found.getCateUser().getId() == 2) {
 					session.setAttribute("ADMIN_ACC", user_found);
-					request.getRequestDispatcher("/views/").forward(request, response);
+					response.sendRedirect(request.getContextPath() + "/admin");
 				}
 
 			} else {
-				request.setAttribute("errMsg_Login", "Đăng nhập thất bại.");
+				session.setAttribute("errMsg_Login", "Đăng nhập thất bại.");
 				response.sendRedirect(request.getContextPath() + LOGIN_SERVLET);
 			}
 		} catch (Exception e) {
@@ -92,7 +92,7 @@ public class AuthController{
 			HttpSession session = request.getSession();
 			if (session != null)
 				session.invalidate();
-			response.sendRedirect(request.getContextPath()+HOME_PAGE);
+			response.sendRedirect(request.getContextPath()+LOGIN_SERVLET);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

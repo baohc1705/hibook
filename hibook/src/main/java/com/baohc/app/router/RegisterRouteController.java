@@ -1,6 +1,8 @@
 package com.baohc.app.router;
 
 import com.baohc.app.controller.WelcomeController;
+import com.baohc.app.controller.admin.AdminController;
+import com.baohc.app.controller.admin.book.AdminBookController;
 import com.baohc.app.controller.auth.AuthController;
 import com.baohc.app.controller.auth.VerificationController;
 import com.baohc.app.controller.user.UserController;
@@ -39,5 +41,11 @@ public class RegisterRouteController implements BaseRouter{
 //		Router.post("/user/edit-info", new UserController(), "doEditUserInfo");
 		
 		Router.post("/verify-account/verify-otp-email", new VerificationController(), "updateEmailByOTP");
+		
+		//==========AMDIN===============
+		Router.get("/admin", new AdminController() , "showDashboard");
+		
+		
+		Router.get("/admin/book", new AdminBookController(), "showBooks");
 	}
 }

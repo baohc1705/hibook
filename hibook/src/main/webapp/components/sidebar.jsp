@@ -4,7 +4,7 @@
 <aside class="sidebar"> 
         <!-- header sidebar -->
         <header class="sidebar-header">
-            <a href="" class="nav-link header-logo d-flex align-items-center">
+            <a href="${pageContext.request.contextPath}/admin" class="nav-link header-logo d-flex align-items-center">
                 <img src="${pageContext.request.contextPath}/assets/images/logos/logo-admin.png" alt="logo">
                 <div class="wrapper-text-logo d-flex flex-column ms-2">
                     <span class="font-Chango fs-5">HiBook</span>
@@ -21,7 +21,7 @@
         <nav class="sidebar-nav scrollbox">
             <ul class="list-group primary-nav scrollbox-inner">
                 <li class="nav-item ">
-                    <a href="#" class="nav-link active">
+                    <a href="${pageContext.request.contextPath}/admin" class="nav-link active">
                         <span class="nav-icon material-symbols-rounded">dashboard</span>
                         <span class="nav-label">Trang chủ</span>
                     </a>
@@ -67,7 +67,7 @@
                     <ul class="list-group" id="submenu">
                         <div class="wrapper">
                             <li id="submenu-item">
-                                <a href="${pageContext.request.contextPath}/views/admin/book-management.jsp" class="nav-link" id="submenu-link">Thông tin sách</a>
+                                <a href="${pageContext.request.contextPath}/admin/book" class="nav-link" id="submenu-link">Thông tin sách</a>
                             </li>
                             <li id="submenu-item">
                                 <a href="" class="nav-link" id="submenu-link">Thông tin tác giả</a>

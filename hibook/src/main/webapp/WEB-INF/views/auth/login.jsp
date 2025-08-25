@@ -104,15 +104,18 @@
     </div>
 
     <script type="text/javascript">
-	    <c:if test="${not empty requestScope.errMsg_Login}">
+    $(document).ready(function() {
+    	console.log("jquery ready");
+	    <c:if test="${not empty sessionScope.errMsg_Login}">
+	    console.log('${errMsg_Login}');
 			Swal.fire({
 				icon: 'error',
-				title: 'Đăng nhập thất bại',
+				title: 'Đăng nhập không thành công',
 				text: 'Kiểm tra lại email hoặc mật khẩu'
-			}).then(()=>{
-				document.getElementById('inputEmail').focus();
 			});
-		</c:if>
+			<c:remove var="errMsg_Login" scope="session"/>
+		</c:if> 
+	});
     </script>
     
     
