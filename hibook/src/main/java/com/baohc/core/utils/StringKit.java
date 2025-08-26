@@ -38,10 +38,14 @@ public class StringKit {
 	
 	public static String RandomId() {
 		String date = new SimpleDateFormat("yyyyMMddHHmm").format(new Date());
-		return "HB" + date + RandomOTP();
+		return date + RandomOTP();
 	}
 	
+	public static String RandomIdTime() {
+		String date = new SimpleDateFormat("yyMMddHHmmss").format(new Date());
+		return date;
+	}
 	public static void main(String[] args) {
-		System.out.println(StringKit.RandomId());
+		System.out.println(RandomIdTime());
 	}
 }

@@ -1,5 +1,7 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -56,7 +58,8 @@
                         <span class="nav-icon material-symbols-rounded">search</span>
                     </a>
                 </form>
-                <button class="add-btn d-flex align-items-center">
+                <c:set var="hibook" value="${pageContext.request.contextPath }"></c:set>
+                <button class="add-btn d-flex align-items-center" onclick="window.location.href = '${hibook}/admin/book/add'">
                     <span class="add-btn_icon material-symbols-rounded">add_circle</span>
                     <span class="add-btn_label">Thêm sách mới</span>
                 </button>
@@ -66,16 +69,74 @@
                 <!-- nav & tabs -->
                 <ul class="nav-tab mb-3">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Thông tin sách</a>
+                        <a id="btn_book-table" class="nav-link active">Thông tin sách</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Loại sách</a>
+                        <a id="btn_cateBook-table" class="nav-link">Loại sách</a>
+                    </li>
+                    <li class="nav-item">
+                        <a id="btn_author-table" class="nav-link">Tác giả</a>
                     </li>
                 </ul>
 
                 <!-- data table -->
-                 <div class="table-container mb-3" >
-                    <table class="small">
+                <div id="book-table" class="table-container mb-3" >
+                    <table class="fs-base">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input class="form-check-input" type="checkbox" value="" id="checkDefault">
+                                </th>
+                                <th>#</th>
+                                <th>Ảnh bìa</th>
+                                <th>Tên sách</th>
+                                <th>Loại sách</th>
+                                <th>Tác giả</th>
+                                <th>Mô tả</th>
+                                <th>Giá</th> 
+                                <th>Số lượng</th> 
+                                <th>Ngày thêm</th> 
+                                <th>Hành động</th>
+                            </tr> 
+                        </thead>
+
+                        <tbody>
+                        	<c:forEach var="book" items="${sessionScope.bookList }" varStatus="loop">
+                        		<c:set var="row_num" value="${0}"></c:set>
+                    
+	                            <tr>
+	                                <td>
+	                                    <input class="form-check-input" type="checkbox" value="" id="checkDefault">
+	                                </td>
+	                                <td>${loop.index + 1 }</td>
+	                                <td>
+	                                    <img src="${pageContext.request.contextPath}/assets/images/books/${sessionScope.coverPhotoList[book]}" alt="" class="d-block object-fit-contain" width="100" height="100">
+	                                </td>
+	                                <td ><span class="truncate-mutiline">${book.name }</span></td>
+	                                 <td>
+	                                    <span class="">${book.cateBook.name }</span>
+	                                </td>
+	                                <td>
+	                                    <a href="" class="nav-link">${book.author.fullname }</a>
+	                                </td>
+	                                <td ><span class="truncate-mutiline fs-small">${book.description }</span></td>
+	                                <td>${book.price }</td>
+	                                <td>${book.amount }</td>
+	                                <td>${book.createAt }</td> 
+	                                <td>
+	                                    <span class="d-flex justify-content-between align-items-center">
+	                                        <a  href="${pageContext.request.contextPath }/admin/book/edit?bookId=${book.id}"><i class="fa-solid fa-eye text_dark-blue-200"></i></a>
+	                                        <a  href=""><i class="fa-solid fa-pen-to-square text-purple"></i></a>
+	                                        <a  href="javascript:void(0)" data-id="${book.id }" class="btn-remove"><i class="fa-solid fa-trash text-danger"></i></a>
+	                                    </span>
+	                                </td>
+	                            </tr>
+                            </c:forEach> 
+                        </tbody>
+                    </table>
+                 </div>
+				<div id="catebook-table" class="table-container mb-3" >
+                    <table class="fs-base">
                         <thead>
                             <tr>
                                 <th>
@@ -83,161 +144,73 @@
                                 </th>
                                 <th>#</th>
                                 <th>Mã sách</th>
-                                <th>Ảnh bìa</th>
-                                <th>Tên sách</th>
-                                <th>Số lượng</th>
-                                <th>Mô tả</th>
-                                <th>Loại sách</th>
-                                <th>Tác giả</th>
-                                <th>Ngày thêm</th>
+                                <th>Tên loại sách</th>                        
                                 <th>Hành động</th>
                             </tr> 
                         </thead>
 
                         <tbody>
-                            <tr>
-                                <td>
-                                    <input class="form-check-input" type="checkbox" value="" id="checkDefault">
-                                </td>
-                                <td>1</td>
-                                <td>#B001</td>
-                                <td>
-                                    <img src="${pageContext.request.contextPath}/assets/images/books/biet-khi-nao-moi-gap-nhau-bia.png" alt="" class="d-block object-fit-contain" width="100" height="100">
-                                </td>
-                                <td ><span class="truncate-mutiline">Biết khi nào mới gặp lại nhau</span></td>
-                                <td>200</td>
-                                <td ><span class="truncate-mutiline">“Biết khi nào mới gặp lại nhau” là hồi tưởng về tuổi thơ của nhân vật Khang cùng cô bạn học gần nhà tên Bụp và các bạn đồng trang lứa khác. Tuổi thơ của Khang đầy ắp những kỉ niệm với những trò tinh nghịch như hái trộm hoa quả, trêu đùa với các bạn học cùng xóm, những trận đòn roi và cả những yêu thương vô bờ của gia đình. Nhưng tuổi thơ ấy đã ghi dấu tổn thương trong tâm hồn khi cậu bé phải chia li với cô bạn học.</span></td>
-                                <td>
-                                    <span class="p-2 bg-primary rounded-pill">Tiểu thuyết</span>
-                                </td>
-                                <td>
-                                    <a href="" class="nav-link">Hoàng Khánh Duy</a>
-                                </td>
-                                <td>13/08/2025</td>
-                                <td>
-                                    <span class="d-flex justify-content-between align-items-center">
-                                        <a href=""><i class="fa-solid fa-eye text_dark-blue-200"></i></a>
-                                        <a href=""><i class="fa-solid fa-pen-to-square text-purple"></i></a>
-                                        <a href=""><i class="fa-solid fa-trash text-danger"></i></a>
-                                    </span>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <input class="form-check-input" type="checkbox" value="" id="checkDefault">
-                                </td>
-                                <td>2</td>
-                                <td>#B002</td>
-                                <td>
-                                    <img src="${pageContext.request.contextPath}/assets/images/books/dragonball-tap16-bia.png" alt="" class="d-block object-fit-contain" width="100" height="100">
-                                </td>
-                                <td ><span class="truncate-mutiline">Dragon Ball - 7 Viên Ngọc Rồng - Tập 16 - Kì Phùng Địch Thủ</span></td>
-                                <td>200</td>
-                                <td ><span class="truncate-mutiline">Bộ truyện kể về một cậu bé đuôi khỉ tên là Son Goku sống một mình trong chốn rừng sâu. Cậu rất coi trọng viên ngọc kỉ vật quý giá ông nội để lại trước khi mất.</span></td>
-                                <td>
-                                    <span class="p-2 bg-primary rounded-pill">Tiểu thuyết</span>
-                                </td>
-                                <td>
-                                    <a href="" class="nav-link">Hoàng Khánh Duy</a>
-                                </td>
-                                <td>13/08/2025</td>
-                                <td>
-                                    <span class="d-flex justify-content-between align-items-center">
-                                        <a href=""><i class="fa-solid fa-eye text_dark-blue-200"></i></a>
-                                        <a href=""><i class="fa-solid fa-pen-to-square text-purple"></i></a>
-                                        <a href=""><i class="fa-solid fa-trash text-danger"></i></a>
-                                    </span>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <input class="form-check-input" type="checkbox" value="" id="checkDefault">
-                                </td>
-                                <td>3</td>
-                                <td>#B003</td>
-                                <td>
-                                    <img src="${pageContext.request.contextPath}/assets/images/books/hoang-hon-mau-do-bia.png" alt="" class="d-block object-fit-contain" width="100" height="100">
-                                </td>
-                                <td ><span class="truncate-mutiline">Hoàng hôn màu đỏ</span></td>
-                                <td>200</td>
-                                <td ><span class="truncate-mutiline">Cuốn sách là tuyển tập 14 truyện ngắn về số phận, mảnh đời éo le, khắc nghiệt của con người miền Tây sông nước, làm bật lên sức sống kiên cường, sự lạc quan, luôn hướng về ánh sáng, về tương lai phía trước, dù hi vọng có mong manh cũng không mất đi niềm tin vào cuộc sống.</span></td>
-                                <td>
-                                    <span class="p-2 bg-primary rounded-pill">Tiểu thuyết</span>
-                                </td>
-                                <td>
-                                    <a href="" class="nav-link">Hoàng Khánh Duy</a>
-                                </td>
-                                <td>13/08/2025</td>
-                                <td>
-                                    <span class="d-flex justify-content-between align-items-center">
-                                        <a href=""><i class="fa-solid fa-eye text_dark-blue-200"></i></a>
-                                        <a href=""><i class="fa-solid fa-pen-to-square text-purple"></i></a>
-                                        <a href=""><i class="fa-solid fa-trash text-danger"></i></a>
-                                    </span>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <input class="form-check-input" type="checkbox" value="" id="checkDefault">
-                                </td>
-                                <td>4</td>
-                                <td>#B004</td>
-                                <td>
-                                    <img src="${pageContext.request.contextPath}/assets/images/books/toi-uu-toan-dien-website-bia.png" alt="" class="d-block object-fit-contain" width="100" height="100">
-                                </td>
-                                <td ><span class="truncate-mutiline">Biết khi nào mới gặp lại nhau</span></td>
-                                <td>200</td>
-                                <td ><span class="truncate-mutiline">“Biết khi nào mới gặp lại nhau” là hồi tưởng về tuổi thơ của nhân vật Khang cùng cô bạn học gần nhà tên Bụp và các bạn đồng trang lứa khác. Tuổi thơ của Khang đầy ắp những kỉ niệm với những trò tinh nghịch như hái trộm hoa quả, trêu đùa với các bạn học cùng xóm, những trận đòn roi và cả những yêu thương vô bờ của gia đình. Nhưng tuổi thơ ấy đã ghi dấu tổn thương trong tâm hồn khi cậu bé phải chia li với cô bạn học.</span></td>
-                                <td>
-                                    <span class="p-2 bg-primary rounded-pill">Tiểu thuyết</span>
-                                </td>
-                                <td>
-                                    <a href="" class="nav-link">Hoàng Khánh Duy</a>
-                                </td>
-                                <td>13/08/2025</td>
-                                <td>
-                                    <span class="d-flex justify-content-between align-items-center">
-                                        <a href=""><i class="fa-solid fa-eye text_dark-blue-200"></i></a>
-                                        <a href=""><i class="fa-solid fa-pen-to-square text-purple"></i></a>
-                                        <a href=""><i class="fa-solid fa-trash text-danger"></i></a>
-                                    </span>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>
-                                    <input class="form-check-input" type="checkbox" value="" id="checkDefault">
-                                </td>
-                                <td>5</td>
-                                <td>#B005</td>
-                                <td>
-                                    <img src="${pageContext.request.contextPath}/assets/images/books/biet-khi-nao-moi-gap-nhau-bia.png" alt="" class="d-block object-fit-contain" width="100" height="100">
-                                </td>
-                                <td ><span class="truncate-mutiline">Biết khi nào mới gặp lại nhau</span></td>
-                                <td>200</td>
-                                <td ><span class="truncate-mutiline">“Biết khi nào mới gặp lại nhau” là hồi tưởng về tuổi thơ của nhân vật Khang cùng cô bạn học gần nhà tên Bụp và các bạn đồng trang lứa khác. Tuổi thơ của Khang đầy ắp những kỉ niệm với những trò tinh nghịch như hái trộm hoa quả, trêu đùa với các bạn học cùng xóm, những trận đòn roi và cả những yêu thương vô bờ của gia đình. Nhưng tuổi thơ ấy đã ghi dấu tổn thương trong tâm hồn khi cậu bé phải chia li với cô bạn học.</span></td>
-                                <td>
-                                    <span class="p-2 bg-primary rounded-pill">Tiểu thuyết</span>
-                                </td>
-                                <td>
-                                    <a href="" class="nav-link">Hoàng Khánh Duy</a>
-                                </td>
-                                <td>13/08/2025</td>
-                                <td>
-                                    <span class="d-flex justify-content-between align-items-center">
-                                        <a href=""><i class="fa-solid fa-eye text_dark-blue-200"></i></a>
-                                        <a href=""><i class="fa-solid fa-pen-to-square text-purple"></i></a>
-                                        <a href=""><i class="fa-solid fa-trash text-danger"></i></a>
-                                    </span>
-                                </td>
-                            </tr>
+                        	<c:forEach var="cateBook" items="${sessionScope.cateBookList }" varStatus="loop">
+                        		<c:set var="row_num" value="${0}"></c:set>
+	                            <tr>
+	                                <td>
+	                                    <input class="form-check-input" type="checkbox" value="" id="checkDefault">
+	                                </td>
+	                                <td>${loop.index + 1 }</td>
+	                                <td>${cateBook.id }</td>
+	                                <td ><span class="truncate-mutiline">${cateBook.name }</span></td>
+	                                <td>
+	                                    <span class="d-flex justify-content-between align-items-center">
+	                                        <a href=""><i class="fa-solid fa-eye text_dark-blue-200"></i></a>
+	                                        <a href=""><i class="fa-solid fa-pen-to-square text-purple"></i></a>
+	                                        <a href=""><i class="fa-solid fa-trash text-danger"></i></a>
+	                                    </span>
+	                                </td>
+	                            </tr>
+                            </c:forEach> 
                         </tbody>
                     </table>
-                 </div>
+                 </div> 
+                <div id="author-table" class="table-container mb-3" >
+                    <table class="fs-base">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input class="form-check-input" type="checkbox" value="" id="checkDefault">
+                                </th>
+                                <th>#</th>
+                                <th>Tên tác giả</th>                        
+                                <th>Email</th>
+                                <th>Ngày sinh</th>
+                                <th>Tiểu sử</th>
+                                <th>Hành động</th>
+                            </tr> 
+                        </thead>
 
+                        <tbody>
+                        	<c:forEach var="author" items="${sessionScope.authorList }" varStatus="loop">
+                        		<c:set var="row_num" value="${0}"></c:set>
+	                            <tr>
+	                                <td>
+	                                    <input class="form-check-input" type="checkbox" value="" id="checkDefault">
+	                                </td>
+	                                <td>${loop.index + 1 }</td>
+	                                <td>${author.fullname }</td>
+	                                <td>${author.email }</td>
+	                                <td>${author.dob }</td>
+	                                <td ><span class="truncate-mutiline">${author.biography }</span></td>
+	                                <td>
+	                                    <span class="d-flex justify-content-between align-items-center">
+	                                        <a href=""><i class="fa-solid fa-eye text_dark-blue-200"></i></a>
+	                                        <a href=""><i class="fa-solid fa-pen-to-square text-purple"></i></a>
+	                                        <a href=""><i class="fa-solid fa-trash text-danger"></i></a>
+	                                    </span>
+	                                </td>
+	                            </tr>
+                            </c:forEach> 
+                        </tbody>
+                    </table>
+                 </div> 
                 <!-- page navigation -->
                 <div class="wrapper_page-navigation">
                     <nav class="nav-page">
@@ -255,5 +228,82 @@
          <!-- Chat box -->
 		<%@include file="/components/chatbox.jsp" %>
 	</main>
+	
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("#book-table").show();
+		    $("#catebook-table").hide();
+		    $("#author-table").hide();
+		    
+			$("#btn_book-table").on("click", function(e) {
+				 e.preventDefault();
+				$("#book-table").show();
+				$("#catebook-table").hide();
+				$("#author-table").hide();
+			});
+			
+			$("#btn_cateBook-table").on("click", function(e){
+				 e.preventDefault();
+				$("#book-table").hide();
+				$("#catebook-table").show();
+				$("#author-table").hide();
+			});
+			
+			$("#btn_author-table").on("click", function(e){
+				 e.preventDefault();
+				$("#book-table").hide();
+				$("#catebook-table").hide();
+				$("#author-table").show();
+			});
+			
+			 $(document).on("click",".btn-remove" ,function(e) {
+				e.preventDefault();
+				let txtbookId = $(this).data("id");
+				Swal.fire({
+					  title: "Bạn có chắc muốn xóa?",
+					  text: "Bạn sẽ không khôi phục lại được!",
+					  icon: "warning",
+					  showCancelButton: true,
+					  confirmButtonColor: "#3085d6",
+					  cancelButtonColor: "#d33",
+					  confirmButtonText: "Yes, delete it!"
+					}).then((result) => {
+					  if (result.isConfirmed) {
+						$.ajax({
+							url: "${pageContext.request.contextPath}/admin/book/remove",
+							method: "POST",
+							data: {bookId : txtbookId},
+							success: function(response) {
+								if(response.status === "success") {
+									Swal.fire({
+				                        icon: "success",
+				                        title: "Thành công!",
+				                     	text: response.message,
+				                        confirmButtonText: "OK"
+			                    	}).then(() => {
+			                    		window.location.reload();
+			                    	});
+								}
+								else {
+									Swal.fire({
+			    	                    icon: "error",
+			    	                    title: "Thất bại",
+			    	                    text: response.message
+			    	                });
+								}
+							},
+							error: function() {
+								Swal.fire({
+		    	                    icon: "error",
+		    	                    title: "Thất bại",
+		    	                    text: "Không thể kết nối đến server"
+		    	                });
+							}
+						});
+					  }
+				});
+			});
+		});
+	</script>
 </body>
 </html>

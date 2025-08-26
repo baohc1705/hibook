@@ -9,18 +9,20 @@ import com.baohc.app.model.CateBookDTO;
 public class CateBookServiceImpl implements CateBookService {
 	private CateBookDAO cateBookDAO;
 	private static CateBookServiceImpl instance = null;
-	
+
 	private CateBookServiceImpl() {
 		cateBookDAO = CateBookDAOImpl.getInstance();
 	}
+
 	public static synchronized CateBookServiceImpl getInstance() {
-		if (instance == null) instance = new CateBookServiceImpl();
+		if (instance == null)
+			instance = new CateBookServiceImpl();
 		return instance;
 	}
-	
+
 	@Override
 	public List<CateBookDTO> getAllCateBook() {
-		
+
 		return cateBookDAO.getAllCateBook();
 	}
 

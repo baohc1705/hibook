@@ -85,20 +85,17 @@ public class BookDAOImpl implements BookDAO {
             Connection con = ConnectionKit.getConnection();
             if (con == null) return res;
 
-            String query = "INSERT INTO book (id, cateBook_id, author_id, promotion_id, name, price, amount, description, createDate) "
-                         + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO book (id, cateBook_id, author_id, promotion_id, name, price, amount, description) "
+                         + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement pmt = con.prepareStatement(query);
             pmt.setString(1, book.getId());
             pmt.setInt(2, book.getCateBook().getId());
-            pmt.setString(3, book.getAuthor().getId());
-            if (book.getPromotion() != null) {
-                pmt.setInt(4, book.getPromotion().getId());
-            }
+            pmt.setString(3, book.getAuthor().getId());     
+            pmt.setInt(4, book.getPromotion().getId());
             pmt.setString(5, book.getName());
             pmt.setDouble(6, book.getPrice());
             pmt.setInt(7, book.getAmount());
             pmt.setString(8, book.getDescription());
-            pmt.setDate(9, book.getCreateAt());
 
             int row = pmt.executeUpdate();
             res = row > 0 ? 1 : 0;
@@ -160,7 +157,7 @@ public class BookDAOImpl implements BookDAO {
             Connection con = ConnectionKit.getConnection();
             if (con == null) return res;
 
-            String query = "UPDATE book SET cateBook_id=?, author_id=?, promotion_id=?, name=?, price=?, amount=?, description=?, createDate=? "
+            String query = "UPDATE book SET cateBook_id=?, author_id=?, promotion_id=?, name=?, price=?, amount=?, description=? "
                          + "WHERE id=?";
             PreparedStatement pmt = con.prepareStatement(query);
             pmt.setInt(1, book.getCateBook().getId());
@@ -172,8 +169,8 @@ public class BookDAOImpl implements BookDAO {
             pmt.setDouble(5, book.getPrice());
             pmt.setInt(6, book.getAmount());
             pmt.setString(7, book.getDescription());
-            pmt.setDate(8, book.getCreateAt());
-            pmt.setString(9, book.getId());
+
+            pmt.setString(8, book.getId());
 
             int row = pmt.executeUpdate();
             res = row > 0 ? 1 : 0;

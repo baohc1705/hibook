@@ -88,10 +88,9 @@ public class CateBookDAOImpl implements CateBookDAO {
 			Connection con = ConnectionKit.getConnection();
 			if( con == null) 
 				return res;
-			String query = "INSERT INTO cate_book (id,name) VALUES (?,?)";
+			String query = "INSERT INTO cate_book (name) VALUES (?)";
 			PreparedStatement pmt = con.prepareStatement(query);
-			pmt.setInt(1, catebook.getId());
-			pmt.setString(2, catebook.getName());
+			pmt.setString(1, catebook.getName());
 			int row = pmt.executeUpdate();
 			res = row > 0 ? 1 : 0;
 			if (pmt != null) 

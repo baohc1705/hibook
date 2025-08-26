@@ -21,6 +21,8 @@ import com.baohc.app.model.CateBookDTO;
 import com.baohc.app.model.CateUserDTO;
 import com.baohc.app.model.PromotionDTO;
 import com.baohc.app.model.UserDTO;
+import com.baohc.app.service.author.AuthorService;
+import com.baohc.app.service.author.AuthorServiceImpl;
 import com.baohc.app.service.user.CateUserService;
 import com.baohc.app.service.user.CateUserServiceImpl;
 import com.baohc.app.service.user.UserService;
@@ -28,13 +30,10 @@ import com.baohc.app.service.user.UserServiceImpl;
 
 public class Test {
 	public static void main(String[] args) {
-		  BookDAO bookDAO = BookDAOImpl.getInstance();
-	        // ===== GET ALL =====
-	        List<BookDTO> list = bookDAO.getAllBook();
-	        System.out.println("Danh sách sách trong DB:");
-	        for (BookDTO b : list) {
-	            System.out.println(b);
-	        }
+		  AuthorService authorService = AuthorServiceImpl.getInstance();
+		  for (AuthorDTO i : authorService.getAllAuthors()) {
+			  System.out.println(i);
+		  }
 
 	       
 	}
