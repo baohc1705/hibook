@@ -87,7 +87,6 @@
                                 <th>
                                     <input class="form-check-input" type="checkbox" value="" id="checkDefault">
                                 </th>
-                                <th>#</th>
                                 <th>Ảnh bìa</th>
                                 <th>Tên sách</th>
                                 <th>Loại sách</th>
@@ -100,8 +99,8 @@
                             </tr> 
                         </thead>
 
-                        <tbody>
-                        	<c:forEach var="book" items="${sessionScope.bookList }" varStatus="loop">
+                        <tbody id="tb-books">
+                        	<%-- <c:forEach var="book" items="${sessionScope.bookList }" varStatus="loop">
                         		<c:set var="row_num" value="${0}"></c:set>
                     
 	                            <tr>
@@ -113,25 +112,24 @@
 	                                    <img src="${pageContext.request.contextPath}/assets/images/books/${sessionScope.coverPhotoList[book]}" alt="" class="d-block object-fit-contain" width="100" height="100">
 	                                </td>
 	                                <td ><span class="truncate-mutiline">${book.name }</span></td>
-	                                 <td>
-	                                    <span class="">${book.cateBook.name }</span>
+	                                 <td >
+	                                    <span class="text-nowrap fs-small p-2 rounded-pill bg-rimson">${book.cateBook.name }</span>
 	                                </td>
 	                                <td>
 	                                    <a href="" class="nav-link">${book.author.fullname }</a>
 	                                </td>
-	                                <td ><span class="truncate-mutiline fs-small">${book.description }</span></td>
+	                                <td class="w-25"><span class="truncate-mutiline fs-small">${book.description }</span></td>
 	                                <td>${book.price }</td>
 	                                <td>${book.amount }</td>
-	                                <td>${book.createAt }</td> 
+	                                <td class="text-nowrap">${book.createAt }</td> 
 	                                <td>
 	                                    <span class="d-flex justify-content-between align-items-center">
-	                                        <a  href="${pageContext.request.contextPath }/admin/book/edit?bookId=${book.id}"><i class="fa-solid fa-eye text_dark-blue-200"></i></a>
-	                                        <a  href=""><i class="fa-solid fa-pen-to-square text-purple"></i></a>
+	                                        <a  href="${pageContext.request.contextPath }/admin/book/edit?bookId=${book.id}"><i class="fa-solid fa-pen-to-square text-purple"></i></a>
 	                                        <a  href="javascript:void(0)" data-id="${book.id }" class="btn-remove"><i class="fa-solid fa-trash text-danger"></i></a>
 	                                    </span>
 	                                </td>
 	                            </tr>
-                            </c:forEach> 
+                            </c:forEach>  --%>
                         </tbody>
                     </table>
                  </div>
@@ -161,7 +159,6 @@
 	                                <td ><span class="truncate-mutiline">${cateBook.name }</span></td>
 	                                <td>
 	                                    <span class="d-flex justify-content-between align-items-center">
-	                                        <a href=""><i class="fa-solid fa-eye text_dark-blue-200"></i></a>
 	                                        <a href=""><i class="fa-solid fa-pen-to-square text-purple"></i></a>
 	                                        <a href=""><i class="fa-solid fa-trash text-danger"></i></a>
 	                                    </span>
@@ -201,7 +198,6 @@
 	                                <td ><span class="truncate-mutiline">${author.biography }</span></td>
 	                                <td>
 	                                    <span class="d-flex justify-content-between align-items-center">
-	                                        <a href=""><i class="fa-solid fa-eye text_dark-blue-200"></i></a>
 	                                        <a href=""><i class="fa-solid fa-pen-to-square text-purple"></i></a>
 	                                        <a href=""><i class="fa-solid fa-trash text-danger"></i></a>
 	                                    </span>
@@ -212,17 +208,19 @@
                     </table>
                  </div> 
                 <!-- page navigation -->
-                <div class="wrapper_page-navigation">
+                
+                <div id="pagination" class="wrapper_page-navigation">
                     <nav class="nav-page">
                         <ul class="nav-list m-0 p-0">
-                            <li class="list-group-item"><a class="nav-link" href=""><span class="nav-icon p-2 rounded-circle"><i class=" fa-solid fa-arrow-left"></i></span></a></li>
+                            <!-- <li class="list-group-item"><a class="nav-link" href=""><span class="nav-icon p-2 rounded-circle"><i class=" fa-solid fa-arrow-left"></i></span></a></li>
                             <li class="list-group-item"><a class="nav-link" href=""><span class="nav-label px-3 py-2 rounded-3 active">1</span></a></li>
                             <li class="list-group-item"><a class="nav-link" href=""><span class="nav-label px-3 py-2 rounded-3">2</span></a></li>
                             <li class="list-group-item"><a class="nav-link" href=""><span class="nav-label px-3 py-2 rounded-3">3</span></a></li>
                             <li class="list-group-item"><a class="nav-link" href=""><span class="nav-icon  p-2 rounded-circle"><i class=" fa-solid fa-arrow-right"></i></span></a></li>
-                        </ul>
+                         --></ul>
                     </nav>
                 </div>
+                
             </div>
          </section>   
          <!-- Chat box -->
@@ -231,6 +229,7 @@
 	
 	<script type="text/javascript">
 		$(document).ready(function() {
+			loadPage(1);
 			$("#book-table").show();
 		    $("#catebook-table").hide();
 		    $("#author-table").hide();
@@ -303,7 +302,90 @@
 					  }
 				});
 			});
-		});
+		}); 
+		
+		function loadPage(page) {
+			$.ajax({
+				url: "${pageContext.request.contextPath}/admin/book/show",
+				method: "GET",
+				data: {page:page},
+				dataType: "JSON",
+				success: function(response) {
+					$("#tb-books").empty();
+					
+					$.each(response.books, function(i, book) {
+						$("#tb-books").append(
+							"<tr>" + 
+								"<td>" + "<input class='form-check-input' type='checkbox'>" + "</td>" +
+								"<td>" + "<img src='${pageContext.request.contextPath}/assets/images/books/"+book.coverPhoto+"' class='d-block object-fit-contain' width='100' height='100'>" + "</td>" + 
+								"<td>" + "<span class='truncate-mutiline'>"+book.name+"</span>"+"</td>"+
+								"<td>" + "<span class='text-nowrap fs-small p-2 rounded-pill bg-rimson'>"+book.cateBook_name+"</span>"+"</td>"+
+								"<td>" + "<a href='' class='nav-link'>"+book.author+"</a> </td>" +
+								"<td class='w-25'>" + "<span class='truncate-mutiline fs-small'>"+book.description+"</span></td>"+
+								"<td>"+book.price+"</td>"+
+	                            "<td>"+book.amount+"</td>"+
+	                            "<td class='text-nowrap'>"+book.createAt+"</td>"+
+	                            "<td>"+
+                                    "<span class='d-flex justify-content-between align-items-center'>" +
+                                        "<a  href='${pageContext.request.contextPath }/admin/book/edit?bookId="+book.id+"'><i class='fa-solid fa-pen-to-square text-purple'></i></a>"+
+                                        "<a  href='javascript:void(0)' data-id='"+book.id+"' class='btn-remove'><i class='fa-solid fa-trash text-danger'></i></a>"+
+                                    "</span>"+
+	                            "</td>" +
+                            "</tr>"
+						);
+					});
+					
+					$("#pagination nav ul").empty();
+					
+					if (response.currentPage > 1) {
+						$("#pagination nav ul").append(
+							"<li class='list-group-item'><a class='nav-link' href='javascript:void(0)' onclick='loadPage("+(response.currentPage-1)+")'><span class='nav-icon p-2 rounded-circle'><i class=' fa-solid fa-arrow-left'></i></span></a></li>"
+						);
+					}
+					else {
+						$("#pagination nav ul").append(
+							"<li class='list-group-item'><span class='nav-icon p-2 rounded-circle'><i class=' fa-solid fa-arrow-left'></i></span></li>"
+						);
+					}
+					
+					$.each(response.arrPagination, function(i, page){
+						if (page === "...") {
+							$("#pagination nav ul").append(
+								"<li class='list-group-item'><span class='nav-label px-3 py-2 rounded-3'>...</span></li>"
+							);
+						}
+						else {
+							if (parseInt(page) === response.currentPage) {
+								$("#pagination nav ul").append(
+									"<li class='list-group-item'><span class='nav-label px-3 py-2 rounded-3 active'>"+page+"</span></li>"
+								);
+							}
+							else {
+								$("#pagination nav ul").append(
+									"<li class='list-group-item'><a class='nav-link' href='javascript:void(0)' onclick='loadPage("+page+")'><span class='nav-label px-3 py-2 rounded-3'>"+page+"</span></a></li>"
+								);
+							}
+						}
+					});
+					
+					if (response.currentPage < response.totalPages) {
+						$("#pagination nav ul").append(
+								"<li class='list-group-item'><a class='nav-link' href='javascript:void(0)' onclick='loadPage("+(response.currentPage+1)+")'><span class='nav-icon p-2 rounded-circle'><i class=' fa-solid fa-arrow-right'></i></span></a></li>"	
+						);
+					}
+					else {
+						$("#pagination nav ul").append(
+								"<li class='list-group-item'><span class='nav-icon p-2 rounded-circle'><i class=' fa-solid fa-arrow-right'></i></span></li>"	
+						);
+					}
+					
+				},
+				error: function() {
+					console.log("Không thể đến server");
+				}
+			});
+		}
+		
 	</script>
 </body>
 </html>

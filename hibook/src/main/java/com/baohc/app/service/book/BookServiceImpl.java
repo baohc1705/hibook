@@ -23,7 +23,7 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public List<BookDTO> getAllBook() {
-		
+
 		return bookDAO.getAllBook();
 	}
 
@@ -63,4 +63,15 @@ public class BookServiceImpl implements BookService {
 		return bookDAO.update(book);
 	}
 
+	@Override
+	public List<BookDTO> getAllBookByPage(int page, int pageSize) {
+		// TODO Auto-generated method stub
+		return bookDAO.getAllBookByPage(page, pageSize);
+	}
+
+	@Override
+	public int getTotalRecord() {
+		// TODO Auto-generated method stub
+		return bookDAO.getTotalRecord();
+	}
 }

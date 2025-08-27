@@ -25,10 +25,15 @@ import com.baohc.app.service.book.BookServiceImpl;
 import com.baohc.app.service.book.CateBookService;
 import com.baohc.app.service.book.CateBookServiceImpl;
 import com.baohc.core.utils.FileKit;
+import com.baohc.core.utils.PaginationKit;
 import com.baohc.core.utils.StringKit;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 public class AdminBookController {
+	private final int PAGE_SIZE = 3;
+
 	private final String BOOK_PAGE = "/WEB-INF/views/admin/books/book-management.jsp";
 	private final String ADDBOOK_PAGE = "/WEB-INF/views/admin/books/add-book.jsp";
 	private final String EDITBOOK_PAGE = "/WEB-INF/views/admin/books/edit-book.jsp";
@@ -71,6 +76,86 @@ public class AdminBookController {
 			request.getRequestDispatcher(BOOK_PAGE).forward(request, response);
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
+
+	public void showPaginationBook(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
+
+			request.getRequestDispatcher(BOOK_PAGE).forward(request, response);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+
+	public void doPaginationBook(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json;charset=UTF-8");
+		try {
+
+			int page = 1;
+			if (request.getParameter("page") != null)
+				page = Integer.parseInt(request.getParameter("page"));
+
+			int totalRecord = bookService.getTotalRecord();
+			int totalPages = (int) Math.ceil((double) totalRecord / PAGE_SIZE);
+
+			List<BookDTO> books = bookService.getAllBookByPage(page, PAGE_SIZE);
+
+			JsonObject json = new JsonObject();
+			json.addProperty("totalPages", totalPages);
+			json.addProperty("currentPage", page);
+
+			JsonArray jsonArray = new JsonArray();
+			for (BookDTO b : books) {
+				JsonObject object = new JsonObject();
+				object.addProperty("id", b.getId());
+				object.addProperty("cateBook_name", b.getCateBook().getName());
+
+				List<PhotoDTO> photolist = photoDAO.getListPhotoByBookId(b);
+				for (PhotoDTO pitem : photolist) {
+					if (pitem.isCover()) {
+						object.addProperty("coverPhoto", pitem.getPathname());
+						break;
+					}
+				}
+
+				object.addProperty("name", b.getName());
+				object.addProperty("author", b.getAuthor().getFullname());
+				object.addProperty("description", b.getDescription());
+				object.addProperty("amount", b.getAmount());
+				object.addProperty("price", b.getPrice());
+				object.addProperty("createAt", b.getCreateAt().toString());
+
+				jsonArray.add(object);
+			}
+			json.add("books", jsonArray);
+
+			List<Object> pagination = PaginationKit.getPagination(page, totalPages);
+			JsonArray arrPagination = new JsonArray();
+			for (Object o : pagination) {
+				arrPagination.add(o.toString());
+			}
+			json.add("arrPagination", arrPagination);
+
+			HttpSession session = request.getSession();
+
+			List<CateBookDTO> cateBookList = cateBookService.getAllCateBook();
+			List<AuthorDTO> authorList = authorService.getAllAuthors();
+
+//			if ((cateBookList==null || cateBookList.isEmpty()) && (authorList == null ||
+//				authorList.isEmpty())) {
+//				cateBookList = cateBookService.getAllCateBook();
+//				authorList = authorService.getAllAuthors();
+//			}
+			session.setAttribute("cateBookList", cateBookList);
+			session.setAttribute("authorList", authorList);
+
+			response.getWriter().write(json.toString());
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -227,7 +312,7 @@ public class AdminBookController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void doRemoveBook(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
@@ -236,24 +321,22 @@ public class AdminBookController {
 		Gson gson = new Gson();
 		try {
 			String book_id = request.getParameter("bookId");
+
 			BookDTO booktmp = bookService.findById(book_id);
-			int isRemovedPhoto = photoDAO.deletebyBookID(book_id);
-			if(isRemovedPhoto == 1) {
-				int isRemovedBook = bookService.delete(booktmp);
-				if(isRemovedBook == 1) {
-					resp.put("status", "success");
-					resp.put("message", "Xóa sách thành công!");
-				}
-				else {
-					resp.put("status", "error");
-					resp.put("message", "Xóa sách thất bại!");
-				}
-			}
-			else {
+
+			List<PhotoDTO> photoListDB = photoDAO.getListPhotoByBookId(booktmp);
+
+			if (photoListDB != null && photoListDB.size() > 0)
+				photoDAO.deletebyBookID(booktmp.getId());
+
+			int isRemovedBook = bookService.delete(booktmp);
+			if (isRemovedBook == 1) {
+				resp.put("status", "success");
+				resp.put("message", "Xóa sách thành công!");
+			} else {
 				resp.put("status", "error");
-				resp.put("message", "Xóa ảnh thất bại!");
+				resp.put("message", "Xóa sách thất bại!");
 			}
-			
 			response.getWriter().print(gson.toJson(resp));
 		} catch (Exception e) {
 			// TODO: handle exception

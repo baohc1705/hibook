@@ -17,6 +17,8 @@
                         rgba(233, 64, 87, 1) 50%,
                         rgba(242, 113, 33, 1) 100% );
     --clr-purple: rgba(138, 35, 135, 1);
+    --clr-rimson: rgba(233, 64, 87, 1);
+    --clr-orange: rgba(242, 113, 33, 1);
     
     --clr-danger: #F87171;
     --clr-success: #4ADE80;
@@ -100,6 +102,15 @@ body {
 }
 .bg_dark-blue-50 {
     background-color: var(--dark-blue-50) !important;
+}
+.bg-orange {
+	background-color: var(--clr-orange) !important ;
+}
+.bg-rimson {
+	background-color: var(--clr-rimson) !important ;
+}
+.bg-purple{
+	background-color: var(--clr-purple) !important ;
 }
 
 .fs-base {

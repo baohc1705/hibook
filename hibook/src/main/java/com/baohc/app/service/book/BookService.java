@@ -18,4 +18,8 @@ public interface BookService {
 	public int deleteAll(List<BookDTO> arr);
 
 	public int update(BookDTO book);
+
+	public List<BookDTO> getAllBookByPage(int page, int pageSize);
+
+	public int getTotalRecord();
 }

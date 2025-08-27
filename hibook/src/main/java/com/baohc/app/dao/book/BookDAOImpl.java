@@ -183,7 +183,52 @@ public class BookDAOImpl implements BookDAO {
         }
         return res;
     }
-
+    
+    @Override
+    public List<BookDTO> getAllBookByPage(int page, int pageSize) {
+    	List<BookDTO> list = new ArrayList<BookDTO>();
+    	try {
+			Connection con = ConnectionKit.getConnection();
+			if (con == null) return list;
+			String query = "SELECT * FROM book LIMIT ? OFFSET ?";
+			PreparedStatement pmt = con.prepareStatement(query);
+			pmt.setInt(1, pageSize);
+			pmt.setInt(2, (page - 1) * pageSize);
+			ResultSet rs = pmt.executeQuery();
+			while (rs.next()) {
+				BookDTO b = mapResultSetToBook(rs);
+				list.add(b);
+			}
+			if(rs != null) rs.close();
+			if(pmt != null) pmt.close();
+			ConnectionKit.closeConnection(con);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	return list;
+    }
+    
+    @Override
+    public int getTotalRecord() {
+    	int res = 0;
+    	try {
+			Connection con = ConnectionKit.getConnection();
+			if (con == null) return res;
+			String query = "SELECT COUNT(*) FROM book";
+			PreparedStatement pmt = con.prepareStatement(query);
+			ResultSet rs = pmt.executeQuery();
+			if(rs.next()) 
+				res = rs.getInt(1);
+			
+			if(rs != null) rs.close();
+			if(pmt != null) pmt.close();
+			ConnectionKit.closeConnection(con);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	return res;
+    }
+    
     /** 
      * Helper function để map ResultSet -> BookDTO 
      */
