@@ -1,4 +1,3 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -88,6 +87,54 @@
                     <li class="nav-item">
                         <a id="btn_author-table" class="nav-link">Tác giả</a>
                     </li>
+                    <li class="nav-item ms-auto"> 
+                     <div class="dropdown">
+	                    <button class="btn text_dark-blue-50 filter dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+	                        <i class="fa-solid fa-bars" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Chọn ẩn/hiện cột"></i>
+	                    </button>
+	                    <ul class="dropdown-menu">
+	                    	
+	                    	<span class="p-2 text-center">CỘT</span>
+	                    	
+	                        <li class="dropdown-item text_dark-blue-50">
+                    			<input class="check-show" type="checkbox" value="3"> 
+                    			<span class="px-2 " style="pointer-events: cursor;">Ảnh bìa</span>
+                    		</li>
+                    		<li class="dropdown-item text_dark-blue-50">
+                    			<input class="check-show" type="checkbox" value="4"> 
+                    			<span class="px-2 ">Tên sách</span>
+       
+                    		</li>
+                    		<li class="dropdown-item text_dark-blue-50">
+                    			<input class="check-show" type="checkbox" value="5"> 
+								<span class="px-2 ">Loại sách</span>
+                    		</li>
+                    		<li class="dropdown-item text_dark-blue-50">
+                    			<input class="check-show" type="checkbox" value="6">
+                    			<span class="px-2 ">Tác giả</span>
+                    		</li>
+                    		<li class="dropdown-item text_dark-blue-50">
+                    			<input class="check-show" type="checkbox" value="7">
+                    			<span class="px-2 ">Mô tả</span>
+                    		</li>
+                    		<li class="dropdown-item text_dark-blue-50">
+                    			<input class="check-show" type="checkbox" value="8">
+                    			<span class="px-2 ">Giá gốc</span>
+                    		</li>
+                    		<li class="dropdown-item text_dark-blue-50">
+                    			<input class="check-show" type="checkbox" value="9">
+                    			<span class="px-2 ">Số lượng</span>
+                    		</li>
+                    		<li class="dropdown-item text_dark-blue-50">
+                    			<input class="check-show" type="checkbox" value="9">
+                    			<span class="px-2 ">Ngày thêm</span>
+                    		</li>
+	                    </ul>
+	                </div>
+                    	<ul class="showCol">
+                    		
+                    	</ul>
+                    </li>
                 </ul>
 
                 <!-- data table -->
@@ -103,7 +150,7 @@
 	                                <th class="text-center">Ảnh bìa</th>
 	                                <th class="text-nowrap">
 	                                	<a href="javascript:void(0)" class="sort-trigger text_dark-blue-50 text-decoration-none" data-field="name" data-sort="none">
-	                                		<i class="fa-solid fa-sort"  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Nhấp sắp xếp"></i>
+	                                		<i class="fa-solid fa-sort"  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Chọn sắp xếp"></i>
 	                                	</a>
 										 <span>Tên sách</span> 
 	                                </th>
@@ -112,13 +159,13 @@
 	                                <th class="text-nowrap">Mô tả</th>
 	                                <th class="text-nowrap text-end">
 	                               		<a href="javascript:void(0)" class="sort-trigger text_dark-blue-50 text-decoration-none" data-field="price" data-sort="none">
-	                               			<i class="fa-solid fa-sort " data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Nhấp sắp xếp""></i>
+	                               			<i class="fa-solid fa-sort " data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Chọn sắp xếp""></i>
 	                               		</a>
 										 <span>Giá gốc</span> 
 	                                </th> 
 	                                <th class="text-nowrap text-end">
 	                                	 <a href="javascript:void(0)" class="sort-trigger text_dark-blue-50 text-decoration-none" data-field="amount" data-sort="none" >
-	                                	 	<i class="fa-solid fa-sort" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Nhấp sắp xếp"></i>
+	                                	 	<i class="fa-solid fa-sort" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Chọn sắp xếp"></i>
 	                                	 </a>
 										 <span>Số lượng</span> 
 	                                </th> 
@@ -180,12 +227,12 @@
                                 <th>
                                     <input class="form-check-input" type="checkbox" value="" id="checkDefault">
                                 </th>
-                                <th>#</th>
-                                <th>Tên tác giả</th>                        
-                                <th>Email</th>
-                                <th>Ngày sinh</th>
-                                <th>Tiểu sử</th>
-                                <th>Hành động</th>
+                                <th class="text-nowrap">#</th>
+                                <th class="text-nowrap">Tên tác giả</th>                        
+                                <th class="text-nowrap">Email</th>
+                                <th class="text-nowrap">Ngày sinh</th>
+                                <th class="text-nowrap">Tiểu sử</th>
+                                <th class="text-nowrap">Hành động</th>
                             </tr> 
                         </thead>
 
@@ -197,10 +244,10 @@
 	                                    <input class="form-check-input" type="checkbox" value="" id="checkDefault">
 	                                </td>
 	                                <td>${loop.index + 1 }</td>
-	                                <td>${author.fullname }</td>
+	                                <td class="text-nowrap">${author.fullname }</td>
 	                                <td>${author.email }</td>
-	                                <td>${author.dob }</td>
-	                                <td ><span class="truncate-mutiline">${author.biography }</span></td>
+	                                <td class="text-nowrap">${author.dob }</td>
+	                                <td class="w-25"><span class="truncate-mutiline">${author.biography }</span></td>
 	                                <td>
 	                                    <span class="d-flex justify-content-between align-items-center">
 	                                        <a href=""><i class="fa-solid fa-pen-to-square text-purple"></i></a>
@@ -212,18 +259,14 @@
                         </tbody>
                     </table>
                  </div> 
-                
-                
             </div>
          </section>   
          <!-- Chat box -->
 		<%@include file="/components/chatbox.jsp" %>
 	</main>
 	
-	<script type="text/javascript">
-		/* const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-		const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl)) */
-		
+	<script type="text/javascript">	
+	
 		$(document).ready(function() {
 			
 			loadPage(1,$("#page-size").val());
@@ -342,9 +385,25 @@
 				},
 				dataType: "JSON",
 				success: function(response) {
+					
+					$(".check-show").prop("checked", true);
+					$(".check-show").trigger("change");
+					$(".check-show").on("change", function() {
+						let colIndex = $(this).val();
+						if ($(this).is(":checked")) {
+					        $("table td:nth-child(" + colIndex + ")").removeClass("d-none");
+					        $("table th:nth-child(" + colIndex + ")").removeClass("d-none");
+					    } else {
+					        $("table td:nth-child(" + colIndex + ")").addClass("d-none");
+					        $("table th:nth-child(" + colIndex + ")").addClass("d-none");
+					    } 
+					});
+					
 					$("#tb-books").empty();
 					// render data table
 					$.each(response.books, function(i, book) {
+						
+						
 						let stt = (response.currentPage != null) ? ((response.currentPage - 1) * pageSize + (i + 1)) : (i + 1);
 						$("#tb-books").append(
 							"<tr>" + 
@@ -360,12 +419,13 @@
 	                            "<td class='text-nowrap'>"+book.createAt+"</td>"+
 	                            "<td>"+
                                     "<span class='d-flex justify-content-between align-items-center'>" +
-                                        "<a  href='${pageContext.request.contextPath }/admin/book/edit?bookId="+book.id+"' class='text-decoration-none'><i class='fa-solid fa-pen-to-square text-purple'></i></a>"+
-                                        "<a  href='javascript:void(0)' data-id='"+book.id+"' class='btn-remove text-decoration-none'><i class='fa-solid fa-trash text-danger'></i></a>"+
+                                        "<a  href='${pageContext.request.contextPath }/admin/book/edit?bookId="+book.id+"' class='text-decoration-none' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='Chỉnh sửa'><i class='fa-solid fa-pen-to-square text-purple'></i></a>"+
+                                        "<a  href='javascript:void(0)' data-id='"+book.id+"' class='btn-remove text-decoration-none' data-bs-toggle='tooltip' data-bs-placement='top' data-bs-title='Xóa'><i class='fa-solid fa-trash text-danger'></i></a>"+
                                     "</span>"+
 	                            "</td>" +
                             "</tr>"
 						);
+						$('[data-bs-toggle="tooltip"]').tooltip();
 					});
 					// render book table
 					$("#pagination nav ul").empty();

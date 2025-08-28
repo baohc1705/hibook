@@ -502,16 +502,34 @@ table {
 table th,
 table td {
     padding:  .5rem;
+    transition: all 0.3s ease;
 }
 
+
+
+.hide-col {
+  opacity: 0;
+  transform: translateX(-20px); /* trượt sang trái */
+  pointer-events: none;
+  width: 0;
+}
+
+
 table thead {
-    background-color: var(--dark-blue-800);
-    position: sticky;
-    top: 10px;
+    background-color: var(--dark-blue-800);    
+}
+
+table thead tr th {
+	border-left: 1px rgba(255,255,255,0.5) solid;
+	border-right: 1px rgba(255,255,255,0.5) solid;
 }
 table tr:nth-child(even) {
     background-color: var(--dark-blue-950-o50);
 }
+
+/* table td:nth-child(even),table th:nth-child(even) {
+	display: none;
+} */
 
 .wrapper_page-navigation .nav-list {
     display: flex;
@@ -593,4 +611,3 @@ table tr:nth-child(even) {
 
 /* add book */
 
-	
