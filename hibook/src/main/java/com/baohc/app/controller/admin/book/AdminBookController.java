@@ -2,6 +2,8 @@ package com.baohc.app.controller.admin.book;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +26,6 @@ import com.baohc.app.service.book.BookService;
 import com.baohc.app.service.book.BookServiceImpl;
 import com.baohc.app.service.book.CateBookService;
 import com.baohc.app.service.book.CateBookServiceImpl;
-import com.baohc.core.utils.FileKit;
 import com.baohc.core.utils.PaginationKit;
 import com.baohc.core.utils.StringKit;
 import com.google.gson.Gson;
@@ -33,7 +34,6 @@ import com.google.gson.JsonObject;
 
 public class AdminBookController {
 	private final int PAGE_SIZE = 3;
-
 	private final String BOOK_PAGE = "/WEB-INF/views/admin/books/book-management.jsp";
 	private final String ADDBOOK_PAGE = "/WEB-INF/views/admin/books/add-book.jsp";
 	private final String EDITBOOK_PAGE = "/WEB-INF/views/admin/books/edit-book.jsp";
@@ -54,39 +54,16 @@ public class AdminBookController {
 		try {
 			HttpSession session = request.getSession();
 
-			List<BookDTO> bookList = bookService.getAllBook();
-
-			Map<BookDTO, String> coverPhotoList = new HashMap<BookDTO, String>();
-
 			List<CateBookDTO> cateBookList = cateBookService.getAllCateBook();
 			List<AuthorDTO> authorList = authorService.getAllAuthors();
 
-			for (BookDTO b : bookList) {
-				List<PhotoDTO> photolist = photoDAO.getListPhotoByBookId(b);
-				for (PhotoDTO pitem : photolist) {
-					if (pitem.isCover()) {
-						coverPhotoList.put(b, pitem.getPathname());
-					}
-				}
-			}
-			session.setAttribute("coverPhotoList", coverPhotoList);
-			session.setAttribute("bookList", bookList);
 			session.setAttribute("cateBookList", cateBookList);
 			session.setAttribute("authorList", authorList);
+
 			request.getRequestDispatcher(BOOK_PAGE).forward(request, response);
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-		}
-	}
-
-	public void showPaginationBook(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		try {
-
-			request.getRequestDispatcher(BOOK_PAGE).forward(request, response);
-		} catch (Exception e) {
-			// TODO: handle exception
 		}
 	}
 
@@ -95,20 +72,55 @@ public class AdminBookController {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json;charset=UTF-8");
 		try {
-
+			
 			int page = 1;
-			if (request.getParameter("page") != null)
-				page = Integer.parseInt(request.getParameter("page"));
-
-			int totalRecord = bookService.getTotalRecord();
-			int totalPages = (int) Math.ceil((double) totalRecord / PAGE_SIZE);
-
-			List<BookDTO> books = bookService.getAllBookByPage(page, PAGE_SIZE);
-
+			int totalRecord = 0;
+			int totalPages = 0;
+			int pageSize = 3;
+			String sortField = request.getParameter("sortField");
+			String sortOrder = request.getParameter("sortOrder");
+			
+			List<BookDTO> books = new ArrayList<BookDTO>();
 			JsonObject json = new JsonObject();
-			json.addProperty("totalPages", totalPages);
-			json.addProperty("currentPage", page);
 
+			if (request.getParameter("pageSize") != null) {
+				if ("all".equals(request.getParameter("pageSize"))) {
+					books = bookService.getAllBook();
+					if ((!sortField.isEmpty()) && (!sortOrder.isEmpty())) {
+						books = bookService.sort(sortField, sortOrder);
+					}
+				}
+				else {
+					
+					if (request.getParameter("page") != null)
+						page = Integer.parseInt(request.getParameter("page"));
+					
+					pageSize = Integer.parseInt(request.getParameter("pageSize"));
+					totalRecord = bookService.getTotalRecord();
+					totalPages = (int) Math.ceil((double) totalRecord / pageSize);
+
+					json.addProperty("totalPages", totalPages);
+					json.addProperty("currentPage", page);
+
+					
+					
+					if ((sortField == null ) && (sortOrder == null )) {
+						sortField = "";
+						sortOrder = "";
+					}
+					
+					books = bookService.getSortPagination(page, pageSize, sortField, sortOrder);
+					
+					List<Object> pagination = PaginationKit.getPagination(page, totalPages);
+					JsonArray arrPagination = new JsonArray();
+					for (Object o : pagination) {
+						arrPagination.add(o.toString());
+					}
+
+					json.add("arrPagination", arrPagination);
+				}
+			}
+	
 			JsonArray jsonArray = new JsonArray();
 			for (BookDTO b : books) {
 				JsonObject object = new JsonObject();
@@ -132,28 +144,9 @@ public class AdminBookController {
 
 				jsonArray.add(object);
 			}
+			
 			json.add("books", jsonArray);
-
-			List<Object> pagination = PaginationKit.getPagination(page, totalPages);
-			JsonArray arrPagination = new JsonArray();
-			for (Object o : pagination) {
-				arrPagination.add(o.toString());
-			}
-			json.add("arrPagination", arrPagination);
-
-			HttpSession session = request.getSession();
-
-			List<CateBookDTO> cateBookList = cateBookService.getAllCateBook();
-			List<AuthorDTO> authorList = authorService.getAllAuthors();
-
-//			if ((cateBookList==null || cateBookList.isEmpty()) && (authorList == null ||
-//				authorList.isEmpty())) {
-//				cateBookList = cateBookService.getAllCateBook();
-//				authorList = authorService.getAllAuthors();
-//			}
-			session.setAttribute("cateBookList", cateBookList);
-			session.setAttribute("authorList", authorList);
-
+			
 			response.getWriter().write(json.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -166,7 +159,7 @@ public class AdminBookController {
 
 			request.getRequestDispatcher(ADDBOOK_PAGE).forward(request, response);
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
 
@@ -223,7 +216,6 @@ public class AdminBookController {
 			response.getWriter().print(gson.toJson(resp));
 
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 	}

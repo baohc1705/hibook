@@ -132,7 +132,7 @@ public class BookDTO {
 
 	@Override
 	public String toString() {
-		return "BookDTO [id=" + id + ", cateBook=" + cateBook + ", author=" + author + ", promotion=" + promotion
+		return "BookDTO [id=" + id + ", cateBook=" + cateBook.getName() + ", author=" + author.getFullname() + ", promotion=" + promotion.getId()
 				+ ", name=" + name + ", price=" + price + ", amount=" + amount + ", description=" + description
 				+ ", createAt=" + createAt + "]";
 	}

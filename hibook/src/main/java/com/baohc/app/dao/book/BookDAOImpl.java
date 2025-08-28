@@ -17,179 +17,194 @@ import com.baohc.core.utils.ConnectionKit;
 
 public class BookDAOImpl implements BookDAO {
 
-    private static BookDAOImpl instance = null;
+	private static BookDAOImpl instance = null;
 
-    private BookDAOImpl() {}
+	private BookDAOImpl() {
+	}
 
-    public static synchronized BookDAOImpl getInstance() {
-        if (instance == null) instance = new BookDAOImpl();
-        return instance;
-    }
+	public static synchronized BookDAOImpl getInstance() {
+		if (instance == null)
+			instance = new BookDAOImpl();
+		return instance;
+	}
 
-    @Override
-    public List<BookDTO> getAllBook() {
-        List<BookDTO> list = new ArrayList<>();
-        try {
-            Connection con = ConnectionKit.getConnection();
-            if (con == null) return list;
-
-            String query = "SELECT * FROM book";
-            PreparedStatement pmt = con.prepareStatement(query);
-            ResultSet rs = pmt.executeQuery();
-
-            while (rs.next()) {
-                BookDTO book = mapResultSetToBook(rs);
-                list.add(book);
-            }
-
-            if (rs != null) rs.close();
-            if (pmt != null) pmt.close();
-            ConnectionKit.closeConnection(con);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return list;
-    }
-
-    @Override
-    public BookDTO findById(String id) {
-        BookDTO res = null;
-        try {
-            Connection con = ConnectionKit.getConnection();
-            if (con == null) return res;
-
-            String query = "SELECT * FROM book WHERE id=?";
-            PreparedStatement pmt = con.prepareStatement(query);
-            pmt.setString(1, id);
-            ResultSet rs = pmt.executeQuery();
-
-            if (rs.next()) {
-                res = mapResultSetToBook(rs);
-            }
-
-            if (rs != null) rs.close();
-            if (pmt != null) pmt.close();
-            ConnectionKit.closeConnection(con);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return res;
-    }
-
-    @Override
-    public int insert(BookDTO book) {
-        int res = 0;
-        try {
-            Connection con = ConnectionKit.getConnection();
-            if (con == null) return res;
-
-            String query = "INSERT INTO book (id, cateBook_id, author_id, promotion_id, name, price, amount, description) "
-                         + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement pmt = con.prepareStatement(query);
-            pmt.setString(1, book.getId());
-            pmt.setInt(2, book.getCateBook().getId());
-            pmt.setString(3, book.getAuthor().getId());     
-            pmt.setInt(4, book.getPromotion().getId());
-            pmt.setString(5, book.getName());
-            pmt.setDouble(6, book.getPrice());
-            pmt.setInt(7, book.getAmount());
-            pmt.setString(8, book.getDescription());
-
-            int row = pmt.executeUpdate();
-            res = row > 0 ? 1 : 0;
-
-            if (pmt != null) pmt.close();
-            ConnectionKit.closeConnection(con);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return res;
-    }
-
-    @Override
-    public int insertAll(List<BookDTO> arr) {
-        int dem = 0;
-        for (BookDTO item : arr) {
-            dem += insert(item);
-        }
-        return dem;
-    }
-
-    @Override
-    public int delete(BookDTO book) {
-        int res = 0;
-        try {
-            Connection con = ConnectionKit.getConnection();
-            if (con == null) return res;
-
-            String query = "DELETE FROM book WHERE id=?";
-            PreparedStatement pmt = con.prepareStatement(query);
-            pmt.setString(1, book.getId());
-
-            int row = pmt.executeUpdate();
-            res = row > 0 ? 1 : 0;
-
-            if (pmt != null) pmt.close();
-            ConnectionKit.closeConnection(con);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return res;
-    }
-
-    @Override
-    public int deleteAll(List<BookDTO> arr) {
-        int dem = 0;
-        for (BookDTO item : arr) {
-            dem += delete(item);
-        }
-        return dem;
-    }
-
-    @Override
-    public int update(BookDTO book) {
-        int res = 0;
-        try {
-            Connection con = ConnectionKit.getConnection();
-            if (con == null) return res;
-
-            String query = "UPDATE book SET cateBook_id=?, author_id=?, promotion_id=?, name=?, price=?, amount=?, description=? "
-                         + "WHERE id=?";
-            PreparedStatement pmt = con.prepareStatement(query);
-            pmt.setInt(1, book.getCateBook().getId());
-            pmt.setString(2, book.getAuthor().getId());
-            if (book.getPromotion() != null) {
-                pmt.setInt(3, book.getPromotion().getId());
-            }
-            pmt.setString(4, book.getName());
-            pmt.setDouble(5, book.getPrice());
-            pmt.setInt(6, book.getAmount());
-            pmt.setString(7, book.getDescription());
-
-            pmt.setString(8, book.getId());
-
-            int row = pmt.executeUpdate();
-            res = row > 0 ? 1 : 0;
-
-            if (pmt != null) pmt.close();
-            ConnectionKit.closeConnection(con);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return res;
-    }
-    
-    @Override
-    public List<BookDTO> getAllBookByPage(int page, int pageSize) {
-    	List<BookDTO> list = new ArrayList<BookDTO>();
-    	try {
+	@Override
+	public List<BookDTO> getAllBook() {
+		List<BookDTO> list = new ArrayList<>();
+		try {
 			Connection con = ConnectionKit.getConnection();
-			if (con == null) return list;
+			if (con == null)
+				return list;
+
+			String query = "SELECT * FROM book";
+			PreparedStatement pmt = con.prepareStatement(query);
+			ResultSet rs = pmt.executeQuery();
+
+			while (rs.next()) {
+				BookDTO book = mapResultSetToBook(rs);
+				list.add(book);
+			}
+
+			if (rs != null)
+				rs.close();
+			if (pmt != null)
+				pmt.close();
+			ConnectionKit.closeConnection(con);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public BookDTO findById(String id) {
+		BookDTO res = null;
+		try {
+			Connection con = ConnectionKit.getConnection();
+			if (con == null)
+				return res;
+
+			String query = "SELECT * FROM book WHERE id=?";
+			PreparedStatement pmt = con.prepareStatement(query);
+			pmt.setString(1, id);
+			ResultSet rs = pmt.executeQuery();
+
+			if (rs.next()) {
+				res = mapResultSetToBook(rs);
+			}
+
+			if (rs != null)
+				rs.close();
+			if (pmt != null)
+				pmt.close();
+			ConnectionKit.closeConnection(con);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	@Override
+	public int insert(BookDTO book) {
+		int res = 0;
+		try {
+			Connection con = ConnectionKit.getConnection();
+			if (con == null)
+				return res;
+
+			String query = "INSERT INTO book (id, cateBook_id, author_id, promotion_id, name, price, amount, description) "
+					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+			PreparedStatement pmt = con.prepareStatement(query);
+			pmt.setString(1, book.getId());
+			pmt.setInt(2, book.getCateBook().getId());
+			pmt.setString(3, book.getAuthor().getId());
+			pmt.setInt(4, book.getPromotion().getId());
+			pmt.setString(5, book.getName());
+			pmt.setDouble(6, book.getPrice());
+			pmt.setInt(7, book.getAmount());
+			pmt.setString(8, book.getDescription());
+
+			int row = pmt.executeUpdate();
+			res = row > 0 ? 1 : 0;
+
+			if (pmt != null)
+				pmt.close();
+			ConnectionKit.closeConnection(con);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	@Override
+	public int insertAll(List<BookDTO> arr) {
+		int dem = 0;
+		for (BookDTO item : arr) {
+			dem += insert(item);
+		}
+		return dem;
+	}
+
+	@Override
+	public int delete(BookDTO book) {
+		int res = 0;
+		try {
+			Connection con = ConnectionKit.getConnection();
+			if (con == null)
+				return res;
+
+			String query = "DELETE FROM book WHERE id=?";
+			PreparedStatement pmt = con.prepareStatement(query);
+			pmt.setString(1, book.getId());
+
+			int row = pmt.executeUpdate();
+			res = row > 0 ? 1 : 0;
+
+			if (pmt != null)
+				pmt.close();
+			ConnectionKit.closeConnection(con);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	@Override
+	public int deleteAll(List<BookDTO> arr) {
+		int dem = 0;
+		for (BookDTO item : arr) {
+			dem += delete(item);
+		}
+		return dem;
+	}
+
+	@Override
+	public int update(BookDTO book) {
+		int res = 0;
+		try {
+			Connection con = ConnectionKit.getConnection();
+			if (con == null)
+				return res;
+
+			String query = "UPDATE book SET cateBook_id=?, author_id=?, promotion_id=?, name=?, price=?, amount=?, description=? "
+					+ "WHERE id=?";
+			PreparedStatement pmt = con.prepareStatement(query);
+			pmt.setInt(1, book.getCateBook().getId());
+			pmt.setString(2, book.getAuthor().getId());
+			if (book.getPromotion() != null) {
+				pmt.setInt(3, book.getPromotion().getId());
+			}
+			pmt.setString(4, book.getName());
+			pmt.setDouble(5, book.getPrice());
+			pmt.setInt(6, book.getAmount());
+			pmt.setString(7, book.getDescription());
+
+			pmt.setString(8, book.getId());
+
+			int row = pmt.executeUpdate();
+			res = row > 0 ? 1 : 0;
+
+			if (pmt != null)
+				pmt.close();
+			ConnectionKit.closeConnection(con);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
+	@Override
+	public List<BookDTO> getAllBookByPage(int page, int pageSize) {
+		List<BookDTO> list = new ArrayList<BookDTO>();
+		try {
+			Connection con = ConnectionKit.getConnection();
+			if (con == null)
+				return list;
 			String query = "SELECT * FROM book LIMIT ? OFFSET ?";
 			PreparedStatement pmt = con.prepareStatement(query);
 			pmt.setInt(1, pageSize);
@@ -199,55 +214,162 @@ public class BookDAOImpl implements BookDAO {
 				BookDTO b = mapResultSetToBook(rs);
 				list.add(b);
 			}
-			if(rs != null) rs.close();
-			if(pmt != null) pmt.close();
+			if (rs != null)
+				rs.close();
+			if (pmt != null)
+				pmt.close();
 			ConnectionKit.closeConnection(con);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-    	return list;
-    }
-    
-    @Override
-    public int getTotalRecord() {
-    	int res = 0;
-    	try {
+		return list;
+	}
+
+	@Override
+	public int getTotalRecord() {
+		int res = 0;
+		try {
 			Connection con = ConnectionKit.getConnection();
-			if (con == null) return res;
+			if (con == null)
+				return res;
 			String query = "SELECT COUNT(*) FROM book";
 			PreparedStatement pmt = con.prepareStatement(query);
 			ResultSet rs = pmt.executeQuery();
-			if(rs.next()) 
+			if (rs.next())
 				res = rs.getInt(1);
-			
-			if(rs != null) rs.close();
-			if(pmt != null) pmt.close();
+
+			if (rs != null)
+				rs.close();
+			if (pmt != null)
+				pmt.close();
 			ConnectionKit.closeConnection(con);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-    	return res;
-    }
-    
-    /** 
-     * Helper function để map ResultSet -> BookDTO 
-     */
-    private BookDTO mapResultSetToBook(ResultSet rs) throws Exception {
-    	CateBookService cateBookService = CateBookServiceImpl.getInstance();
-    	AuthorService authorService  = AuthorServiceImpl.getInstance();
-    	PromotionService promotionService = PromotionServiceImpl.getInstance();
-    	
-        BookDTO book = new BookDTO();
-        book.setId(rs.getString("id"));
-        book.setCateBook(cateBookService.findById(rs.getInt("cateBook_id")));
-        book.setAuthor(authorService.findById(rs.getString("author_id")));
-        book.setPromotion(promotionService.findById(rs.getInt("promotion_id")));
-        book.setName(rs.getString("name"));
-        book.setPrice(rs.getDouble("price"));
-        book.setAmount(rs.getInt("amount"));
-        book.setDescription(rs.getString("description"));
-        book.setCreateAt(rs.getDate("createDate"));
+		return res;
+	}
 
-        return book;
-    }
+	@Override
+	public List<BookDTO> getSortPagination(int page, int pageSize, String field, String sort) {
+		List<BookDTO> list = new ArrayList<BookDTO>();
+		try {
+			Connection con = ConnectionKit.getConnection();
+			if (con == null)
+				return list;
+			String query = "";
+			if ("".equals(field) && "".equals(sort))
+				query = "SELECT * FROM book LIMIT ? OFFSET ?";
+			else {
+				String sortField;
+				switch (field) {
+				case "price": {
+					sortField = "price";
+					break;
+				}
+				case "amount": {
+					sortField = "amount";
+					break;
+				}
+				case "name": {
+					sortField = "name";
+					break;
+				}
+				default:
+					throw new IllegalArgumentException("Unexpected value: " + field);
+				}
+				String sortOrder = "ASC".equalsIgnoreCase(sort) ? "ASC" : "DESC";
+				query = "SELECT * FROM book ORDER BY " + sortField + " " + sortOrder + " LIMIT ? OFFSET ?";
+			}
+
+			PreparedStatement pmt = con.prepareStatement(query);
+			pmt.setInt(1, pageSize);
+			pmt.setInt(2, (page - 1) * pageSize);
+			ResultSet rs = pmt.executeQuery();
+			while (rs.next()) {
+				BookDTO bookDTO = mapResultSetToBook(rs);
+				list.add(bookDTO);
+			}
+
+			if (rs != null)
+				rs.close();
+			if (pmt != null)
+				pmt.close();
+			ConnectionKit.closeConnection(con);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public List<BookDTO> sort(String field, String sort) {
+		List<BookDTO> list = new ArrayList<BookDTO>();
+		try {
+			Connection con = ConnectionKit.getConnection();
+			if (con == null)
+				return list;
+			String query = "";
+
+			String sortField;
+			switch (field) {
+			case "price": {
+				sortField = "price";
+				break;
+			}
+			case "amount": {
+				sortField = "amount";
+				break;
+			}
+			case "name": {
+				sortField = "name";
+				break;
+			}
+			default:
+				throw new IllegalArgumentException("Unexpected value: " + field);
+			}
+			String sortOrder = "ASC".equalsIgnoreCase(sort) ? "ASC" : "DESC";
+			query = "SELECT * FROM book ORDER BY " + sortField + " " + sortOrder;
+
+			PreparedStatement pmt = con.prepareStatement(query);
+
+			ResultSet rs = pmt.executeQuery();
+			while (rs.next()) {
+				BookDTO bookDTO = mapResultSetToBook(rs);
+				list.add(bookDTO);
+			}
+
+			if (rs != null)
+				rs.close();
+			if (pmt != null)
+				pmt.close();
+			ConnectionKit.closeConnection(con);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	/**
+	 * Helper function để map ResultSet -> BookDTO
+	 */
+	private BookDTO mapResultSetToBook(ResultSet rs) throws Exception {
+		CateBookService cateBookService = CateBookServiceImpl.getInstance();
+		AuthorService authorService = AuthorServiceImpl.getInstance();
+		PromotionService promotionService = PromotionServiceImpl.getInstance();
+
+		BookDTO book = new BookDTO();
+		book.setId(rs.getString("id"));
+		book.setCateBook(cateBookService.findById(rs.getInt("cateBook_id")));
+		book.setAuthor(authorService.findById(rs.getString("author_id")));
+		book.setPromotion(promotionService.findById(rs.getInt("promotion_id")));
+		book.setName(rs.getString("name"));
+		book.setPrice(rs.getDouble("price"));
+		book.setAmount(rs.getInt("amount"));
+		book.setDescription(rs.getString("description"));
+		book.setCreateAt(rs.getDate("createDate"));
+
+		return book;
+	}
 }

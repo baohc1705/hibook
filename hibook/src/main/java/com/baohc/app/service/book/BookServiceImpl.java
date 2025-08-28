@@ -74,4 +74,16 @@ public class BookServiceImpl implements BookService {
 		// TODO Auto-generated method stub
 		return bookDAO.getTotalRecord();
 	}
+
+	@Override
+	public List<BookDTO> getSortPagination(int page, int pageSize, String field, String sort) {
+		// TODO Auto-generated method stub
+		return bookDAO.getSortPagination(page, pageSize, field, sort);
+	}
+	
+	@Override
+	public List<BookDTO> sort(String field, String sort) {
+		// TODO Auto-generated method stub
+		return bookDAO.sort(field, sort);
+	}
 }

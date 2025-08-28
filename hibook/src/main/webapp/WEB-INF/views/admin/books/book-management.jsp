@@ -30,12 +30,23 @@
                         <i class="fa-solid fa-sort"></i>
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item text_dark-blue-50" href="#">Số lượng tăng dần</a></li>
+                        <li>
+                		</li>
                         <li><a class="dropdown-item text_dark-blue-50" href="#">Số lượng giảm dần</a></li>
                         <li><a class="dropdown-item text_dark-blue-50" href="#">Sách mới nhất</a></li>
                     </ul>
                 </div>
-
+                
+                <div class="fs-small filter-category">
+                	<select id="page-size">
+                		<option value="3" selected="selected">3</option>
+                		<option value="5">5</option>
+                		<option value="10">10</option>
+                		<option value="all">Tất cả</option>
+                	</select>
+	                <label for="page-size fs-small" >Dòng</label>
+			    </div>
+                
                 <div class="filter-category">
                     <select name="" id="" class="">
                         <option value="" selected>Lọc theo thể loại sách</option>
@@ -80,59 +91,53 @@
                 </ul>
 
                 <!-- data table -->
-                <div id="book-table" class="table-container mb-3" >
-                    <table class="fs-base">
-                        <thead>
-                            <tr>
-                                <th>
-                                    <input class="form-check-input" type="checkbox" value="" id="checkDefault">
-                                </th>
-                                <th>Ảnh bìa</th>
-                                <th>Tên sách</th>
-                                <th>Loại sách</th>
-                                <th>Tác giả</th>
-                                <th>Mô tả</th>
-                                <th>Giá</th> 
-                                <th>Số lượng</th> 
-                                <th>Ngày thêm</th> 
-                                <th>Hành động</th>
-                            </tr> 
-                        </thead>
-
-                        <tbody id="tb-books">
-                        	<%-- <c:forEach var="book" items="${sessionScope.bookList }" varStatus="loop">
-                        		<c:set var="row_num" value="${0}"></c:set>
-                    
+                <div id="book-table">
+	                <div class="table-container mb-3" >
+	                    <table class="fs-base">
+	                        <thead>
 	                            <tr>
-	                                <td>
+	                                <th>
 	                                    <input class="form-check-input" type="checkbox" value="" id="checkDefault">
-	                                </td>
-	                                <td>${loop.index + 1 }</td>
-	                                <td>
-	                                    <img src="${pageContext.request.contextPath}/assets/images/books/${sessionScope.coverPhotoList[book]}" alt="" class="d-block object-fit-contain" width="100" height="100">
-	                                </td>
-	                                <td ><span class="truncate-mutiline">${book.name }</span></td>
-	                                 <td >
-	                                    <span class="text-nowrap fs-small p-2 rounded-pill bg-rimson">${book.cateBook.name }</span>
-	                                </td>
-	                                <td>
-	                                    <a href="" class="nav-link">${book.author.fullname }</a>
-	                                </td>
-	                                <td class="w-25"><span class="truncate-mutiline fs-small">${book.description }</span></td>
-	                                <td>${book.price }</td>
-	                                <td>${book.amount }</td>
-	                                <td class="text-nowrap">${book.createAt }</td> 
-	                                <td>
-	                                    <span class="d-flex justify-content-between align-items-center">
-	                                        <a  href="${pageContext.request.contextPath }/admin/book/edit?bookId=${book.id}"><i class="fa-solid fa-pen-to-square text-purple"></i></a>
-	                                        <a  href="javascript:void(0)" data-id="${book.id }" class="btn-remove"><i class="fa-solid fa-trash text-danger"></i></a>
-	                                    </span>
-	                                </td>
-	                            </tr>
-                            </c:forEach>  --%>
-                        </tbody>
-                    </table>
-                 </div>
+	                                </th>
+	                                <th>STT</th>
+	                                <th class="text-center">Ảnh bìa</th>
+	                                <th class="text-nowrap">
+	                                	<a href="javascript:void(0)" class="sort-trigger text_dark-blue-50 text-decoration-none" data-field="name" data-sort="none">
+	                                		<i class="fa-solid fa-sort"  data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Nhấp sắp xếp"></i>
+	                                	</a>
+										 <span>Tên sách</span> 
+	                                </th>
+	                                <th class="text-nowrap">Loại sách</th>
+	                                <th class="text-nowrap">Tác giả</th>
+	                                <th class="text-nowrap">Mô tả</th>
+	                                <th class="text-nowrap text-end">
+	                               		<a href="javascript:void(0)" class="sort-trigger text_dark-blue-50 text-decoration-none" data-field="price" data-sort="none">
+	                               			<i class="fa-solid fa-sort " data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Nhấp sắp xếp""></i>
+	                               		</a>
+										 <span>Giá gốc</span> 
+	                                </th> 
+	                                <th class="text-nowrap text-end">
+	                                	 <a href="javascript:void(0)" class="sort-trigger text_dark-blue-50 text-decoration-none" data-field="amount" data-sort="none" >
+	                                	 	<i class="fa-solid fa-sort" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Nhấp sắp xếp"></i>
+	                                	 </a>
+										 <span>Số lượng</span> 
+	                                </th> 
+	                                <th class="text-nowrap">Ngày thêm</th> 
+	                                <th class="text-nowrap">Hành động</th>
+	                            </tr> 
+	                        </thead>
+	                        <tbody id="tb-books"></tbody>
+	                    </table>        
+	                 </div> 
+	                 <!-- page navigation --> 
+	                 <div id="pagination" class="wrapper_page-navigation mt-3">
+		                    <nav class="nav-page">
+		                        <ul class="nav-list m-0 p-0">
+		                        </ul>
+		                    </nav>
+		             </div>
+	            </div>
+	            
 				<div id="catebook-table" class="table-container mb-3" >
                     <table class="fs-base">
                         <thead>
@@ -207,19 +212,7 @@
                         </tbody>
                     </table>
                  </div> 
-                <!-- page navigation -->
                 
-                <div id="pagination" class="wrapper_page-navigation">
-                    <nav class="nav-page">
-                        <ul class="nav-list m-0 p-0">
-                            <!-- <li class="list-group-item"><a class="nav-link" href=""><span class="nav-icon p-2 rounded-circle"><i class=" fa-solid fa-arrow-left"></i></span></a></li>
-                            <li class="list-group-item"><a class="nav-link" href=""><span class="nav-label px-3 py-2 rounded-3 active">1</span></a></li>
-                            <li class="list-group-item"><a class="nav-link" href=""><span class="nav-label px-3 py-2 rounded-3">2</span></a></li>
-                            <li class="list-group-item"><a class="nav-link" href=""><span class="nav-label px-3 py-2 rounded-3">3</span></a></li>
-                            <li class="list-group-item"><a class="nav-link" href=""><span class="nav-icon  p-2 rounded-circle"><i class=" fa-solid fa-arrow-right"></i></span></a></li>
-                         --></ul>
-                    </nav>
-                </div>
                 
             </div>
          </section>   
@@ -228,8 +221,41 @@
 	</main>
 	
 	<script type="text/javascript">
+		/* const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+		const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl)) */
+		
 		$(document).ready(function() {
-			loadPage(1);
+			
+			loadPage(1,$("#page-size").val());
+
+			$("#page-size").on("change", function() {
+				loadPage(1,$(this).val());
+			});
+			
+			$(".sort-trigger").on("click", function() {
+				let sortField = $(this).data("field");
+				let sortOrder = $(this).data("sort");
+				let nextOrder = (sortOrder === "sort") ? "desc" : "asc";
+
+				let icon = $(this).find("i");	
+				
+			    if (sortOrder === "none") {
+			        sortOrder = "asc";
+			        icon.removeClass("fa-sort").addClass("fa-caret-up");
+			    } else if (sortOrder === "asc") {
+			        sortOrder = "desc";
+			        icon.removeClass("fa-caret-up").addClass("fa-caret-down");
+			    } else {
+			        sortOrder = "asc";
+			        icon.removeClass("fa-caret-down").addClass("fa-caret-up");
+			    }
+
+				loadPage(1,$("#page-size").val(),sortField,sortOrder);
+				
+			    $(this).data("sort", sortOrder);
+				
+			});
+			
 			$("#book-table").show();
 		    $("#catebook-table").hide();
 		    $("#author-table").hide();
@@ -304,50 +330,58 @@
 			});
 		}); 
 		
-		function loadPage(page) {
+		function loadPage(page, pageSize, sortField, sortOrder) {
 			$.ajax({
 				url: "${pageContext.request.contextPath}/admin/book/show",
 				method: "GET",
-				data: {page:page},
+				data: {
+					page : page,
+					pageSize : pageSize,
+					sortField : sortField || "",
+					sortOrder : sortOrder || ""
+				},
 				dataType: "JSON",
 				success: function(response) {
 					$("#tb-books").empty();
-					
+					// render data table
 					$.each(response.books, function(i, book) {
+						let stt = (response.currentPage != null) ? ((response.currentPage - 1) * pageSize + (i + 1)) : (i + 1);
 						$("#tb-books").append(
 							"<tr>" + 
 								"<td>" + "<input class='form-check-input' type='checkbox'>" + "</td>" +
+								"<td>" + stt +"</td>" +
 								"<td>" + "<img src='${pageContext.request.contextPath}/assets/images/books/"+book.coverPhoto+"' class='d-block object-fit-contain' width='100' height='100'>" + "</td>" + 
 								"<td>" + "<span class='truncate-mutiline'>"+book.name+"</span>"+"</td>"+
 								"<td>" + "<span class='text-nowrap fs-small p-2 rounded-pill bg-rimson'>"+book.cateBook_name+"</span>"+"</td>"+
 								"<td>" + "<a href='' class='nav-link'>"+book.author+"</a> </td>" +
 								"<td class='w-25'>" + "<span class='truncate-mutiline fs-small'>"+book.description+"</span></td>"+
-								"<td>"+book.price+"</td>"+
-	                            "<td>"+book.amount+"</td>"+
+								"<td class='text-end'>"+book.price+"</td>"+
+	                            "<td class='text-end'>"+book.amount+"</td>"+
 	                            "<td class='text-nowrap'>"+book.createAt+"</td>"+
 	                            "<td>"+
                                     "<span class='d-flex justify-content-between align-items-center'>" +
-                                        "<a  href='${pageContext.request.contextPath }/admin/book/edit?bookId="+book.id+"'><i class='fa-solid fa-pen-to-square text-purple'></i></a>"+
-                                        "<a  href='javascript:void(0)' data-id='"+book.id+"' class='btn-remove'><i class='fa-solid fa-trash text-danger'></i></a>"+
+                                        "<a  href='${pageContext.request.contextPath }/admin/book/edit?bookId="+book.id+"' class='text-decoration-none'><i class='fa-solid fa-pen-to-square text-purple'></i></a>"+
+                                        "<a  href='javascript:void(0)' data-id='"+book.id+"' class='btn-remove text-decoration-none'><i class='fa-solid fa-trash text-danger'></i></a>"+
                                     "</span>"+
 	                            "</td>" +
                             "</tr>"
 						);
 					});
-					
+					// render book table
 					$("#pagination nav ul").empty();
 					
+					//  render prev button
 					if (response.currentPage > 1) {
 						$("#pagination nav ul").append(
-							"<li class='list-group-item'><a class='nav-link' href='javascript:void(0)' onclick='loadPage("+(response.currentPage-1)+")'><span class='nav-icon p-2 rounded-circle'><i class=' fa-solid fa-arrow-left'></i></span></a></li>"
+							"<li class='list-group-item'  ><a class='nav-link' href='javascript:void(0)' onclick='loadPage("+(response.currentPage-1)+","+pageSize+",\""+(sortField||"")+"\",\""+(sortOrder||"")+"\")'><span class='nav-icon p-2 rounded-circle'><i class=' fa-solid fa-arrow-left'></i></span></a></li>"
 						);
 					}
 					else {
 						$("#pagination nav ul").append(
-							"<li class='list-group-item'><span class='nav-icon p-2 rounded-circle'><i class=' fa-solid fa-arrow-left'></i></span></li>"
+							"<li class='list-group-item' style='cursor: not-allowed;' ><span class='nav-icon p-2 rounded-circle'><i class=' fa-solid fa-arrow-left'></i></span></li>"
 						);
 					}
-					
+					// render pagination
 					$.each(response.arrPagination, function(i, page){
 						if (page === "...") {
 							$("#pagination nav ul").append(
@@ -362,30 +396,29 @@
 							}
 							else {
 								$("#pagination nav ul").append(
-									"<li class='list-group-item'><a class='nav-link' href='javascript:void(0)' onclick='loadPage("+page+")'><span class='nav-label px-3 py-2 rounded-3'>"+page+"</span></a></li>"
+									"<li class='list-group-item'><a class='nav-link' href='javascript:void(0)' onclick='loadPage("+page+","+pageSize+",\""+(sortField||"")+"\",\""+(sortOrder||"")+"\")'><span class='nav-label px-3 py-2 rounded-3'>"+page+"</span></a></li>"
 								);
 							}
 						}
 					});
 					
+					//render next button
 					if (response.currentPage < response.totalPages) {
 						$("#pagination nav ul").append(
-								"<li class='list-group-item'><a class='nav-link' href='javascript:void(0)' onclick='loadPage("+(response.currentPage+1)+")'><span class='nav-icon p-2 rounded-circle'><i class=' fa-solid fa-arrow-right'></i></span></a></li>"	
+							"<li class='list-group-item'><a class='nav-link' href='javascript:void(0)' onclick='loadPage("+(response.currentPage+1)+","+pageSize+",\""+(sortField||"")+"\",\""+(sortOrder||"")+"\")'><span class='nav-icon p-2 rounded-circle'><i class=' fa-solid fa-arrow-right'></i></span></a></li>"	
 						);
 					}
 					else {
 						$("#pagination nav ul").append(
-								"<li class='list-group-item'><span class='nav-icon p-2 rounded-circle'><i class=' fa-solid fa-arrow-right'></i></span></li>"	
+							"<li class='list-group-item' style='cursor: not-allowed;'><span class='nav-icon p-2 rounded-circle'><i class=' fa-solid fa-arrow-right'></i></span></li>"	
 						);
-					}
-					
+					}	
 				},
 				error: function() {
 					console.log("Không thể đến server");
 				}
 			});
 		}
-		
 	</script>
 </body>
 </html>

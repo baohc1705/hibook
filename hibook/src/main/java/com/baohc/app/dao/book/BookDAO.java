@@ -21,4 +21,8 @@ public interface BookDAO {
 	public List<BookDTO> getAllBookByPage(int page, int pageSize);
 	
 	public int getTotalRecord();
+	
+	public List<BookDTO> getSortPagination(int page, int pageSize, String field, String sort);
+	
+	public List<BookDTO> sort(String field, String sort);
 }

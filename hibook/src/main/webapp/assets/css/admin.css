@@ -492,12 +492,13 @@ main {
 .table-container {
     max-width: 100%;
     overflow-x: auto;
+    position: sticky;
 }
 table {
     max-width: 100%;
-    background-color: var(--base-clr);
+    position: sticky;
+    top: 100px;
 }
-
 table th,
 table td {
     padding:  .5rem;
@@ -505,6 +506,8 @@ table td {
 
 table thead {
     background-color: var(--dark-blue-800);
+    position: sticky;
+    top: 10px;
 }
 table tr:nth-child(even) {
     background-color: var(--dark-blue-950-o50);

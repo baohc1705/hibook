@@ -46,8 +46,10 @@ public class RegisterRouteController implements BaseRouter{
 		Router.get("/admin", new AdminController() , "showDashboard");
 		
 		
-		Router.get("/admin/book", new AdminBookController(), "showPaginationBook");
+		Router.get("/admin/book", new AdminBookController(), "showBooks");
+		
 		Router.get("/admin/book/show", new AdminBookController(), "doPaginationBook");
+		
 		Router.get("/admin/book/add",new AdminBookController(), "showAddBook");
 		Router.post("/admin/book/add", new AdminBookController(), "doAddBook");
 		

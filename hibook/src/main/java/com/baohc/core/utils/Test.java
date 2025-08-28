@@ -1,6 +1,7 @@
 package com.baohc.core.utils;
 
 
+import java.awt.print.Book;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -23,6 +24,8 @@ import com.baohc.app.model.PromotionDTO;
 import com.baohc.app.model.UserDTO;
 import com.baohc.app.service.author.AuthorService;
 import com.baohc.app.service.author.AuthorServiceImpl;
+import com.baohc.app.service.book.BookService;
+import com.baohc.app.service.book.BookServiceImpl;
 import com.baohc.app.service.user.CateUserService;
 import com.baohc.app.service.user.CateUserServiceImpl;
 import com.baohc.app.service.user.UserService;
@@ -30,10 +33,14 @@ import com.baohc.app.service.user.UserServiceImpl;
 
 public class Test {
 	public static void main(String[] args) {
-		  AuthorService authorService = AuthorServiceImpl.getInstance();
-		  for (AuthorDTO i : authorService.getAllAuthors()) {
-			  System.out.println(i);
-		  }
+		BookService bookService = BookServiceImpl.getInstance();
+		int totalpages = (int)Math.ceil((double)bookService.getTotalRecord() / 3);
+		 for(int i = 1; i <= totalpages; i++) {
+			 System.out.println("Trang " + i + ":");
+			 for(BookDTO b : bookService.getSortPagination(i, 3, "amount", "desc")) {
+				 System.out.println(b.getId() +  "|" + b.getPrice() + "|" + b.getAmount());
+			 }
+		 }
 
 	       
 	}
