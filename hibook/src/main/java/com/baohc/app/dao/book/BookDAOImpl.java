@@ -14,6 +14,7 @@ import com.baohc.app.service.book.CateBookServiceImpl;
 import com.baohc.app.service.promotion.PromotionService;
 import com.baohc.app.service.promotion.PromotionServiceImpl;
 import com.baohc.core.utils.ConnectionKit;
+import com.baohc.core.utils.FilterCriteria;
 
 public class BookDAOImpl implements BookDAO {
 
@@ -349,6 +350,88 @@ public class BookDAOImpl implements BookDAO {
 			e.printStackTrace();
 		}
 		return list;
+	}
+
+	@Override
+	public List<BookDTO> getBooksWithFilter(FilterCriteria criteria) {
+		List<BookDTO> books = new ArrayList<BookDTO>();
+
+		// Init query builder
+		QueryBuilder queryBuilder = new QueryBuilder();
+		queryBuilder.buildBookQuery(criteria);
+
+		String sql = queryBuilder.getSelectQuery();
+		// Get all parameters (conditions, sorting, pagination)
+		List<Object> parameters = queryBuilder.getParametersWithPagination(criteria);
+
+		try {
+			Connection con = ConnectionKit.getConnection();
+
+			PreparedStatement pmt = con.prepareStatement(sql);
+
+			// Add parameter for sql
+			for (int i = 0; i < parameters.size(); i++) {
+
+				pmt.setObject(i + 1, parameters.get(i));
+			}
+
+			ResultSet rs = pmt.executeQuery();
+			while (rs.next()) {
+				BookDTO b = mapResultSetToBook(rs);
+				books.add(b);
+			}
+
+			if (rs != null)
+				rs.close();
+			if (pmt != null)
+				pmt.close();
+			ConnectionKit.closeConnection(con);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("Error getting books with filter", e);
+		}
+
+		return books;
+	}
+
+	@Override
+	public int countBooksWithFilter(FilterCriteria criteria) {
+		int res = 0;
+		QueryBuilder queryBuilder = new QueryBuilder();
+		queryBuilder.buildBookQuery(criteria);
+
+		String sql = queryBuilder.getCountQuery();
+
+		// Get all parameters except pagination
+		List<Object> parameters = queryBuilder.getParameters();
+
+		try {
+			Connection con = ConnectionKit.getConnection();
+
+			PreparedStatement pmt = con.prepareStatement(sql);
+
+			// Add parameter
+			for (int i = 0; i < parameters.size(); i++) {
+				pmt.setObject(i + 1, parameters.get(i));
+			}
+
+			ResultSet rs = pmt.executeQuery();
+			if (rs.next())
+				res = rs.getInt(1);
+
+			if (rs != null)
+				rs.close();
+			if (pmt != null)
+				pmt.close();
+			ConnectionKit.closeConnection(con);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("Error counting book with filter", e);
+		}
+
+		return res;
 	}
 
 	/**

@@ -5,6 +5,7 @@ import java.util.List;
 import com.baohc.app.dao.book.BookDAO;
 import com.baohc.app.dao.book.BookDAOImpl;
 import com.baohc.app.model.BookDTO;
+import com.baohc.core.utils.FilterCriteria;
 
 public class BookServiceImpl implements BookService {
 	private BookDAO bookDAO;
@@ -85,5 +86,17 @@ public class BookServiceImpl implements BookService {
 	public List<BookDTO> sort(String field, String sort) {
 		// TODO Auto-generated method stub
 		return bookDAO.sort(field, sort);
+	}
+	
+	@Override
+	public List<BookDTO> getBooksWithFilter(FilterCriteria criteria) {
+		// TODO Auto-generated method stub
+		return bookDAO.getBooksWithFilter(criteria);
+	}
+	
+	@Override
+	public int countBooksWithFilter(FilterCriteria criteria) {
+		// TODO Auto-generated method stub
+		return bookDAO.countBooksWithFilter(criteria);
 	}
 }

@@ -3,6 +3,7 @@ package com.baohc.app.router;
 import com.baohc.app.controller.WelcomeController;
 import com.baohc.app.controller.admin.AdminController;
 import com.baohc.app.controller.admin.book.AdminBookController;
+import com.baohc.app.controller.admin.book.AdminGetBookController;
 import com.baohc.app.controller.auth.AuthController;
 import com.baohc.app.controller.auth.VerificationController;
 import com.baohc.app.controller.user.UserController;
@@ -49,6 +50,8 @@ public class RegisterRouteController implements BaseRouter{
 		Router.get("/admin/book", new AdminBookController(), "showBooks");
 		
 		Router.get("/admin/book/show", new AdminBookController(), "doPaginationBook");
+		
+		Router.get("/admin/books/show", new AdminGetBookController(), "getBooksWithFilter");
 		
 		Router.get("/admin/book/add",new AdminBookController(), "showAddBook");
 		Router.post("/admin/book/add", new AdminBookController(), "doAddBook");

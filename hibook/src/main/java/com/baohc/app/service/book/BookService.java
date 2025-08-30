@@ -3,6 +3,7 @@ package com.baohc.app.service.book;
 import java.util.List;
 
 import com.baohc.app.model.BookDTO;
+import com.baohc.core.utils.FilterCriteria;
 
 public interface BookService {
 	public List<BookDTO> getAllBook();
@@ -26,4 +27,8 @@ public interface BookService {
 	public List<BookDTO> getSortPagination(int page, int pageSize, String field, String sort);
 	
 	public List<BookDTO> sort(String field, String sort);
+	
+	public List<BookDTO> getBooksWithFilter(FilterCriteria criteria);
+	
+	public int countBooksWithFilter(FilterCriteria criteria);
 }

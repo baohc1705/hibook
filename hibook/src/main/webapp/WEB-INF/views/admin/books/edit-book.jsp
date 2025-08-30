@@ -32,7 +32,7 @@
 						<label class="form-label" for="catebook">Loại sách</label>
 						<div class="filter-category ">
 							<select class="input-custom_border mx-0 border-0" id="catebook" name="catebook">
-								<c:forEach var="cateBook" items="${sessionScope.cateBookList  }">
+								<c:forEach var="cateBook" items="${sessionScope.categories  }">
 									<option value="${cateBook.id }" <c:if test="${cateBook.id == book.cateBook.id }">selected</c:if>>${cateBook.name}</option>
 								</c:forEach>
 							</select>

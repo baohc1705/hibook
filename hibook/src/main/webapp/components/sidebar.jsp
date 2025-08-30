@@ -67,7 +67,7 @@
                     <ul class="list-group" id="submenu">
                         <div class="wrapper">
                             <li id="submenu-item">
-                                <a href="${pageContext.request.contextPath}/admin/book" class="nav-link" id="submenu-link">Thông tin sách</a>
+                                <a href="${pageContext.request.contextPath}/admin/books/show" class="nav-link" id="submenu-link">Thông tin sách</a>
                             </li>
                             <li id="submenu-item">
                                 <a href="" class="nav-link" id="submenu-link">Thông tin tác giả</a>
