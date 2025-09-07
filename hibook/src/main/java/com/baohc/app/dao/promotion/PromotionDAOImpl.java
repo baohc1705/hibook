@@ -187,5 +187,39 @@ public class PromotionDAOImpl implements PromotionDAO {
 
 		return res;
 	}
+	
+	@Override
+	public PromotionDTO findByName(String name) {
+		PromotionDTO res = null;
+
+		try {
+			Connection con = ConnectionKit.getConnection();
+			if (con == null) return res;
+
+			String query = "SELECT * FROM promotion WHERE name=?";
+			PreparedStatement pmt = con.prepareStatement(query);
+			pmt.setString(1, name);
+			ResultSet rs = pmt.executeQuery();
+
+			while (rs.next()) {
+				PromotionDTO promo = new PromotionDTO();
+				promo.setId(rs.getInt("id"));
+				promo.setName(rs.getString("name"));
+				promo.setDiscountPercent(rs.getInt("discountPercent"));
+				promo.setStartDate(rs.getTimestamp("startDate"));
+				promo.setEndDate(rs.getTimestamp("endDate"));
+				res = promo;
+			}
+
+			if (rs != null) rs.close();
+			if (pmt != null) pmt.close();
+			ConnectionKit.closeConnection(con);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return res;
+	}
 
 }

@@ -259,108 +259,8 @@
 	            </div>
 	            
 				<!-- Book list -->
-	            <div class="rounded-4 row">
-	            	<c:forEach var="book" items="${requestScope.books }">
-		                <div class="col-md-3 p-3">
-		                    <div class="card h-100 rounded-4 shadow-sm bg_dark-blue-50">
-		                        <!-- Image  -->
-		                        <div class="text-center mt-3">
-		                            <a href="bookDetail.html"><img src="${pageContext.request.contextPath}/assets/images/books/${mapCoverPhoto[book]}" class="w-50 img-fluid object-fit-contain" alt="Attack On Titan"></a>
-		                        </div>
-		
-		                        <!-- Card Body -->
-		                        <div class="card-body pt-2 pb-3 px-3">
-		                            <p class="h6 card-title mb-2 text-wrap">${book.name}</p> 
-		
-		                            <div class="d-flex align-items-center mb-1">
-		                                <span class="fw-bold text-danger me-2">${book.price}</span>
-		                                <span class="badge bg-danger">-10%</span>
-		                            </div>
-		
-		                            <del class="text-muted small">${book.price}</del>
-		
-		                            <div class="progress mt-3" role="progressbar" aria-label="shortage" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
-		                                <div class="progress-bar bg_dark-blue-800" style="width: 25%;">Sắp hết</div>
-		                            </div>
-		                        </div>
-		                    </div>
-		                </div>
-	                </c:forEach>
-	               <%-- <div class="col-md-3 p-3">
-	                   <div class="card h-100 rounded-4 shadow-sm bg_dark-blue-50">
-	                        <!-- Image  -->
-	                        <div class="text-center mt-3 ">
-	                            <img src="${pageContext.request.contextPath}/assets/images/books/biet-khi-nao-moi-gap-nhau-bia.png" class="img-fluid w-50" alt="Attack On Titan">
-	                        </div>
-	
-	                        <!-- Card Body -->
-	                        <div class="card-body pt-2 pb-3 px-3">
-	                            <p class="h6 card-title mb-2 text-wrap">Biết khi nào mới gặp nhau Biết khi nào mới gặp nhau </p> 
-	
-	                            <div class="d-flex align-items-center mb-1">
-	                                <span class="fw-bold text-danger me-2">43.200 đ</span>
-	                                <span class="badge bg-danger">-10%</span>
-	                            </div>
-	
-	                            <del class="text-muted small">48.000 đ</del>
-	
-	                            <div class="progress mt-3" role="progressbar" aria-label="shortage" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
-	                                <div class="progress-bar bg_dark-blue-800" style="width: 25%;">Sắp hết</div>
-	                            </div>
-	                        </div>
-	                    </div>
-	                </div>
-	
-	
-	                 <div class="col-md-3 p-3">
-	                   <div class="card h-100 rounded-4 shadow-sm bg_dark-blue-50">
-	                        <!-- Image  -->
-	                        <div class="text-center mt-3 ">
-	                            <img src="${pageContext.request.contextPath}/assets/images/books/biet-khi-nao-moi-gap-nhau-bia.png" class="img-fluid w-50" alt="Attack On Titan">
-	                        </div>
-	
-	                        <!-- Card Body -->
-	                        <div class="card-body pt-2 pb-3 px-3">
-	                            <p class="h6 card-title mb-2 text-wrap">Biết khi nào mới gặp nhau Biết khi nào mới gặp nhau </p> 
-	
-	                            <div class="d-flex align-items-center mb-1">
-	                                <span class="fw-bold text-danger me-2">43.200 đ</span>
-	                                <span class="badge bg-danger">-10%</span>
-	                            </div>
-	
-	                            <del class="text-muted small">48.000 đ</del>
-	
-	                            <div class="progress mt-3" role="progressbar" aria-label="shortage" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
-	                                <div class="progress-bar bg_dark-blue-800" style="width: 30%;">Còn lại 30</div>
-	                            </div>
-	                        </div>
-	                    </div>
-	                </div>
-	
-	                 <div class="col-md-3 p-3">
-	                   <div class="card h-100 rounded-4 shadow-sm bg_dark-blue-50">
-	                        <!-- Image  -->
-	                        <div class="text-center mt-3 ">
-	                            <img src="${pageContext.request.contextPath}/assets/images/books/biet-khi-nao-moi-gap-nhau-bia.png" class="img-fluid w-50" alt="Attack On Titan">
-	                        </div>
-	
-	                        <!-- Card Body -->
-	                        <div class="card-body pt-2 pb-3 px-3">
-	                            <p class="h6 card-title mb-2 text-wrap">Biết khi nào mới gặp nhau Biết khi nào mới gặp nhau </p> 
-	
-	                            <div class="d-flex align-items-center mb-1">
-	                                <span class="fw-bold text-danger me-2">43.200 đ</span>
-	                                <span class="badge bg-danger">-10%</span>
-	                            </div>
-	
-	                            <del class="text-muted small">48.000 đ</del>
-	
-	                            <div class="progress mt-3" role="progressbar" aria-label="shortage" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
-	                                <div class="progress-bar bg_dark-blue-800" style="width: 55%;">Còn lại 50</div>
-	                            </div>
-	                        </div>
-	                    </div>
-	                </div> --%>
+	            <div class="books-flash-sale rounded-4 row">
+	        		<!-- Fetch data here -->
 	            </div>
 	
 	
@@ -373,8 +273,7 @@
 	        <p class="h1 text_dark-blue-950 font-PaytoneOne text-center">Special Offers</p>
 	        <p class="small text-center text_dark-blue-800">Top sách được mua nhiều nhất</p>
 	        <div class="row special-books">
-	            <div class="col-md-4">
-	               
+	            <%-- <div class="col-md-4">
 	                <div class="card h-100 rounded-4 overflow-hidden"> 
 	                    <!-- Coupon -->
 	                    <div class="coupon bg-danger text_dark-blue-50 text-center" style="width: 200px; height: 30px;" >
@@ -422,9 +321,9 @@
 	                        </div>
 	                    </div>
 	                </div>
-	            </div>
+	            </div> --%>
 	
-	            <div class="col-md-4">
+	            <%-- <div class="col-md-4">
 	                <div class="card h-100 rounded-4 overflow-hidden">
 	                    <!-- Coupon -->
 	                    <div class="coupon bg-danger text_dark-blue-50 text-center" style="width: 200px; height: 30px;" >
@@ -472,9 +371,9 @@
 	                        </div>
 	                    </div>
 	                </div>
-	            </div>
+	            </div> --%>
 	
-	            <div class="col-md-4">
+	            <%-- <div class="col-md-4">
 	                <div class="card h-100 rounded-4 overflow-hidden">
 	                      <!-- Coupon -->
 	                    <div class="coupon bg-danger text_dark-blue-50 text-center" style="width: 200px; height: 30px;" >
@@ -522,7 +421,7 @@
 	                        </div>
 	                    </div>
 	                </div>
-	            </div>
+	            </div> --%>
 	
 	        </div>
 	

@@ -1,7 +1,7 @@
 package com.baohc.app.controller.book;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,12 +15,15 @@ import com.baohc.app.dao.book.PhotoDAO;
 import com.baohc.app.dao.book.PhotoDAOImpl;
 import com.baohc.app.model.BookDTO;
 import com.baohc.app.model.PhotoDTO;
+import com.baohc.app.model.PromotionDTO;
 import com.baohc.app.service.author.AuthorService;
 import com.baohc.app.service.author.AuthorServiceImpl;
 import com.baohc.app.service.book.BookService;
 import com.baohc.app.service.book.BookServiceImpl;
 import com.baohc.app.service.book.CateBookService;
 import com.baohc.app.service.book.CateBookServiceImpl;
+import com.baohc.app.service.promotion.PromotionService;
+import com.baohc.app.service.promotion.PromotionServiceImpl;
 import com.baohc.core.utils.FilterCriteria;
 import com.google.gson.Gson;
 
@@ -31,15 +34,134 @@ public class GetBooksController {
 	private CateBookService cateBookService;
 	private AuthorService authorService;
 	private PhotoDAO photoDAO;
+	private PromotionService promotionService;
 
 	public GetBooksController() {
 		bookService = BookServiceImpl.getInstance();
 		cateBookService = CateBookServiceImpl.getInstance();
 		authorService = AuthorServiceImpl.getInstance();
 		photoDAO = PhotoDAOImpl.getInstance();
+		promotionService = PromotionServiceImpl.getInstance();
 	}
 
 	public void getBooks(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		try {
+			String action = request.getParameter("action");
+
+			if (action == null || action.isEmpty()) {
+				request.getRequestDispatcher(HOME_PAGE).forward(request, response);
+			} else {
+				switch (action) {
+				case "new-trend":
+					getNewTrend(request, response);
+					break;
+				case "flash-sale":
+					getFlashSale(request, response);
+					break;
+				case "special-offer":
+					getSpecialOffer(request, response);
+					break;
+				default:
+					request.getRequestDispatcher(HOME_PAGE).forward(request, response);
+					break;
+				}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+	}
+
+	private void getSpecialOffer(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json; charset=UTF-8");
+		Map<String, Object> resp = new HashMap<String, Object>();
+		Gson gson = new Gson();
+
+		try {
+			int page = Integer.parseInt(request.getParameter("page"));
+			int limit = 3;
+			int offset = (page - 1) * limit;
+			
+			FilterCriteria criteria = new FilterCriteria();
+			criteria.setPage(page);
+			criteria.setPageSize(limit);
+			// Change condition after
+			criteria.setAuthorId("TG04");
+
+			List<BookDTO> books = bookService.getBooksWithFilter(criteria);
+			int totalBook = bookService.countBook();
+			boolean hasMore = (limit + offset) < totalBook;
+
+			Map<String, String> mapCoverPhoto = new HashMap<String, String>();
+			for (BookDTO b : books) {
+				PhotoDTO tmp = photoDAO.getCoverPhoto(b);
+				if (tmp != null) {
+					mapCoverPhoto.put(b.getId(), tmp.getPathname());
+				}
+			}
+
+			resp.put("books", books);
+			resp.put("mapCoverPhoto", mapCoverPhoto);
+			resp.put("hasMore", hasMore);
+			resp.put("totalBook", totalBook);
+
+			response.getWriter().print(gson.toJson(resp));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private void getFlashSale(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json; charset=UTF-8");
+		Map<String, Object> resp = new HashMap<String, Object>();
+		Gson gson = new Gson();
+
+		try {
+			int page = Integer.parseInt(request.getParameter("page"));
+			int limit = 4;
+			int offset = (page - 1) * limit;
+			PromotionDTO promotionDTO = promotionService.findByName("flash sale");
+			if (promotionDTO == null) {
+				System.err.println("Not found promotion");
+				return;
+			}
+			FilterCriteria criteria = new FilterCriteria();
+			criteria.setPage(page);
+			criteria.setPageSize(limit);
+			criteria.setPromotionId(promotionDTO.getId());
+
+			List<BookDTO> books = bookService.getBooksWithFilter(criteria);
+			int totalBook = bookService.countBook();
+			boolean hasMore = (limit + offset) < totalBook;
+
+			Map<String, String> mapCoverPhoto = new HashMap<String, String>();
+			for (BookDTO b : books) {
+				PhotoDTO tmp = photoDAO.getCoverPhoto(b);
+				if (tmp != null) {
+					mapCoverPhoto.put(b.getId(), tmp.getPathname());
+				}
+			}
+
+			resp.put("books", books);
+			resp.put("mapCoverPhoto", mapCoverPhoto);
+			resp.put("hasMore", hasMore);
+			resp.put("totalBook", totalBook);
+
+			response.getWriter().print(gson.toJson(resp));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private void getNewTrend(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json; charset=UTF-8");
@@ -73,6 +195,7 @@ public class GetBooksController {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
+
 	}
 
 	public void showBookDetail(HttpServletRequest request, HttpServletResponse response)
@@ -103,7 +226,8 @@ public class GetBooksController {
 			criteria.setPageSize(4);
 			criteria.setPage(1);
 			List<BookDTO> booksWithCategory = bookService.getBooksWithFilter(criteria);
-			//List<BookDTO> booksWithCategory = bookService.getBooksCategory(book.getCateBook());
+			// List<BookDTO> booksWithCategory =
+			// bookService.getBooksCategory(book.getCateBook());
 			Map<String, String> mapCoverPhoto = new HashMap<String, String>();
 
 			String coverPhotoPath = "";

@@ -53,4 +53,10 @@ public class PromotionServiceImpl implements PromotionService {
     public int update(PromotionDTO promotion) {
         return promotionDAO.update(promotion);
     }
+    
+    @Override
+    public PromotionDTO findByName(String name) {
+    	
+    	return promotionDAO.findByName(name);
+    }
 }

@@ -17,4 +17,6 @@ public interface PromotionDAO {
 	public int deleteAll(List<PromotionDTO> arr);
 	
 	public int update(PromotionDTO promotion);
+	
+	public PromotionDTO findByName(String name);
 }

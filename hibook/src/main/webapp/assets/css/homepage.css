@@ -116,6 +116,16 @@ body .wrapper-navbar {
     transform: rotate(45deg);
 }
 
+.card-text-description {
+	overflow: hidden !important;
+	text-overflow: ellipsis !important;
+	display: -webkit-box !important;
+	-webkit-box-orient: vertical !important;
+	-webkit-line-clamp: 4 !important;
+	line-clamp: 4 !important;
+	text-align: justify;
+}
+
 #btn-prev-fill {
     display: none;
 }
