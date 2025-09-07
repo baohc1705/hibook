@@ -5,6 +5,7 @@ import java.util.List;
 import com.baohc.app.dao.book.BookDAO;
 import com.baohc.app.dao.book.BookDAOImpl;
 import com.baohc.app.model.BookDTO;
+import com.baohc.app.model.CateBookDTO;
 import com.baohc.core.utils.FilterCriteria;
 
 public class BookServiceImpl implements BookService {
@@ -65,29 +66,17 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public List<BookDTO> getAllBookByPage(int page, int pageSize) {
+	public List<BookDTO> getBooksLimitOffset(int limit, int offset) {
 		// TODO Auto-generated method stub
-		return bookDAO.getAllBookByPage(page, pageSize);
+		return bookDAO.getBooksLimitOffset(limit, offset);
 	}
 
 	@Override
-	public int getTotalRecord() {
+	public int countBook() {
 		// TODO Auto-generated method stub
-		return bookDAO.getTotalRecord();
+		return bookDAO.countBook();
 	}
 
-	@Override
-	public List<BookDTO> getSortPagination(int page, int pageSize, String field, String sort) {
-		// TODO Auto-generated method stub
-		return bookDAO.getSortPagination(page, pageSize, field, sort);
-	}
-	
-	@Override
-	public List<BookDTO> sort(String field, String sort) {
-		// TODO Auto-generated method stub
-		return bookDAO.sort(field, sort);
-	}
-	
 	@Override
 	public List<BookDTO> getBooksWithFilter(FilterCriteria criteria) {
 		// TODO Auto-generated method stub
@@ -98,5 +87,11 @@ public class BookServiceImpl implements BookService {
 	public int countBooksWithFilter(FilterCriteria criteria) {
 		// TODO Auto-generated method stub
 		return bookDAO.countBooksWithFilter(criteria);
+	}
+	
+	@Override
+	public List<BookDTO> getBooksCategory(CateBookDTO cateBookDTO) {
+		// TODO Auto-generated method stub
+		return bookDAO.getBooksCategory(cateBookDTO);
 	}
 }

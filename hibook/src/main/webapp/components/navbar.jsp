@@ -63,7 +63,7 @@
                                 <a href="" class="nav-link text_dark-blue-800 fs-small">Thông báo</a>
                             </li>
 
-                            <li class="list-group-item wrapper-cart">
+                            <li id="cart" class="list-group-item wrapper-cart" onclick="window.location.href='${pageContext.request.contextPath}/cart'">
                                 <div class="overlap-group d-flex">
                                     <span class="icon">
                                         <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -72,11 +72,16 @@
                                         <path d="M3 2.75C2.58579 2.75 2.25 3.08579 2.25 3.5C2.25 3.91421 2.58579 4.25 3 4.25V2.75ZM18.459 13.3703L17.7918 13.0277L18.459 13.3703ZM8 6.25H17.5873V4.75H8V6.25ZM19.5889 9.52771L17.7918 13.0277L19.1262 13.7128L20.9233 10.2128L19.5889 9.52771ZM15.7903 14.25H8V15.75H15.7903V14.25ZM5.75 12V11.5H4.25V12H5.75ZM5.75 11.5V8.5H4.25V11.5H5.75ZM5.75 11.5V5.5H4.25V11.5H5.75ZM8 14.25C6.75736 14.25 5.75 13.2426 5.75 12H4.25C4.25 14.0711 5.92893 15.75 8 15.75V14.25ZM17.7918 13.0277C17.4065 13.7781 16.6338 14.25 15.7903 14.25V15.75C17.1962 15.75 18.484 14.9636 19.1262 13.7128L17.7918 13.0277ZM17.5873 6.25C19.2705 6.25 20.3577 8.0304 19.5889 9.52771L20.9233 10.2128C22.2046 7.71733 20.3926 4.75 17.5873 4.75V6.25ZM5.75 5.5C5.75 3.98122 4.51878 2.75 3 2.75V4.25C3.69036 4.25 4.25 4.80964 4.25 5.5H5.75ZM8 4.75C5.92893 4.75 4.25 6.42893 4.25 8.5H5.75C5.75 7.25736 6.75736 6.25 8 6.25V4.75Z" fill="var(--dark-blue-800)"></path>
                                         </svg>  
                                     </span>
-                                    <div class="total-quantity m-0 p-0 bg_dark-blue-950 text-center rounded-circle">
-                                        <p class="p-0 m-0 text_dark-blue-50 fs-small" id="total-quantity">3</p>
-                                    </div>
+
+									<div id="total-quantity"
+									     class="total-quantity m-0 p-0 bg_dark-blue-950 text-center rounded-circle 
+									            text_dark-blue-50 fs-small d-flex justify-content-center align-items-center ${empty sessionScope.itemCount or sessionScope.itemCount == 0 ? ' d-none ' : ''}">
+									    ${sessionScope.itemCount}
+									</div>
+                                    	
+                                   	
                                 </div>
-                                <a href="cart.html" class="nav-link text_dark-blue-800 fs-small">Giỏ hàng</a>
+                                <span class=" text_dark-blue-800 fs-small">Giỏ hàng</span>
                             </li>
 							<c:if test="${empty sessionScope.USER_ACC }">
 							

@@ -10,6 +10,10 @@ body {
     z-index: 1000;
 }
 
+.wrapper-cart {
+	cursor: pointer;
+}
+
 .checkout-footer {
     position: sticky;
     bottom: 0;
@@ -165,3 +169,14 @@ body {
 	border: none;
 	outline: none;
 }
+
+.truncate-muitiline {
+	overflow: hidden !important;
+	text-overflow: ellipsis !important;
+	
+	display: -webkit-box !important;
+	-webkit-box-orient: vertical !important;
+	-webkit-line-clamp: 2 !important;
+	line-clamp: 2 !important;
+}
+

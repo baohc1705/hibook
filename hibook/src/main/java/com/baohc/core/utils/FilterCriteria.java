@@ -9,6 +9,8 @@ public class FilterCriteria {
 	private int pageSize = 5;
 	private String sortBy = "id";
 	private String sortOrder = "ASC";
+	private Integer promotionId;
+	private String authorId;
 	public FilterCriteria() {
 		super();
 	}
@@ -24,6 +26,8 @@ public class FilterCriteria {
 		this.sortBy = sortBy;
 		this.sortOrder = sortOrder;
 	}
+	
+	
 	public String getKeyword() {
 		return keyword;
 	}
@@ -73,6 +77,18 @@ public class FilterCriteria {
 		this.sortOrder = sortOrder;
 	}
 	
+	public Integer getPromotionId() {
+		return promotionId;
+	}
+	public void setPromotionId(Integer promotionId) {
+		this.promotionId = promotionId;
+	}
+	public String getAuthorId() {
+		return authorId;
+	}
+	public void setAuthorId(String authorId) {
+		this.authorId = authorId;
+	}
 	public int getOffset() {
 		return (page - 1) * pageSize;
 	}
@@ -87,5 +103,13 @@ public class FilterCriteria {
 	
 	public boolean hasPriceFilter() {
 		return (minPrice > 0 || maxPrice > 0);
+	}
+	
+	public boolean hasPromotionFilter() {
+		return promotionId != null && promotionId > 0;
+	}
+	
+	public boolean hasAuthorFilter() {
+		return authorId != null && !authorId.isEmpty();
 	}
 }

@@ -57,6 +57,22 @@ public class QueryBuilder {
 			countSql.append(condition);
 			parameters.add(criteria.getCateBookId());
 		}
+		
+		// Add promotion condition
+		if (criteria.hasPromotionFilter()) {
+			String condition = " AND b.promotion_id=? ";
+			sql.append(condition);
+			countSql.append(condition);
+			parameters.add(criteria.getPromotionId());
+		}
+		
+		// Add author condition
+		if (criteria.hasAuthorFilter()) {
+			String condition = " AND b.author_id=? ";
+			sql.append(condition);
+			countSql.append(condition);
+			parameters.add(criteria.getAuthorId());
+		}
 
 		// Add price range
 		if (criteria.hasPriceFilter()) {

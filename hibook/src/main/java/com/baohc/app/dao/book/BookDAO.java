@@ -2,6 +2,7 @@ package com.baohc.app.dao.book;
 
 import java.util.List;
 import com.baohc.app.model.BookDTO;
+import com.baohc.app.model.CateBookDTO;
 import com.baohc.core.utils.FilterCriteria;
 
 public interface BookDAO {
@@ -19,16 +20,14 @@ public interface BookDAO {
 
 	public int update(BookDTO book);
 	
-	public List<BookDTO> getAllBookByPage(int page, int pageSize);
+	public List<BookDTO> getBooksLimitOffset(int page, int pageSize);
 	
-	public int getTotalRecord();
-	
-	public List<BookDTO> getSortPagination(int page, int pageSize, String field, String sort);
-	
-	public List<BookDTO> sort(String field, String sort);
+	public int countBook();
 	
 	public List<BookDTO> getBooksWithFilter(FilterCriteria criteria);
 	
 	public int countBooksWithFilter(FilterCriteria criteria);
+	
+	public List<BookDTO> getBooksCategory(CateBookDTO cateBookDTO);
 	
 }

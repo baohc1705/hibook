@@ -257,34 +257,36 @@
 	                    </span> 
 	                </button>    
 	            </div>
-	
+	            
+				<!-- Book list -->
 	            <div class="rounded-4 row">
-	                 <div class="col-md-3 p-3">
-	                    <div class="card h-100 rounded-4 shadow-sm bg_dark-blue-50">
-	                        <!-- Image  -->
-	                        <div class="text-center mt-3 ">
-	                            <a href="bookDetail.html"><img src="${pageContext.request.contextPath}/assets/images/books/biet-khi-nao-moi-gap-nhau-bia.png" class="img-fluid w-50" alt="Attack On Titan"></a>
-	                        </div>
-	
-	                        <!-- Card Body -->
-	                        <div class="card-body pt-2 pb-3 px-3">
-	                            <p class="h6 card-title mb-2 text-wrap">Biết khi nào mới gặp nhau Biết khi nào mới gặp nhau </p> 
-	
-	                            <div class="d-flex align-items-center mb-1">
-	                                <span class="fw-bold text-danger me-2">43.200 đ</span>
-	                                <span class="badge bg-danger">-10%</span>
-	                            </div>
-	
-	                            <del class="text-muted small">48.000 đ</del>
-	
-	                            <div class="progress mt-3" role="progressbar" aria-label="shortage" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
-	                                <div class="progress-bar bg_dark-blue-800" style="width: 25%;">Sắp hết</div>
-	                            </div>
-	                        </div>
-	                    </div>
-	                </div>
-	                
-	               <div class="col-md-3 p-3">
+	            	<c:forEach var="book" items="${requestScope.books }">
+		                <div class="col-md-3 p-3">
+		                    <div class="card h-100 rounded-4 shadow-sm bg_dark-blue-50">
+		                        <!-- Image  -->
+		                        <div class="text-center mt-3">
+		                            <a href="bookDetail.html"><img src="${pageContext.request.contextPath}/assets/images/books/${mapCoverPhoto[book]}" class="w-50 img-fluid object-fit-contain" alt="Attack On Titan"></a>
+		                        </div>
+		
+		                        <!-- Card Body -->
+		                        <div class="card-body pt-2 pb-3 px-3">
+		                            <p class="h6 card-title mb-2 text-wrap">${book.name}</p> 
+		
+		                            <div class="d-flex align-items-center mb-1">
+		                                <span class="fw-bold text-danger me-2">${book.price}</span>
+		                                <span class="badge bg-danger">-10%</span>
+		                            </div>
+		
+		                            <del class="text-muted small">${book.price}</del>
+		
+		                            <div class="progress mt-3" role="progressbar" aria-label="shortage" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
+		                                <div class="progress-bar bg_dark-blue-800" style="width: 25%;">Sắp hết</div>
+		                            </div>
+		                        </div>
+		                    </div>
+		                </div>
+	                </c:forEach>
+	               <%-- <div class="col-md-3 p-3">
 	                   <div class="card h-100 rounded-4 shadow-sm bg_dark-blue-50">
 	                        <!-- Image  -->
 	                        <div class="text-center mt-3 ">
@@ -358,7 +360,7 @@
 	                            </div>
 	                        </div>
 	                    </div>
-	                </div>
+	                </div> --%>
 	            </div>
 	
 	
@@ -664,186 +666,19 @@
 	                <li class="list-group-item mx-3 p-2 "><a href="" class="nav-link">Truyện ngắn</a></li>
 	                <li class="list-group-item mx-3 p-2 "><a href="" class="nav-link">Manga</a></li>
 	            </ul>
-	
-	            <div class="row p-3">
-	                <div class="col-md-3 p-3">
-	                    <div class="item px-2 py-4">
-	
-	                        <!-- photo book -->
-	                        <div class=" text-center mb-3">
-	                            <img src="${pageContext.request.contextPath}/assets/images/books/biet-khi-nao-moi-gap-nhau-bia.png" alt="" class="img-fluid w-50">
-	                        </div>
-	
-	                        <!-- title -->
-	                         <p class="lh-base">Biết khi nào mới gặp lại nhau</p>
-	
-	                        <!-- price & coupon -->
-	                         <div class="price-coupon d-flex align-items-center">
-	                            <div class="price me-3">
-	                                <p class="text-danger fw-bold fs-5 m-0">40.000đ</p>
-	                                <del class="small mute">50.000đ</del>
-	                            </div>
-	
-	                            <span class="p-1 bg_dark-blue-800 text-center text_dark-blue-50 rounded-2 small">-10%</span>
-	                         </div>
-	
-	                         <!-- rate & cart -->
-	                        <div class="rate-quantity d-flex align-items-center justify-content-between">
-	                            <div class="rate d-flex align-items-center">
-	                                <i class="fa-solid fa-star text-warning"></i>
-	                                <span class="small text_gray-100">4.7</span>
-	                                <p class="small text_gray-100 m-0 ms-2">Chỉ còn: <span class="text_dark-blue-800">120</span></p>
-	                            </div>
-	                            <button type="button" class="btn bg_dark-blue-800">
-	                                 <span>
-	                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-	                                    <path d="M9.5 19C9.5 19.8284 8.82843 20.5 8 20.5C7.17157 20.5 6.5 19.8284 6.5 19C6.5 18.1716 7.17157 17.5 8 17.5C8.82843 17.5 9.5 18.1716 9.5 19Z" stroke="var(--dark-blue-50)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-	                                    <path d="M17.5 19C17.5 19.8284 16.8284 20.5 16 20.5C15.1716 20.5 14.5 19.8284 14.5 19C14.5 18.1716 15.1716 17.5 16 17.5C16.8284 17.5 17.5 18.1716 17.5 19Z" stroke="var(--dark-blue-50)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-	                                    <path d="M3 2.75C2.58579 2.75 2.25 3.08579 2.25 3.5C2.25 3.91421 2.58579 4.25 3 4.25V2.75ZM18.459 13.3703L17.7918 13.0277L18.459 13.3703ZM8 6.25H17.5873V4.75H8V6.25ZM19.5889 9.52771L17.7918 13.0277L19.1262 13.7128L20.9233 10.2128L19.5889 9.52771ZM15.7903 14.25H8V15.75H15.7903V14.25ZM5.75 12V11.5H4.25V12H5.75ZM5.75 11.5V8.5H4.25V11.5H5.75ZM5.75 11.5V5.5H4.25V11.5H5.75ZM8 14.25C6.75736 14.25 5.75 13.2426 5.75 12H4.25C4.25 14.0711 5.92893 15.75 8 15.75V14.25ZM17.7918 13.0277C17.4065 13.7781 16.6338 14.25 15.7903 14.25V15.75C17.1962 15.75 18.484 14.9636 19.1262 13.7128L17.7918 13.0277ZM17.5873 6.25C19.2705 6.25 20.3577 8.0304 19.5889 9.52771L20.9233 10.2128C22.2046 7.71733 20.3926 4.75 17.5873 4.75V6.25ZM5.75 5.5C5.75 3.98122 4.51878 2.75 3 2.75V4.25C3.69036 4.25 4.25 4.80964 4.25 5.5H5.75ZM8 4.75C5.92893 4.75 4.25 6.42893 4.25 8.5H5.75C5.75 7.25736 6.75736 6.25 8 6.25V4.75Z" fill="var(--dark-blue-50)"></path>
-	                                    </svg>
-	                               </span>
-	                            </button>
-	
-	                        </div>
-	
-	                            
-	                    </div>
-	                </div>
-	              
-	                <div class="col-md-3 p-3">
-	                    <div class="item px-2 py-4">
-	
-	                        <!-- photo book -->
-	                        <div class=" text-center mb-3">
-	                            <img src="${pageContext.request.contextPath}/assets/images/books/biet-khi-nao-moi-gap-nhau-bia.png" alt="" class="img-fluid w-50">
-	                        </div>
-	
-	                        <!-- title -->
-	                         <p class="lh-base">Biết khi nào mới gặp lại nhau</p>
-	
-	                        <!-- price & coupon -->
-	                         <div class="price-coupon d-flex align-items-center">
-	                            <div class="price me-3">
-	                                <p class="text-danger fw-bold fs-5 m-0">40.000đ</p>
-	                                <del class="small mute">50.000đ</del>
-	                            </div>
-	
-	                            <span class="p-1 bg_dark-blue-800 text-center text_dark-blue-50 rounded-2 small">-10%</span>
-	                         </div>
-	
-	                         <!-- rate & cart -->
-	                        <div class="rate-quantity d-flex align-items-center justify-content-between">
-	                            <div class="rate d-flex align-items-center">
-	                                <i class="fa-solid fa-star text-warning"></i>
-	                                <span class="small text_gray-100">4.7</span>
-	                                <p class="small text_gray-100 m-0 ms-2">Chỉ còn: <span class="text_dark-blue-800">120</span></p>
-	                            </div>
-	                            <button type="button" class="btn bg_dark-blue-800">
-	                                 <span>
-	                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-	                                    <path d="M9.5 19C9.5 19.8284 8.82843 20.5 8 20.5C7.17157 20.5 6.5 19.8284 6.5 19C6.5 18.1716 7.17157 17.5 8 17.5C8.82843 17.5 9.5 18.1716 9.5 19Z" stroke="var(--dark-blue-50)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-	                                    <path d="M17.5 19C17.5 19.8284 16.8284 20.5 16 20.5C15.1716 20.5 14.5 19.8284 14.5 19C14.5 18.1716 15.1716 17.5 16 17.5C16.8284 17.5 17.5 18.1716 17.5 19Z" stroke="var(--dark-blue-50)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-	                                    <path d="M3 2.75C2.58579 2.75 2.25 3.08579 2.25 3.5C2.25 3.91421 2.58579 4.25 3 4.25V2.75ZM18.459 13.3703L17.7918 13.0277L18.459 13.3703ZM8 6.25H17.5873V4.75H8V6.25ZM19.5889 9.52771L17.7918 13.0277L19.1262 13.7128L20.9233 10.2128L19.5889 9.52771ZM15.7903 14.25H8V15.75H15.7903V14.25ZM5.75 12V11.5H4.25V12H5.75ZM5.75 11.5V8.5H4.25V11.5H5.75ZM5.75 11.5V5.5H4.25V11.5H5.75ZM8 14.25C6.75736 14.25 5.75 13.2426 5.75 12H4.25C4.25 14.0711 5.92893 15.75 8 15.75V14.25ZM17.7918 13.0277C17.4065 13.7781 16.6338 14.25 15.7903 14.25V15.75C17.1962 15.75 18.484 14.9636 19.1262 13.7128L17.7918 13.0277ZM17.5873 6.25C19.2705 6.25 20.3577 8.0304 19.5889 9.52771L20.9233 10.2128C22.2046 7.71733 20.3926 4.75 17.5873 4.75V6.25ZM5.75 5.5C5.75 3.98122 4.51878 2.75 3 2.75V4.25C3.69036 4.25 4.25 4.80964 4.25 5.5H5.75ZM8 4.75C5.92893 4.75 4.25 6.42893 4.25 8.5H5.75C5.75 7.25736 6.75736 6.25 8 6.25V4.75Z" fill="var(--dark-blue-50)"></path>
-	                                    </svg>
-	                               </span>
-	                            </button>
-	
-	                        </div>
-	
-	                            
-	                    </div>
-	                </div>
-	
-	                <div class="col-md-3 p-3">
-	                    <div class="item px-2 py-4">
-	
-	                        <!-- photo book -->
-	                        <div class=" text-center mb-3">
-	                            <img src="${pageContext.request.contextPath}/assets/images/books/biet-khi-nao-moi-gap-nhau-bia.png" alt="" class="img-fluid w-50">
-	                        </div>
-	
-	                        <!-- title -->
-	                         <p class="lh-base">Biết khi nào mới gặp lại nhau</p>
-	
-	                        <!-- price & coupon -->
-	                         <div class="price-coupon d-flex align-items-center">
-	                            <div class="price me-3">
-	                                <p class="text-danger fw-bold fs-5 m-0">40.000đ</p>
-	                                <del class="small mute">50.000đ</del>
-	                            </div>
-	
-	                            <span class="p-1 bg_dark-blue-800 text-center text_dark-blue-50 rounded-2 small">-10%</span>
-	                         </div>
-	
-	                         <!-- rate & cart -->
-	                        <div class="rate-quantity d-flex align-items-center justify-content-between">
-	                            <div class="rate d-flex align-items-center">
-	                                <i class="fa-solid fa-star text-warning"></i>
-	                                <span class="small text_gray-100">4.7</span>
-	                                <p class="small text_gray-100 m-0 ms-2">Chỉ còn: <span class="text_dark-blue-800">120</span></p>
-	                            </div>
-	                            <button type="button" class="btn bg_dark-blue-800">
-	                                 <span>
-	                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-	                                    <path d="M9.5 19C9.5 19.8284 8.82843 20.5 8 20.5C7.17157 20.5 6.5 19.8284 6.5 19C6.5 18.1716 7.17157 17.5 8 17.5C8.82843 17.5 9.5 18.1716 9.5 19Z" stroke="var(--dark-blue-50)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-	                                    <path d="M17.5 19C17.5 19.8284 16.8284 20.5 16 20.5C15.1716 20.5 14.5 19.8284 14.5 19C14.5 18.1716 15.1716 17.5 16 17.5C16.8284 17.5 17.5 18.1716 17.5 19Z" stroke="var(--dark-blue-50)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-	                                    <path d="M3 2.75C2.58579 2.75 2.25 3.08579 2.25 3.5C2.25 3.91421 2.58579 4.25 3 4.25V2.75ZM18.459 13.3703L17.7918 13.0277L18.459 13.3703ZM8 6.25H17.5873V4.75H8V6.25ZM19.5889 9.52771L17.7918 13.0277L19.1262 13.7128L20.9233 10.2128L19.5889 9.52771ZM15.7903 14.25H8V15.75H15.7903V14.25ZM5.75 12V11.5H4.25V12H5.75ZM5.75 11.5V8.5H4.25V11.5H5.75ZM5.75 11.5V5.5H4.25V11.5H5.75ZM8 14.25C6.75736 14.25 5.75 13.2426 5.75 12H4.25C4.25 14.0711 5.92893 15.75 8 15.75V14.25ZM17.7918 13.0277C17.4065 13.7781 16.6338 14.25 15.7903 14.25V15.75C17.1962 15.75 18.484 14.9636 19.1262 13.7128L17.7918 13.0277ZM17.5873 6.25C19.2705 6.25 20.3577 8.0304 19.5889 9.52771L20.9233 10.2128C22.2046 7.71733 20.3926 4.75 17.5873 4.75V6.25ZM5.75 5.5C5.75 3.98122 4.51878 2.75 3 2.75V4.25C3.69036 4.25 4.25 4.80964 4.25 5.5H5.75ZM8 4.75C5.92893 4.75 4.25 6.42893 4.25 8.5H5.75C5.75 7.25736 6.75736 6.25 8 6.25V4.75Z" fill="var(--dark-blue-50)"></path>
-	                                    </svg>
-	                               </span>
-	                            </button>
-	
-	                        </div>
-	
-	                            
-	                    </div>
-	                </div>
-	
-	                <div class="col-md-3 p-3">
-	                    <div class="item px-2 py-4">
-	
-	                        <!-- photo book -->
-	                        <div class=" text-center mb-3">
-	                            <img src="${pageContext.request.contextPath}/assets/images/books/biet-khi-nao-moi-gap-nhau-bia.png" alt="" class="img-fluid w-50">
-	                        </div>
-	
-	                        <!-- title -->
-	                         <p class="lh-base">Biết khi nào mới gặp lại nhau</p>
-	
-	                        <!-- price & coupon -->
-	                         <div class="price-coupon d-flex align-items-center">
-	                            <div class="price me-3">
-	                                <p class="text-danger fw-bold fs-5 m-0">40.000đ</p>
-	                                <del class="small mute">50.000đ</del>
-	                            </div>
-	
-	                            <span class="p-1 bg_dark-blue-800 text-center text_dark-blue-50 rounded-2 small">-10%</span>
-	                         </div>
-	
-	                         <!-- rate & cart -->
-	                        <div class="rate-quantity d-flex align-items-center justify-content-between">
-	                            <div class="rate d-flex align-items-center">
-	                                <i class="fa-solid fa-star text-warning"></i>
-	                                <span class="small text_gray-100">4.7</span>
-	                                <p class="small text_gray-100 m-0 ms-2">Chỉ còn: <span class="text_dark-blue-800">120</span></p>
-	                            </div>
-	                            <button type="button" class="btn bg_dark-blue-800">
-	                                 <span>
-	                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-	                                    <path d="M9.5 19C9.5 19.8284 8.82843 20.5 8 20.5C7.17157 20.5 6.5 19.8284 6.5 19C6.5 18.1716 7.17157 17.5 8 17.5C8.82843 17.5 9.5 18.1716 9.5 19Z" stroke="var(--dark-blue-50)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-	                                    <path d="M17.5 19C17.5 19.8284 16.8284 20.5 16 20.5C15.1716 20.5 14.5 19.8284 14.5 19C14.5 18.1716 15.1716 17.5 16 17.5C16.8284 17.5 17.5 18.1716 17.5 19Z" stroke="var(--dark-blue-50)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-	                                    <path d="M3 2.75C2.58579 2.75 2.25 3.08579 2.25 3.5C2.25 3.91421 2.58579 4.25 3 4.25V2.75ZM18.459 13.3703L17.7918 13.0277L18.459 13.3703ZM8 6.25H17.5873V4.75H8V6.25ZM19.5889 9.52771L17.7918 13.0277L19.1262 13.7128L20.9233 10.2128L19.5889 9.52771ZM15.7903 14.25H8V15.75H15.7903V14.25ZM5.75 12V11.5H4.25V12H5.75ZM5.75 11.5V8.5H4.25V11.5H5.75ZM5.75 11.5V5.5H4.25V11.5H5.75ZM8 14.25C6.75736 14.25 5.75 13.2426 5.75 12H4.25C4.25 14.0711 5.92893 15.75 8 15.75V14.25ZM17.7918 13.0277C17.4065 13.7781 16.6338 14.25 15.7903 14.25V15.75C17.1962 15.75 18.484 14.9636 19.1262 13.7128L17.7918 13.0277ZM17.5873 6.25C19.2705 6.25 20.3577 8.0304 19.5889 9.52771L20.9233 10.2128C22.2046 7.71733 20.3926 4.75 17.5873 4.75V6.25ZM5.75 5.5C5.75 3.98122 4.51878 2.75 3 2.75V4.25C3.69036 4.25 4.25 4.80964 4.25 5.5H5.75ZM8 4.75C5.92893 4.75 4.25 6.42893 4.25 8.5H5.75C5.75 7.25736 6.75736 6.25 8 6.25V4.75Z" fill="var(--dark-blue-50)"></path>
-	                                    </svg>
-	                               </span>
-	                            </button>
-	
-	                        </div>
-	
-	                            
-	                    </div>
-	                </div>
+				<!-- Book list -->
+	            <div id="books-trend" class="row p-3">
+	            	<!-- Data fetch here -->
 	            </div>
-	            <div class="text-center mb-3">
-	                 <a href="" class="btn-border text-decoration-none text-center">Xem thêm</a>
+	           
+	            <div id="loader" class="spinner-border text-primary d-none" role="status">
+				  <span class="visually-hidden">Loading...</span>
+				</div>
+
+	            <div class="row mb-3 ">
+	            	<div class="col-12 w-100">
+	            		<button type="button" id="btn-loadmore" class="button-border m-auto">Xem thêm</button>
+	            	</div>     
 	            </div>
 	        </div>
 	    </div>
@@ -1146,5 +981,6 @@
 
 	<!-- Footer -->
 	<%@include file="/components/footer.jsp" %>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/homepage.js"></script>
 </body>
 </html>

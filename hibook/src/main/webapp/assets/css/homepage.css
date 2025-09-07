@@ -178,6 +178,24 @@ body .wrapper-navbar {
 .new-trend .wrapper-book .row .item {
     border-radius: 1rem;
     border: 1px var(--dark-blue-200) solid;
+    transition: all 300ms ease;
+}
+
+.new-trend .wrapper-book .row .item:hover {
+	box-shadow: 
+		-10px -10px 20px rgba(255, 255,255, 1),
+		10px 10px 20px rgba(0,0,0,.25)
+	;
+}
+.view-book {
+	cursor: pointer;
+	transform: scale(1);
+	transition: all 300ms ease;
+}
+.view-book:hover {
+	cursor: pointer;
+	transform: scale(1.05);
+	
 }
 
 .wrapper-combo {

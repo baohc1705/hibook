@@ -33,15 +33,6 @@ import com.baohc.app.service.user.UserServiceImpl;
 
 public class Test {
 	public static void main(String[] args) {
-		BookService bookService = BookServiceImpl.getInstance();
-		int totalpages = (int)Math.ceil((double)bookService.getTotalRecord() / 3);
-		 for(int i = 1; i <= totalpages; i++) {
-			 System.out.println("Trang " + i + ":");
-			 for(BookDTO b : bookService.getSortPagination(i, 3, "amount", "desc")) {
-				 System.out.println(b.getId() +  "|" + b.getPrice() + "|" + b.getAmount());
-			 }
-		 }
-
-	       
+		
 	}
 }

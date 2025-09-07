@@ -125,6 +125,28 @@ public class TestFilter {
 			System.out.println(b);
 		}
         
+        // Test 6: Promotion
+        System.out.println("   Test 6: Promotion(id = 3, Flash sale)");
+        FilterCriteria criteria6 = new FilterCriteria();
+        criteria6.setPromotionId(3);
+        List<BookDTO> result6 = bookService.getBooksWithFilter(criteria6);
+        int count6 = bookService.countBooksWithFilter(criteria6);
+        System.out.println("   Result: " + result6.size() + " books found, count: " + count6);
+        for (BookDTO b : result6) {
+			System.out.println(b);
+		}
+        
+        // Test 7: Author
+        System.out.println("   Test 7: Author(id = TG04, Hoang Khanh Duy)");
+        FilterCriteria criteria7 = new FilterCriteria();
+        criteria7.setAuthorId("TG04");
+        List<BookDTO> result7 = bookService.getBooksWithFilter(criteria7);
+        int count7 = bookService.countBooksWithFilter(criteria7);
+        System.out.println("   Result: " + result7.size() + " books found, count: " + count7);
+        for (BookDTO b : result7) {
+			System.out.println(b);
+		}
+        
         System.out.println();
 	}
 

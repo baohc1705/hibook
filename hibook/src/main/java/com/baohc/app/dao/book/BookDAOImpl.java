@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.baohc.app.model.BookDTO;
+import com.baohc.app.model.CateBookDTO;
 import com.baohc.app.service.author.AuthorService;
 import com.baohc.app.service.author.AuthorServiceImpl;
 import com.baohc.app.service.book.CateBookService;
@@ -199,8 +200,9 @@ public class BookDAOImpl implements BookDAO {
 		return res;
 	}
 
+	// Offset initialize = 1
 	@Override
-	public List<BookDTO> getAllBookByPage(int page, int pageSize) {
+	public List<BookDTO> getBooksLimitOffset(int limit, int offset) {
 		List<BookDTO> list = new ArrayList<BookDTO>();
 		try {
 			Connection con = ConnectionKit.getConnection();
@@ -208,8 +210,8 @@ public class BookDAOImpl implements BookDAO {
 				return list;
 			String query = "SELECT * FROM book LIMIT ? OFFSET ?";
 			PreparedStatement pmt = con.prepareStatement(query);
-			pmt.setInt(1, pageSize);
-			pmt.setInt(2, (page - 1) * pageSize);
+			pmt.setInt(1, limit);
+			pmt.setInt(2, offset);
 			ResultSet rs = pmt.executeQuery();
 			while (rs.next()) {
 				BookDTO b = mapResultSetToBook(rs);
@@ -227,7 +229,7 @@ public class BookDAOImpl implements BookDAO {
 	}
 
 	@Override
-	public int getTotalRecord() {
+	public int countBook() {
 		int res = 0;
 		try {
 			Connection con = ConnectionKit.getConnection();
@@ -248,108 +250,6 @@ public class BookDAOImpl implements BookDAO {
 			e.printStackTrace();
 		}
 		return res;
-	}
-
-	@Override
-	public List<BookDTO> getSortPagination(int page, int pageSize, String field, String sort) {
-		List<BookDTO> list = new ArrayList<BookDTO>();
-		try {
-			Connection con = ConnectionKit.getConnection();
-			if (con == null)
-				return list;
-			String query = "";
-			if ("".equals(field) && "".equals(sort))
-				query = "SELECT * FROM book LIMIT ? OFFSET ?";
-			else {
-				String sortField;
-				switch (field) {
-				case "price": {
-					sortField = "price";
-					break;
-				}
-				case "amount": {
-					sortField = "amount";
-					break;
-				}
-				case "name": {
-					sortField = "name";
-					break;
-				}
-				default:
-					throw new IllegalArgumentException("Unexpected value: " + field);
-				}
-				String sortOrder = "ASC".equalsIgnoreCase(sort) ? "ASC" : "DESC";
-				query = "SELECT * FROM book ORDER BY " + sortField + " " + sortOrder + " LIMIT ? OFFSET ?";
-			}
-
-			PreparedStatement pmt = con.prepareStatement(query);
-			pmt.setInt(1, pageSize);
-			pmt.setInt(2, (page - 1) * pageSize);
-			ResultSet rs = pmt.executeQuery();
-			while (rs.next()) {
-				BookDTO bookDTO = mapResultSetToBook(rs);
-				list.add(bookDTO);
-			}
-
-			if (rs != null)
-				rs.close();
-			if (pmt != null)
-				pmt.close();
-			ConnectionKit.closeConnection(con);
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-		return list;
-	}
-
-	@Override
-	public List<BookDTO> sort(String field, String sort) {
-		List<BookDTO> list = new ArrayList<BookDTO>();
-		try {
-			Connection con = ConnectionKit.getConnection();
-			if (con == null)
-				return list;
-			String query = "";
-
-			String sortField;
-			switch (field) {
-			case "price": {
-				sortField = "price";
-				break;
-			}
-			case "amount": {
-				sortField = "amount";
-				break;
-			}
-			case "name": {
-				sortField = "name";
-				break;
-			}
-			default:
-				throw new IllegalArgumentException("Unexpected value: " + field);
-			}
-			String sortOrder = "ASC".equalsIgnoreCase(sort) ? "ASC" : "DESC";
-			query = "SELECT * FROM book ORDER BY " + sortField + " " + sortOrder;
-
-			PreparedStatement pmt = con.prepareStatement(query);
-
-			ResultSet rs = pmt.executeQuery();
-			while (rs.next()) {
-				BookDTO bookDTO = mapResultSetToBook(rs);
-				list.add(bookDTO);
-			}
-
-			if (rs != null)
-				rs.close();
-			if (pmt != null)
-				pmt.close();
-			ConnectionKit.closeConnection(con);
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-		return list;
 	}
 
 	@Override
@@ -433,7 +333,34 @@ public class BookDAOImpl implements BookDAO {
 
 		return res;
 	}
-
+	
+	@Override
+	public List<BookDTO> getBooksCategory(CateBookDTO cateBookDTO) {
+		List<BookDTO> list = new ArrayList<BookDTO>();
+		try {
+			Connection con = ConnectionKit.getConnection();
+			String sql = "SELECT *\r\n"
+					+ "FROM book b\r\n"
+					+ "WHERE b.cateBook_id = ?";
+			PreparedStatement pmt = con.prepareStatement(sql);
+			pmt.setInt(1, cateBookDTO.getId());
+			ResultSet rs = pmt.executeQuery();
+			while(rs.next()) {
+				BookDTO tmp = mapResultSetToBook(rs);
+				list.add(tmp);
+			}
+			if (rs != null)
+				rs.close();
+			if (pmt != null)
+				pmt.close();
+			ConnectionKit.closeConnection(con);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("Error get books with category", e);
+		}
+		return list;
+	}
+	
 	/**
 	 * Helper function để map ResultSet -> BookDTO
 	 */

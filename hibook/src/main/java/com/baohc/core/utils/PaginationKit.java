@@ -69,16 +69,16 @@ public class PaginationKit {
 		return currentPage == totalPages;
 	}
 	
-	public static List<Object> getPagination(int current, int last) {
+	public List<Object> getPagination() {
 		int delta = 1; // nút xung quanh
-		int left = current - delta;
-		int right = current + delta;
+		int left = currentPage - delta;
+		int right = currentPage + delta;
 		List<Integer> range = new ArrayList<Integer>();
 		List<Object> rangeWithDots = new ArrayList<Object>();
 		Integer l = null;
 
-		for (int i = 1; i <= last; i++) {
-			if (i == 1 || i == last || (i >= left && i <= right)) {
+		for (int i = 1; i <= totalPages; i++) {
+			if (i == 1 || i == totalPages || (i >= left && i <= right)) {
 				range.add(i);
 			}
 		}
@@ -99,9 +99,11 @@ public class PaginationKit {
 	}
 
 	public static void main(String[] args) {
-		for (int i = 1; i <= 20; i++) {
+		
+		for (int i = 1; i <= 10; i++) {
+			PaginationKit rangeWithDot = new PaginationKit(i, 10, 5, 50);
 			System.out.print("Trang " + i + " : ");
-			System.out.println(getPagination(i, 20));
+			System.out.println(rangeWithDot.getPagination());
 		}
 		
 		

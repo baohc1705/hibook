@@ -33,7 +33,7 @@
 		<c:set var="hibook" value="${pageContext.request.contextPath }"></c:set>
 		<!-- Data table -->
 		<section class="body container mb-2 p-0">
-            <div class="wrapper-tools p-3 glass-border glass rounded-3 mb-3 ">
+            <div class="wrapper-tools p-3 glass-border glass rounded-3 mb-3">
 				<form id="filterForm" action="${hibook }/admin/books/show" method="get">
 					<div class="row fs-base">
 						<!-- search keyword -->	
@@ -64,7 +64,6 @@
 								</c:forEach>
 							</select>
 						</div>
-						
 						<!-- Price range -->
 						<div class="col-md-5">
 							<label class="form-label">
@@ -161,8 +160,7 @@
 		                        <i class="fa-solid fa-bars" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Chọn ẩn/hiện cột"></i>
 		                    </button>
 		                    <ul class="dropdown-menu">
-		                    	<span class="p-2 text-center">CỘT</span>
-		                    	
+		                    	<li><span class="text-center text_dark-blue-50">Cột</span></li>
 		                        <li class="dropdown-item text_dark-blue-50"> 
 	                    			<input class="check-show" type="checkbox" value="3"> 
 	                    			<span class="px-2 " style="pointer-events: cursor;">Ảnh bìa</span>
@@ -270,7 +268,7 @@
 			                                <th class="text-nowrap">Mô tả</th>
 			                                <th class="text-nowrap text-end">
 			                               		<a href="javascript:void(0)" class="sort-trigger text_dark-blue-50 text-decoration-none" data-field="price" data-sort="none">
-			                               			<i class="fa-solid fa-sort " data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Chọn sắp xếp""></i>
+			                               			<i class="fa-solid fa-sort " data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Chọn sắp xếp"></i>
 			                               		</a>
 												 <span>Giá gốc</span> 
 			                                </th> 
@@ -404,7 +402,7 @@
 		             					<form action="${hibook }/admin/books/show" method="get" class="d-inline-flex align-items-center">
 		             						<!-- Preserve filter parameters -->
 		             						<input type="hidden" name="keyword" value="${criteria.keyword}">
-		             						<input type="hidden" name=category" value="${criteria.cateBookId}">
+		             						<input type="hidden" name="category" value="${criteria.cateBookId}">
 		             						<input type="hidden" name="minPrice" value="${criteria.minPrice}">
 				                            <input type="hidden" name="maxPrice" value="${criteria.maxPrice}">
 				                            <input type="hidden" name="sortBy" value="${criteria.sortBy}">
@@ -560,7 +558,8 @@
 					  showCancelButton: true,
 					  confirmButtonColor: "#3085d6",
 					  cancelButtonColor: "#d33",
-					  confirmButtonText: "Yes, delete it!"
+					  confirmButtonText: "Vâng, xóa nó!",
+					  cancelButtonText: "Hủy, không xóa"
 					}).then((result) => {
 					  if (result.isConfirmed) {
 						$.ajax({

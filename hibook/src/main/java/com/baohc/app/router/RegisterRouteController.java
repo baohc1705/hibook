@@ -6,6 +6,8 @@ import com.baohc.app.controller.admin.book.AdminBookController;
 import com.baohc.app.controller.admin.book.AdminGetBookController;
 import com.baohc.app.controller.auth.AuthController;
 import com.baohc.app.controller.auth.VerificationController;
+import com.baohc.app.controller.book.GetBooksController;
+import com.baohc.app.controller.cart.CartController;
 import com.baohc.app.controller.user.UserController;
 import com.baohc.core.router.BaseRouter;
 import com.baohc.core.router.Router;
@@ -60,5 +62,15 @@ public class RegisterRouteController implements BaseRouter{
 		Router.post("/admin/book/edit", new AdminBookController(), "doEditBook");
 		
 		Router.post("/admin/book/remove", new AdminBookController(), "doRemoveBook");
+		
+		
+		//==============USER=================
+		Router.get("/books", new GetBooksController(), "getBooks");
+		Router.get("/books/view", new GetBooksController(), "getBooksInfo");
+		Router.get("/books/view-detail", new GetBooksController(), "showBookDetail");
+		
+		// ==========CART============
+		Router.get("/cart", new CartController(), "getCart");
+		Router.post("/cart", new CartController(), "doCart");
 	}
 }

@@ -37,8 +37,8 @@ public class PromotionDAOImpl implements PromotionDAO {
 				promo.setId(rs.getInt("id"));
 				promo.setName(rs.getString("name"));
 				promo.setDiscountPercent(rs.getInt("discountPercent"));
-				promo.setStartDate(rs.getDate("startDate"));
-				promo.setEndDate(rs.getDate("endDate"));
+				promo.setStartDate(rs.getTimestamp("startDate"));
+				promo.setEndDate(rs.getTimestamp("endDate"));
 				list.add(promo);
 			}
 
@@ -71,8 +71,8 @@ public class PromotionDAOImpl implements PromotionDAO {
 				promo.setId(rs.getInt("id"));
 				promo.setName(rs.getString("name"));
 				promo.setDiscountPercent(rs.getInt("discountPercent"));
-				promo.setStartDate(rs.getDate("startDate"));
-				promo.setEndDate(rs.getDate("endDate"));
+				promo.setStartDate(rs.getTimestamp("startDate"));
+				promo.setEndDate(rs.getTimestamp("endDate"));
 				res = promo;
 			}
 
@@ -100,8 +100,8 @@ public class PromotionDAOImpl implements PromotionDAO {
 			pmt.setInt(1, promotion.getId());
 			pmt.setString(2, promotion.getName());
 			pmt.setInt(3, promotion.getDiscountPercent());
-			pmt.setDate(4, promotion.getStartDate());
-			pmt.setDate(5, promotion.getEndDate());
+			pmt.setTimestamp(4, promotion.getStartDate());
+			pmt.setTimestamp(5, promotion.getEndDate());
 
 			int row = pmt.executeUpdate();
 			res = row > 0 ? 1 : 0;
@@ -171,8 +171,8 @@ public class PromotionDAOImpl implements PromotionDAO {
 			PreparedStatement pmt = con.prepareStatement(query);
 			pmt.setString(1, promotion.getName());
 			pmt.setInt(2, promotion.getDiscountPercent());
-			pmt.setDate(3, promotion.getStartDate());
-			pmt.setDate(4, promotion.getEndDate());
+			pmt.setTimestamp(3, promotion.getStartDate());
+			pmt.setTimestamp(4, promotion.getEndDate());
 			pmt.setInt(5, promotion.getId());
 
 			int row = pmt.executeUpdate();
