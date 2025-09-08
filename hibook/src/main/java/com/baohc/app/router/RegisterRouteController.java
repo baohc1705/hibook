@@ -8,6 +8,7 @@ import com.baohc.app.controller.auth.AuthController;
 import com.baohc.app.controller.auth.VerificationController;
 import com.baohc.app.controller.book.GetBooksController;
 import com.baohc.app.controller.cart.CartController;
+import com.baohc.app.controller.cart.CheckoutController;
 import com.baohc.app.controller.user.UserController;
 import com.baohc.core.router.BaseRouter;
 import com.baohc.core.router.Router;
@@ -72,5 +73,7 @@ public class RegisterRouteController implements BaseRouter{
 		// ==========CART============
 		Router.get("/cart", new CartController(), "getCart");
 		Router.post("/cart", new CartController(), "doCart");
+		Router.get("/checkout", new CheckoutController(), "getCheckout");
+		Router.post("/checkout", new CheckoutController(), "doCheckout");
 	}
 }

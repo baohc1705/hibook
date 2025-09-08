@@ -45,7 +45,13 @@ public class StringKit {
 		String date = new SimpleDateFormat("yyMMddHHmmss").format(new Date());
 		return date;
 	}
+	
+	public static String RandomBillID() {
+		String uuid = RandomToken();
+		return RandomIdTime() + uuid.substring(0, 4);
+	}
 	public static void main(String[] args) {
-		System.out.println(RandomIdTime());
+		System.out.println(RandomToken());
+		System.out.println(RandomBillID());
 	}
 }

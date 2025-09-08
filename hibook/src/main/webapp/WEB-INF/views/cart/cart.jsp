@@ -101,29 +101,29 @@
             </div>
             <c:if test="${not empty cartItems}">
             	<div class="col-md-4 p-3">
-                <div class="wrapper-price bg_dark-blue-50 rounded-4 p-3">
-                    <div class="d-flex justify-content-between">
-                        <p>Thành tiền</p>
-                        <p class="fw-semibold">
-                        	<fmt:setLocale value="vi_VN"/>
-                        	<fmt:formatNumber value="${cartTotal}"/> đ
-                        </p>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <p class="">Phí vận chuyển</p>
-                        <p>20.000đ</p>
-                    </div>
-                    <hr>
-                    <div class="d-flex justify-content-between">
-                        <p class="fw-bold fs-5">Tổng tiền</p>
-                        <p class="fw-bold fs-5 text-danger">
-                        	<fmt:setLocale value="vi_VN"/>
-                        	<fmt:formatNumber value="${cartTotal + 20000}"/> đ
-                        </p>
-                    </div>
-                    <a href="checkout.html" class="nav-link p-2 button-fill fw-semibold">THANH TOÁN</a>
-                </div>
-            </div>
+	                <div class="wrapper-price bg_dark-blue-50 rounded-4 p-3">
+	                    <div class="d-flex justify-content-between">
+	                        <p>Thành tiền</p>
+	                        <p class="fw-semibold">
+	                        	<fmt:setLocale value="vi_VN"/>
+	                        	<fmt:formatNumber value="${cartTotal}"/> đ
+	                        </p>
+	                    </div>
+	                    <div class="d-flex justify-content-between">
+	                        <p class="">Phí vận chuyển</p>
+	                        <p>20.000đ</p>
+	                    </div>
+	                    <hr>
+	                    <div class="d-flex justify-content-between">
+	                        <p class="fw-bold fs-5">Tổng tiền</p>
+	                        <p class="fw-bold fs-5 text-danger">
+	                        	<fmt:setLocale value="vi_VN"/>
+	                        	<fmt:formatNumber value="${cartTotal + 20000}"/> đ
+	                        </p>
+	                    </div>
+	                    <a href="${pageContext.request.contextPath}/checkout" class="nav-link p-2 button-fill fw-semibold">THANH TOÁN</a>
+	                </div>
+            	</div>
             </c:if>
             
         </div>
