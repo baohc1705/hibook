@@ -11,6 +11,17 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/component.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/cart.css">
+	<style type="text/css">
+		#btn-send-checkout:disabled {
+			background-color: var(--dark-blue-200);
+			transition: all 300ms ease;
+			cursor: not-allowed;
+		}
+		#btn-send-checkout {
+			transition: all 300ms ease;
+		}
+	</style>
+
 </head>
 <body>
 	<!-- Navigation bar -->
@@ -34,7 +45,7 @@
 		                    <table>
 		                        <thead>
 		                            <tr>
-		                                <th><input type="checkbox" class=""></th>
+		                                <th><input id="check-all-book" name="checkAllBooks" type="checkbox" class=""></th>
 		                                <th>Chọn tất cả ( <span>${itemCount}</span> )</th>
 		                                <th></th>
 		                                <th>Số lượng</th>
@@ -46,7 +57,7 @@
 		                        <tbody>
 		                        	<c:forEach var="item" items="${cartItems }">
 			                            <tr>
-			                                <td>
+			                                <td class="text-center">
 			                                
 				                                <input 	type="checkbox" 
 						                                name="bookCheck" 
@@ -116,19 +127,15 @@
 	                        	<fmt:formatNumber value="${cartTotal}"/> đ
 	                        </p>
 	                    </div>
-	                    <div class="d-flex justify-content-between">
-	                        <p class="">Phí vận chuyển</p>
-	                        <p>20.000đ</p>
-	                    </div>
 	                    <hr>
 	                    <div class="d-flex justify-content-between">
-	                        <p class="fw-bold fs-5">Tổng tiền</p>
+	                        <p class="fw-bold fs-5">Tổng tiền (+VAT)</p>
 	                        <p class="fw-bold fs-5 text-danger">
 	                        	<fmt:setLocale value="vi_VN"/>
-	                        	<fmt:formatNumber value="${cartTotal + 20000}"/> đ
+	                        	<fmt:formatNumber value="${cartTotal}"/> đ
 	                        </p>
 	                    </div>
-	                    <button id="btn-send-checkout" type="button" class=" p-2 button-fill fw-semibold">THANH TOÁN</button>
+	                    <button id="btn-send-checkout" type="button" class=" p-2 button-fill fw-semibold w-100">THANH TOÁN</button>
 	                </div>
             	</div>
             </c:if>

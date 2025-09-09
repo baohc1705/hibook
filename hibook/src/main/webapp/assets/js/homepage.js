@@ -367,14 +367,37 @@ $(document).ready(function() {
 		});
 	});
 	
-	$("#btn-send-checkout").on("click", function(e) {
-		let selectedBookIds = [];
+	let selectedBookIds = [];
+	
+	toggleCheckoutButton();
+	// Check từng sách
+	$("input[name='bookCheck']").on("change", toggleCheckoutButton);
+
+	// Check all sách
+	$("#check-all-book").on("change", function () {
+	    const isChecked = $(this).prop("checked");
+	    $("input[name='bookCheck']").prop("checked", isChecked);
+	    toggleCheckoutButton();
+	});
+	
+	function toggleCheckoutButton() {
+		selectedBookIds = [];
+		
+		// nếu tất cả đều được chọn thì check luôn "chọn tất cả"
+	    $("#check-all-book").prop(
+	        "checked",
+	        $("input[name='bookCheck']").length === $("input[name='bookCheck']:checked").length
+	    );
+		
 		$("input[name='bookCheck']:checked").each(function() {
 			selectedBookIds.push($(this).val());
 		});
 		
-		console.log("Books selected:", selectedBookIds);
-		
+		$("#btn-send-checkout").prop("disabled", selectedBookIds.length === 0);
+	};
+
+	
+	$("#btn-send-checkout").on("click", function(e) {
 		/*$.ajax({
 			url: "/hibook/checkout",
 			type: "GET",
@@ -396,5 +419,5 @@ $(document).ready(function() {
 
 	    window.location.href = url; // chuyển hẳn trang
 	});
-
+	
 });

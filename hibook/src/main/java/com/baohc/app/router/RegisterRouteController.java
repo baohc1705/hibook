@@ -75,5 +75,9 @@ public class RegisterRouteController implements BaseRouter{
 		Router.post("/cart", new CartController(), "doCart");
 		Router.get("/checkout", new CheckoutController(), "getCheckout");
 		Router.post("/checkout", new CheckoutController(), "doCheckout");
+		
+		// ==========VERIFY=========
+		
+		Router.post("/verify", new VerificationController(), "sendMail");
 	}
 }

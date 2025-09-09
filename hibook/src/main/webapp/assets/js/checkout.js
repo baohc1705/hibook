@@ -2,7 +2,12 @@ $(document).ready(function() {
 
 	$("#btn-checkout").on("click", function(e) {
 		e.preventDefault();
-
+		
+		// validate
+        if (!validateCheckoutForm()) {
+            return false; // nếu không hợp lệ thì dừng ở đây
+        }
+		
 		var txtName = $("#name").val();
 		var txtEmail = $("#email").val();
 		var txtPhone = $("#phone").val();
@@ -14,6 +19,7 @@ $(document).ready(function() {
 		var txtTotalPrice = $("#totalPrice").val();
 		var txtNote = "Đay la note doi them sau";
 		var txtPayMethod = $("input[name='payMethod']:checked").val();
+		
 		if (!txtPayMethod) {
 		        Swal.fire({
 		            icon: "warning",
@@ -62,4 +68,228 @@ $(document).ready(function() {
 			}
 		});
 	});
+	function validateCheckoutForm() {
+	    if (!checkFullName()) return false;
+	    if (!checkPhone()) return false;
+	    if (!checkEmail()) return false;
+	    if (!checkCity()) return false;
+	    if (!checkDistrict()) return false;
+	    if (!checkWard()) return false;
+	    if (!checkAddress()) return false;
+
+	    let delivery = $("input[name='delivery']:checked").val();
+	    let payMethod = $("input[name='payMethod']:checked").val();
+		
+		if ($("#checkOTP").length > 0) {
+			let otp = $("#checkOTP").val().trim();
+			if (otp === "") {
+				$("#checkOTP").addClass("is-invalid").removeClass("is-valid");
+				Swal.fire("Lỗi", "Vui lòng nhập mã OTP!", "warning");
+				return false;
+			} else {
+				$("#checkOTP").removeClass("is-invalid").addClass("is-valid");
+			}
+		}
+
+	    if (!delivery) {
+	        Swal.fire("Lỗi", "Vui lòng chọn hình thức giao hàng!", "warning");
+	        return false;
+	    }
+	    if (!payMethod) {
+	        Swal.fire("Lỗi", "Vui lòng chọn phương thức thanh toán!", "warning");
+	        return false;
+	    }
+	    return true; // tất cả hợp lệ
+	}
+
+	
+	checkFullName = () => {
+	    let name = $("#name").val().trim();
+	    if (name === "") {
+	        $("#name").addClass("is-invalid").removeClass("is-valid");
+	        return false;
+	    }
+	    $("#name").removeClass("is-invalid").addClass("is-valid");
+	    return true;
+	};
+
+	checkEmail = () => {
+	    let email = $("#email").val().trim();
+	    let regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+	    if (email === "" || !regex.test(email)) {
+	        $("#email").addClass("is-invalid").removeClass("is-valid");
+	        return false;
+	    }
+	    $("#email").removeClass("is-invalid").addClass("is-valid");
+	    return true;
+	};
+
+	checkPhone = () => {
+	    let phone = $("#phone").val().trim();
+	    let regex = /^(0[0-9]{9,10})$/;
+	    if (phone === "" || !regex.test(phone)) {
+	        $("#phone").addClass("is-invalid").removeClass("is-valid");
+	        return false;
+	    }
+	    $("#phone").removeClass("is-invalid").addClass("is-valid");
+	    return true;
+	};
+
+	checkCity = () => {
+	    let city = $("#city").val();
+	    if (!city || city === "") {   // check cả null và ""
+	        $("#city").addClass("is-invalid").removeClass("is-valid");
+	        return false;
+	    }
+	    $("#city").removeClass("is-invalid").addClass("is-valid");
+	    return true;
+	};
+
+	checkDistrict = () => {
+	    let district = $("#district").val();
+	    if (!district || district === "") {
+	        $("#district").addClass("is-invalid").removeClass("is-valid");
+	        return false;
+	    }
+	    $("#district").removeClass("is-invalid").addClass("is-valid");
+	    return true;
+	};
+
+	checkWard = () => {
+	    let ward = $("#ward").val();
+	    if (!ward || ward === "") {
+	        $("#ward").addClass("is-invalid").removeClass("is-valid");
+	        return false;
+	    }
+	    $("#ward").removeClass("is-invalid").addClass("is-valid");
+	    return true;
+	};
+
+
+	checkAddress = () => {
+	    let address = $("#address").val().trim();
+	    if (address === "") {
+	        $("#address").addClass("is-invalid").removeClass("is-valid");
+	        return false;
+	    }
+	    $("#address").removeClass("is-invalid").addClass("is-valid");
+	    return true;
+	};
+
+	
+	$("#btn-get-otp").on("click", function() {
+		let txtEmail = $("#email").val();
+		
+		if (txtEmail === "") {
+			Swal.fire("Lỗi", "Email rỗng!", "warning");
+			return;
+		}
+		
+		if (txtEmail === "" || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(txtEmail)) {
+			Swal.fire("Lỗi", "Email không hợp lệ!", "warning");
+			return;
+		}
+		
+		$.ajax({
+			url: "/hibook/verify",
+			method: "POST",
+			data: {
+				action : "get-otp",
+				email : txtEmail
+			},
+			success: function(res) {
+				if (res.status === "success") {
+					Swal.fire({
+						icon: "success",
+						title: "Thành công!",
+						text: res.message,
+						confirmButtonText: "Tiếp tục"
+					});
+				}
+				else {
+					Swal.fire({
+						icon: "error",
+						title: "Thất bại",
+						text: res.message
+					});
+				}
+			},
+			error: function() {
+				console.log("Không thể gửi đến server verify");
+			}
+		});
+	});
+	
+	$("#btn-verify-otp").on("click", function() {
+		let txtOTP = $("#checkOTP").val();
+		
+		if (txtOTP === "") {
+			Swal.fire("Lỗi", "Nhập vào mã OTP!", "warning");
+			return;
+		}
+		
+		$.ajax({
+			url: "/hibook/verify",
+			method: "POST",
+			data: {
+				action: "do-verify-otp",
+				otpInput: txtOTP
+			},
+			success: function(res) {
+				if (res.status === "success") {
+					Swal.fire({
+						icon: "success",
+						title: "Thành công!",
+						text: res.message,
+						confirmButtonText: "Tiếp tục"
+					});
+					
+					
+				}
+				else {
+					Swal.fire({
+						icon: "error",
+						title: "Thất bại",
+						text: res.message
+					});
+				}
+				if (res.isVerified) {
+					$("#email").removeClass("is-invalid");
+					$("#checkOTP").removeClass("is-invalid");
+					$("#email").addClass("is-valid");
+					$("#checkOTP").addClass("is-valid");
+				}
+				else {
+					$("#email").removeClass("is-valid");
+					$("#checkOTP").removeClass("is-valid");
+					$("#email").addClass("is-invalid");
+					$("#checkOTP").addClass("is-invalid");
+				}
+			},
+			error: function(xhr, status, error) {
+				console.error("AJAX error:", status, error);
+				console.error("Response text:", xhr.responseText);
+				Swal.fire("Lỗi", "Không thể kết nối đến server verify", "error");
+			}
+		});
+	});
+	
+	$("input[name='delivery']").on("change", function() {
+		let priceDelivery = parseInt($(this).data("price")) || 0;
+		let baseTotal = parseInt($("#totalPriceTmp").val()) || 0;
+		let newTotal =  baseTotal + priceDelivery;
+		
+		let formatted = new Intl.NumberFormat("vi-VN").format(priceDelivery) + " đ";
+		let formattedTotal = new Intl.NumberFormat("vi-VN").format(newTotal) + " đ";
+		$("#price-delivery").text(formatted);
+
+		// chèn ra chỗ tổng tiền (không phải input hidden)
+		$("#totalPriceDisplay").empty();
+		$("#totalPriceDisplay").text(formattedTotal);
+
+		// cập nhật lại input hidden để gửi về backend
+		$("#totalPrice").val(newTotal);
+	});
+	
+	
 });

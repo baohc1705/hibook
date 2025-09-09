@@ -202,7 +202,7 @@ public class AuthController{
 			int token_id = Integer.parseInt(request.getParameter("token_id"));
 			String new_pass = request.getParameter("password");
 			
-			if (new_pass == null && new_pass.isEmpty()) {
+			if (new_pass == null || new_pass.isEmpty()) {
 				resp.put("status", "error");
 				resp.put("message", "Password rỗng. Kiểm tra lại password");
 				response.getWriter().print(gson.toJson(resp));

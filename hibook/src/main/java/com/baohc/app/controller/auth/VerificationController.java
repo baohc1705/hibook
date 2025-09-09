@@ -2,6 +2,7 @@ package com.baohc.app.controller.auth;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
@@ -54,11 +55,10 @@ public class VerificationController {
 
 			String email = request.getParameter("email");
 			UserDTO user = new UserDTO();
-			String toEmail="";
+			String toEmail = "";
 			UserDTO userIsVerify = (UserDTO) session.getAttribute("userIsVerify");
 			user = userIsVerify;
-			
-			
+
 			// user da ton tai chua xac minh
 			if (user == null) {
 				UserDTO useremail = userService.findByEmail(new UserDTO(null, email, null, null, null));
@@ -66,20 +66,20 @@ public class VerificationController {
 					user = useremail;
 				}
 			}
-			
-			String fullname="";
+
+			String fullname = "";
 			if (user != null) {
 				toEmail = user.getEmail();
 				fullname = user.getFullname();
 			}
-			
-			if (toEmail.isEmpty() && "".equals(toEmail)) 
+
+			if (toEmail.isEmpty() && "".equals(toEmail))
 				toEmail = email;
 
 			String code_otp = StringKit.RandomOTP();
 			try {
-				EmailKit.sendEmail(toEmail , "Xác thực email tại HiBOOK.com", "Xin chào " + fullname 
-						+ ",\nMã OTP của bạn là: " + code_otp + "\n(OTP có hiệu lực 1 phút)");
+				EmailKit.sendEmail(toEmail, "Xác thực email tại HiBOOK.com",
+						"Xin chào " + fullname + ",\nMã OTP của bạn là: " + code_otp + "\n(OTP có hiệu lực 1 phút)");
 				System.out.println("Gửi mail lại thành công");
 
 				code_otp = EncryptPassword.toSHA1(code_otp);
@@ -170,12 +170,12 @@ public class VerificationController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private Map<String, String> verifyOTP(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		Map<String, String> res = new HashMap<String, String>();
-		
+
 		try {
 			String otp_user = request.getParameter("otp_user");
 			System.out.println(otp_user);
@@ -184,10 +184,10 @@ public class VerificationController {
 			HttpSession session = request.getSession();
 			String code_otp = (String) session.getAttribute("code_OTP");
 			Long code_OTP_Time = (Long) session.getAttribute("code_OTP_Time");
-			
-			if (code_otp == null || code_OTP_Time == null) {	
+
+			if (code_otp == null || code_OTP_Time == null) {
 				res.put("status", "error");
-				res.put("message", "Mã xác thực không tồn tại!!"); 
+				res.put("message", "Mã xác thực không tồn tại!!");
 			}
 
 			if (System.currentTimeMillis() > code_OTP_Time) {
@@ -202,19 +202,17 @@ public class VerificationController {
 
 				res.put("status", "success");
 				res.put("message", "Đã xác minh OTP thành công!");
-			}
-			else {
+			} else {
 				res.put("status", "error");
 				res.put("message", "Mã OTP không đúng!");
 			}
-			
+
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		return res;
 	}
-	
+
 	public void updateEmailByOTP(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
@@ -223,12 +221,12 @@ public class VerificationController {
 		Gson gson = new Gson();
 		try {
 			String new_email = request.getParameter("newEmail");
-			
+
 			Map<String, String> isVerify = verifyOTP(request, response);
-			
+
 			String status = isVerify.get("status");
 			String message = isVerify.get("message");
-			
+
 			if (status.equals("success")) {
 				resp.put("newEmail", new_email);
 				resp.put("status", status);
@@ -239,10 +237,10 @@ public class VerificationController {
 			}
 			response.getWriter().print(gson.toJson(resp));
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 	}
+
 	public void sendTokenMail(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
@@ -253,7 +251,7 @@ public class VerificationController {
 		try {
 			String email = request.getParameter("email");
 
-			if (email == null && email.isEmpty()) {
+			if (email == null || email.isEmpty()) {
 				resp.put("status", "error");
 				resp.put("message", "Email rỗng hoặc lỗi. Vui lòng kiểm tra lại");
 				response.getWriter().print(gson.toJson(resp));
@@ -271,16 +269,16 @@ public class VerificationController {
 				response.getWriter().print(gson.toJson(resp));
 				return;
 			}
-			
+
 			String userNotVarify = userTokenService.getUserNotVerify(userByEmail.getId());
-			
+
 			if (userNotVarify != null && !userNotVarify.isEmpty()) {
 				resp.put("status", "error");
 				resp.put("message", "Email còn thời hạn xác thực. Không thể gửi xác thực thêm");
 				response.getWriter().print(gson.toJson(resp));
 				return;
 			}
-			
+
 			String rawToken = StringKit.RandomToken();
 			String salt = TokenKit.generateSalt();
 			String hashedToken = TokenKit.hashSHA256(rawToken, salt);
@@ -290,12 +288,12 @@ public class VerificationController {
 			int saveToken = userTokenService.saveToken(token);
 			if (saveToken == 1) {
 				System.out.println(userByEmail.getId() + rawToken);
-				String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
-				String linkGET = url + "/forgot-password?userId="
-						+ URLEncoder.encode(userByEmail.getId(), "UTF-8") + "&token="
-						+ URLEncoder.encode(rawToken, "UTF-8");
-				String content = "<p>Clink vào link để xác thực tài khoản của bạn</p>"
-						+"<a href='"+linkGET+"'>"+linkGET+"</a>";
+				String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+						+ request.getContextPath();
+				String linkGET = url + "/forgot-password?userId=" + URLEncoder.encode(userByEmail.getId(), "UTF-8")
+						+ "&token=" + URLEncoder.encode(rawToken, "UTF-8");
+				String content = "<p>Clink vào link để xác thực tài khoản của bạn</p>" + "<a href='" + linkGET + "'>"
+						+ linkGET + "</a>";
 				try {
 					EmailKit.sendEmail(userByEmail.getEmail(), "Đặt lại mật khẩu tại HiBook.com", content);
 					System.out.println("Gửi mail đặt lại mật khẩu thành công");
@@ -308,8 +306,7 @@ public class VerificationController {
 					resp.put("message", "Không gửi được mail.Vui lòng kiểm tra lại");
 				}
 
-			}
-			else {
+			} else {
 				resp.put("status", "error");
 				resp.put("message", "Vui lòng chọn xác nhận trong mail");
 				System.out.println("Token không save");
@@ -320,5 +317,137 @@ public class VerificationController {
 			e.printStackTrace();
 			System.out.println("Lỗi máy chủ");
 		}
+	}
+
+	public void sendMail(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
+			String action = request.getParameter("action");
+			if (action == null || action.isEmpty())
+				return;
+			switch (action) {
+			case "get-otp":
+				getOTP(request, response);
+				break;
+			case "do-verify-otp":
+				doVerifyOTP(request, response);
+				break;
+			default:
+				System.err.println("NOT FOUND ACTION");
+				break;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void doVerifyOTP(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json;charset=UTF-8");
+		Map<String, Object> resp = new HashMap<String, Object>();
+		Gson gson = new Gson();
+		try {
+			String otpInput = request.getParameter("otpInput");
+			
+			if (otpInput == null || otpInput.isEmpty()) {
+				resp.put("status", "error");
+				resp.put("message", "Mã OTP rỗng");
+				response.getWriter().print(gson.toJson(resp));
+				return;
+			}
+			
+			HttpSession session = request.getSession(false);
+			String otpEncrypt = (String)session.getAttribute("otpEncrypt");
+			Long otpExpire = (Long)session.getAttribute("otpExpire");
+			
+			if (otpEncrypt==null || otpEncrypt.isEmpty() || otpExpire == null || otpExpire == 0) {
+				resp.put("status", "error");
+				resp.put("message", "Hết phiên session");
+				response.getWriter().print(gson.toJson(resp));
+				return;
+			}
+			
+			Long now = System.currentTimeMillis();
+			if (now > otpExpire) {
+				resp.put("status", "error");
+				resp.put("message", "Mã OTP đã hết hạn.");
+				response.getWriter().print(gson.toJson(resp));
+				return;
+			}
+			
+			String otpInputEncrypt = EncryptPassword.toSHA1(otpInput);
+			
+			if (otpEncrypt.equals(otpInputEncrypt)) {
+				resp.put("status", "success");
+				resp.put("message", "Xác thực thành công!");
+				resp.put("isVerified", true);
+				
+				session.removeAttribute("otpEncrypt");
+				session.removeAttribute("otpExpire");
+			}
+			else {
+				resp.put("status", "error");
+				resp.put("message", "Mã OTP của bạn không trùng khớp!");
+				resp.put("isVerified", false);
+			}
+			response.getWriter().print(gson.toJson(resp));
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void getOTP(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json;charset=UTF-8");
+		Gson gson = new Gson();
+		Map<String, Object> resp = new HashMap<String, Object>();
+		try {
+			HttpSession session = request.getSession(true);
+			
+			String email = request.getParameter("email");
+			if (email == null || email.isEmpty()) {
+				resp.put("status", "error");
+				resp.put("message", "Email có thể rỗng!");
+				response.getWriter().print(gson.toJson(resp));
+				return;
+			}
+			
+			String otp = StringKit.RandomOTP();
+			Long otpExpire = System.currentTimeMillis() + (60 * 1000);
+			
+			// send mail
+			try {
+				StringBuilder sb = new StringBuilder();
+				sb.append("<h2>Chào bạn thân mến!<h3/>")
+				.append("<p>Đây là mã OTP của bạn: ")
+				.append(otp)
+				.append("<p/>")
+				.append("<p> Mã có hiệu lực đến: ")
+				.append(new Timestamp(otpExpire))
+				.append("<p/>");
+				
+				EmailKit.sendEmail(email, "Mã xác thực OTP tại HiBook", sb.toString());
+				
+				System.out.println("Gửi mail xác thực thành công");
+				
+				String otpEncrypt = EncryptPassword.toSHA1(otp);
+				
+				session.setAttribute("otpEncrypt", otpEncrypt);
+				session.setAttribute("otpExpire", otpExpire);
+				
+				resp.put("status", "success");
+				resp.put("message", "Chúng tôi gửi thông tin xác thực đến email của bạn!");
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				resp.put("status", "error");
+				resp.put("message", "Xem lại thông tin email. Thử lại");
+			}
+			response.getWriter().print(gson.toJson(resp));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 }
