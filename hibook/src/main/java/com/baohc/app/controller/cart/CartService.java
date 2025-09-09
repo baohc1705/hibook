@@ -106,6 +106,11 @@ public class CartService {
 		saveCartToCookies(response, cartItems);
 	}
 	
+	public void removeFromCartSelected(List<CartItem> cartItems, HttpServletResponse response, String bookId) {
+		cartItems.removeIf(item -> item.getBook().getId().equals(bookId));
+		saveCartToCookies(response, cartItems);
+	}
+	
 	public void clearCart(HttpServletResponse response) {
 		Cookie cookie = new Cookie(CART_COOKIES_NAME, "");
 		cookie.setMaxAge(0);

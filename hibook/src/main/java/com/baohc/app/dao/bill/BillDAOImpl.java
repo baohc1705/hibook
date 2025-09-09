@@ -89,8 +89,8 @@ public class BillDAOImpl implements BillDAO {
 			Connection conn = ConnectionKit.getConnection();
 			String sql = "INSERT INTO bill ("
 					+ "id, user_id, delivery_id, isDisable, totalPrice, fullname, email, phone, "
-					+ "city, district, ward, shippingAddress, note, status) "
-					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+					+ "city, district, ward, shippingAddress, note, status, pay_method) "
+					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement pmt = conn.prepareStatement(sql);
 			pmt.setString(1, bill.getId()); 
 			if (bill.getUser() != null)
@@ -109,7 +109,7 @@ public class BillDAOImpl implements BillDAO {
 			pmt.setString(12, bill.getShipAddress());
 			pmt.setString(13, bill.getNote());
 			pmt.setString(14, bill.getStatus());
-			
+			pmt.setString(15, bill.getPayMethod());
 			
 			int row = pmt.executeUpdate();
 			
@@ -205,6 +205,7 @@ public class BillDAOImpl implements BillDAO {
 			bill.setNote(rs.getString("note"));
 			bill.setCreateAt(rs.getTimestamp("createAt"));
 			bill.setStatus(rs.getString("status"));
+			bill.setPayMethod(rs.getString("pay_method"));
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -365,7 +365,36 @@ $(document).ready(function() {
 				form.submit(); // submit form bình thường
 			}
 		});
-
-
 	});
+	
+	$("#btn-send-checkout").on("click", function(e) {
+		let selectedBookIds = [];
+		$("input[name='bookCheck']:checked").each(function() {
+			selectedBookIds.push($(this).val());
+		});
+		
+		console.log("Books selected:", selectedBookIds);
+		
+		/*$.ajax({
+			url: "/hibook/checkout",
+			type: "GET",
+			data: {
+				action: "view",
+				books: selectedBookIds
+			},
+			success: function(res) {
+				console.log("Checkout success", res);
+				
+			},
+			error: function() {
+				console.log("Không thể đến server checkout");
+			}
+			
+		})*/
+		let url = "/hibook/checkout?action=view";
+	    selectedBookIds.forEach(id => url += "&books=" + id);
+
+	    window.location.href = url; // chuyển hẳn trang
+	});
+
 });

@@ -42,11 +42,18 @@
 		                                <th></th>
 		                            </tr>
 		                        </thead>
-		
+					
 		                        <tbody>
 		                        	<c:forEach var="item" items="${cartItems }">
 			                            <tr>
-			                                <td><input type="checkbox" name="" id=""></td>
+			                                <td>
+			                                
+				                                <input 	type="checkbox" 
+						                                name="bookCheck" 
+						                                id="bookCheck_${item.book.id}" 
+						                                value="${item.book.id}">
+					                        
+			                                </td>
 											<td><img
 												src="${pageContext.request.contextPath}/assets/images/books/${mapCoverPhoto[item.book.id]}"
 												alt="${mapCoverPhoto[item.book.id]}"
@@ -121,7 +128,7 @@
 	                        	<fmt:formatNumber value="${cartTotal + 20000}"/> đ
 	                        </p>
 	                    </div>
-	                    <a href="${pageContext.request.contextPath}/checkout" class="nav-link p-2 button-fill fw-semibold">THANH TOÁN</a>
+	                    <button id="btn-send-checkout" type="button" class=" p-2 button-fill fw-semibold">THANH TOÁN</button>
 	                </div>
             	</div>
             </c:if>

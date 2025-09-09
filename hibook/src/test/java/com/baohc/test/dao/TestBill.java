@@ -53,6 +53,7 @@ public class TestBill {
 		bill1.setNote("Please call before delivery");
 		bill1.setCreateAt(new java.sql.Timestamp(System.currentTimeMillis()));
 		bill1.setStatus("PENDING");
+		bill1.setPayMethod("COD");
 
 		// Bill 2
 		UserService userService = UserServiceImpl.getInstance();
@@ -75,7 +76,7 @@ public class TestBill {
 		bill2.setNote("Deliver in the morning");
 		bill2.setCreateAt(new java.sql.Timestamp(System.currentTimeMillis()));
 		bill2.setStatus("CONFIRMED");
-
+		bill2.setPayMethod("VNPAY");
 		billService.insert(bill1);
 		billService.insert(bill2);
 

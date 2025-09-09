@@ -1,14 +1,21 @@
 package com.baohc.app.controller.cart;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.apache.commons.mail.Email;
 
 import com.baohc.app.dao.book.PhotoDAO;
 import com.baohc.app.dao.book.PhotoDAOImpl;
@@ -27,6 +34,7 @@ import com.baohc.app.service.book.BookService;
 import com.baohc.app.service.book.BookServiceImpl;
 import com.baohc.app.service.delivery.DeliveryService;
 import com.baohc.app.service.delivery.DeliveryServiceImpl;
+import com.baohc.core.utils.EmailKit;
 import com.baohc.core.utils.StringKit;
 import com.baohc.core.utils.enums.BillStatus;
 import com.baohc.core.utils.enums.CityEnum;
@@ -78,17 +86,30 @@ public class CheckoutController {
 			HttpSession session = request.getSession(false);
 
 			List<CartItem> cartItems = cartService.getCartItems(request);
+			List<CartItem> cartItemsSelected = new ArrayList<CartItem>();
+			String[] selectedBooks = request.getParameterValues("books");
+			if (selectedBooks != null) {
+				for (String bookId : selectedBooks) {
+					System.out.println("Book found: " + bookId);
+					for (CartItem item : cartItems) {
+						if (item.getBook().getId().equals(bookId))
+							cartItemsSelected.add(item);
+					}
+				}
+			} else {
+				System.err.println("SELECTED BOOK NULL");
+			}
 
-			if (cartItems.size() == 0) {
+			if (cartItemsSelected.size() == 0) {
 				// TODO: Handle cart items empty
 				System.err.println("CART ITEM EMPTY");
 				return;
 			}
 
-			double cartTotal = cartService.getCartTotal(cartItems);
+			double cartTotal = cartService.getCartTotal(cartItemsSelected);
 			Map<String, String> mapCoverPhoto = new HashMap<String, String>();
 
-			for (CartItem item : cartItems) {
+			for (CartItem item : cartItemsSelected) {
 				PhotoDTO photo = photoDAO.getCoverPhoto(item.getBook());
 				mapCoverPhoto.put(item.getBook().getId(), photo.getPathname());
 			}
@@ -105,18 +126,15 @@ public class CheckoutController {
 				request.setAttribute("USER_ACC", user);
 			}
 
-			request.setAttribute("cartItems", cartItems);
+			session.setAttribute("cartItemsSelected", cartItemsSelected);
 			request.setAttribute("cartTotal", cartTotal);
 			request.setAttribute("mapCoverPhoto", mapCoverPhoto);
 			request.setAttribute("deliveries", deliveries);
 
 			StringBuilder sb = new StringBuilder();
 			for (CityEnum item : CityEnum.values()) {
-				sb.append("<option value='")
-				.append(item.name())
-				.append("'>")
-				.append(item.getDisplayName())
-				.append("</option>");
+				sb.append("<option value='").append(item.name()).append("'>").append(item.getDisplayName())
+						.append("</option>");
 			}
 			request.setAttribute("citysEnum", sb.toString());
 
@@ -162,21 +180,33 @@ public class CheckoutController {
 			String email = request.getParameter("email");
 			String phone = request.getParameter("phone");
 			String city = request.getParameter("city");
+			city = CityEnum.valueOf(city).getDisplayName();
+			
 			String district = request.getParameter("district");
+			
 			String ward = request.getParameter("ward");
-			String shipAddress = request.getParameter("address"); 
+			
+			String shipAddress = request.getParameter("address");
+			
 			String deliveryIdStr = request.getParameter("delivery");
 			System.out.println(deliveryIdStr);
-			int deliveryId = (deliveryIdStr!=null && !deliveryIdStr.trim().isEmpty()) ? Integer.parseInt(deliveryIdStr) : 0 ;
+			int deliveryId = (deliveryIdStr != null && !deliveryIdStr.trim().isEmpty())
+					? Integer.parseInt(deliveryIdStr)
+					: 0;
 			boolean isDisable = false;
-			
+
 			String totalPriceStr = request.getParameter("totalPrice");
-			double totalPrice = (totalPriceStr!=null && !totalPriceStr.trim().isEmpty()) ? Double.parseDouble(totalPriceStr) : null;
-			
+			double totalPrice = (totalPriceStr != null && !totalPriceStr.trim().isEmpty())
+					? Double.parseDouble(totalPriceStr)
+					: null;
+
 			String note = request.getParameter("note");
-			
+
 			String status = BillStatus.CHO_XAC_NHAN.getDisplayName();
-			
+
+			String payMethod = request.getParameter("payMethod");
+			System.out.println("PAY METHOD:  " + payMethod);
+
 			BillDTO bill = new BillDTO();
 			bill.setId(id);
 			bill.setUser(user != null ? user : null);
@@ -192,46 +222,142 @@ public class CheckoutController {
 			bill.setShipAddress(shipAddress);
 			bill.setNote(note != null ? note : null);
 			bill.setStatus(status);
-			
+			bill.setPayMethod(payMethod);
+
 			int insertBill = billService.insert(bill);
 			if (insertBill == 1) {
-				try {
-					List<CartItem> cartItems = cartService.getCartItems(request);
 
-					for (CartItem item : cartItems) {
+				List<CartItem> cartItems = cartService.getCartItems(request);
+				List<CartItem> cartItemsSelected = (List<CartItem>) session.getAttribute("cartItemsSelected");
+
+				if (cartItemsSelected == null || cartItemsSelected.isEmpty()) {
+					resp.put("status", "error");
+					resp.put("message", "Không có sản phẩm để thanh toán");
+					response.getWriter().print(gson.toJson(resp));
+					return;
+				}
+
+				try {
+					for (CartItem item : cartItemsSelected) {
 						BillDetailDTO billDetailDTO = new BillDetailDTO();
 						billDetailDTO.setBill(bill);
 						BookDTO book = item.getBook();
 						billDetailDTO.setBook(book);
 						billDetailDTO.setQuantity(item.getQuantity());
 						billDetailDTO.setPrice(item.getSubtotal());
-						
+
 						if (billDetailDTO != null) {
 							billDetailService.insert(billDetailDTO);
 							book.setAmount(book.getAmount() - billDetailDTO.getQuantity());
 							bookService.update(book);
 						}
 					}
-					
+
 				} catch (Exception e) {
 					System.err.println("INSERT BILL DETAIL ERROR");
 					e.printStackTrace();
 				} finally {
 					resp.put("status", "success");
 					resp.put("message", "Đã đặt hàng thành công. Vui lòng kiểm tra email để xem đơn hàng");
-					
-					cartService.clearCart(response);
+
+					List<CartItem> cartToEmail = new ArrayList<CartItem>();
+					for(CartItem item : cartItems) {
+						System.err.println("ITEM COOKIES: " + item.getBook().getName());
+					}
+					// Nếu chọn hết
+					if (cartItemsSelected.size() == cartItems.size()) {
+						cartToEmail = cartItems;
+						cartService.clearCart(response);
+					} else {
+						cartToEmail = cartItemsSelected;
+						// Chỉ chọn một phần
+						for (CartItem itemSelected : cartItemsSelected) {
+							System.err.println("ITEM SELECTED: " + itemSelected.getBook().getName());
+							String bookIdSelected = itemSelected.getBook().getId();
+							cartService.removeFromCartSelected(cartItems, response, bookIdSelected);
+						}
+						
+						
+					}
+
+					// Xóa session tạm
+					session.removeAttribute("cartItemsSelected");
+
+					sendCartToEmail(bill, cartToEmail);
+
 				}
-			}
-			else {
+			} else {
 				resp.put("status", "error");
 				resp.put("message", "Đặt hàng không thành công. Vui lòng kiểm tra lại thông tin đơn hàng.");
 			}
-			
+
 			response.getWriter().print(gson.toJson(resp));
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void sendCartToEmail(BillDTO bill, List<CartItem> cartToEmail) {
+		try {
+			DecimalFormat df = new DecimalFormat("#,###");
+			
+			StringBuilder sb = new StringBuilder();
+			sb.append("<h3>Xin chào "+ bill.getFullname() +" !</h3>");
+			sb.append("<p>Cảm ơn bạn đã đặt hàng tại HiBook</p>");
+			sb.append("<p style='font-weight:bold;'>Mã đơn hàng: ").append(bill.getId()).append("</p>");
+			sb.append("<p>Địa chỉ nhận hàng: ").append(bill.getShipAddress()).append(", ")
+			.append(bill.getWard()).append(", ")
+			.append(bill.getDistrict()).append(", ")
+			.append(bill.getCity()).append("</p>");
+			sb.append("<p>Số điện thoại: ").append(bill.getPhone()).append("</p>");
+			sb.append("<p>Thời gian đặt hàng: ").append(new Timestamp(System.currentTimeMillis())).append("</p>");
+			sb.append("<h3>Chi tiết đơn hàng của bạn</h3>");
+			sb.append(
+					"<table border='1' cellspacing='0' cellpadding='5' style='border-collapse: collapse; width: 100%;'>");
+			// Header
+			sb.append("<thead style='background-color:#f2f2f2;'>");
+			sb.append("<tr>");
+			sb.append("<th style='padding: .5rem;'>Tên sách</th>");
+			sb.append("<th style='padding: .5rem;'>Giá</th>");
+			sb.append("<th style='padding: .5rem;'>Số lượng</th>");
+			sb.append("<th style='padding: .5rem;'>Thành tiền</th>");
+			sb.append("</tr>");
+			sb.append("</thead>");
+
+			// Body
+			sb.append("<tbody>");
+			for (CartItem item : cartToEmail) {
+				String price = df.format(item.getBook().getPrice()) + " đ";
+				String subTotal = df.format(item.getSubtotal()) + " đ";
+				sb.append("<tr>");
+				sb.append("<td style='padding: .5rem;'>").append(item.getBook().getName()).append("</td>");
+				sb.append("<td style='padding: .5rem; text-align: right; color:red;'>").append(price).append("</td>");
+				sb.append("<td style='padding: .5rem; text-align: center;'>").append(item.getQuantity()).append("</td>");
+				sb.append("<td style='padding: .5rem; text-align: right; color:red; font-weight:bold'>").append(subTotal).append("</td>");
+				sb.append("</tr>");
+			}
+			sb.append("</tbody>");
+			String totalPrice = df.format(cartService.getCartTotal(cartToEmail)) + " đ";
+			// Footer
+			sb.append("<tfoot>");
+			sb.append("<tr>");
+			sb.append("<td colspan='3' style='text-align:right; font-weight:bold;'>Tổng cộng</td>");
+			sb.append("<td style='font-weight:bold; color:red; text-align: right;'>").append(totalPrice).append("</td>");
+			sb.append("</tr>");
+			sb.append("</tfoot>");
+
+			sb.append("</table>");
+
+			if (EmailKit.sendEmail(bill.getEmail(), "ĐƠN HÀNG CỦA BẠN TẠI HIBOOK.com", sb.toString()))
+				System.out.println("Email gửi đến " + bill.getEmail() + ":\n" + sb.toString());
+			else {
+				System.err.println("GỬI EMAIL ĐƠN HÀNG THẤT BẠI");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("GỬI EMAIL ĐƠN HÀNG THẤT BẠI");
+		}
+
 	}
 }

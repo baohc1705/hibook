@@ -1,3 +1,4 @@
+<%@page import="com.baohc.core.utils.enums.PayMethodEnum"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -144,17 +145,26 @@
                 <div class="wrapper p-4 rounded-4 bg-white mt-3">
                     <p class="fs-5 text_dark-blue-950 mb-3">PHƯƠNG THỨC THANH TOÁN</p>
                     <div class="form-check mb-3">
-                        <input class="form-check-input" type="radio" name="payMethod" id="pay-momo">
-                        <label class="form-check-label d-flex align-items-center" for="pay-momo">
+                        <input 	class="form-check-input" 
+		                        type="radio" 
+		                        name="payMethod" 
+		                        id="pay-VNPAY" 
+		                        value="VNPAY">
+                        <label class="form-check-label d-flex align-items-center" for="pay-VNPAY">
                             <img src="${pageContext.request.contextPath}/assets/images/icons/momo-icon.png" alt="" width="32" height="32"> 
-                            <span class="ms-2">Ví MOMO</span>
+                            <span class="ms-2"><%= PayMethodEnum.VNPAY.getDisplayName() %></span>
                         </label>
                     </div>
                     <div class="form-check mb-3">
-                        <input class="form-check-input" type="radio" name="payMethod" id="pay-cod" checked>
-                        <label class="form-check-label d-flex  align-items-center" for="pay-cod">
+                        <input 	class="form-check-input" 
+		                        type="radio" 
+		                        name="payMethod" 
+		                        id="pay-COD" 
+		                        value="COD" 
+		                        checked="checked">
+                        <label class="form-check-label d-flex  align-items-center" for="pay-COD">
                             <i class="fa-solid fa-money-bill fs-3"></i>
-                            <span class="ms-2">Thanh toán khi nhận hàng</span>
+                            <span class="ms-2"><%= PayMethodEnum.COD.getDisplayName() %></span>
                         </label>
                     </div>
                     
@@ -165,11 +175,11 @@
         <div class="wrapper-table p-3 rounded-4 bg-white mb-3">
             <p class="fs-5 text_dark-blue-950 mb-3">KIỂM TRA LẠI ĐƠN HÀNG</p>
             <c:choose>
-            	<c:when test="${not empty cartItems}">
+            	<c:when test="${not empty sessionScope.cartItemsSelected}">
             		
             		<table class="preview-cart">
 		                <tbody>
-		                    <c:forEach var="cartItem" items="${cartItems}">
+		                    <c:forEach var="cartItem" items="${sessionScope.cartItemsSelected}">
 		            			<tr>           
 			                        <td>
 			                            <img src="${pageContext.request.contextPath}/assets/images/books/${mapCoverPhoto[cartItem.book.id]}" 

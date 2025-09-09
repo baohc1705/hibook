@@ -18,12 +18,15 @@ public class BillDTO {
 	private String note;
 	private Timestamp createAt;
 	private String status;
+	private String payMethod;
 	public BillDTO() {
 		super();
 	}
+	
+	
 	public BillDTO(String id, UserDTO user, DeliveryDTO delivery, boolean isDisable, double totalPrice, String fullname,
 			String email, String phone, String city, String district, String ward, String shipAddress, String note,
-			Timestamp createAt, String status) {
+			Timestamp createAt, String status, String payMethod) {
 		super();
 		this.id = id;
 		this.user = user;
@@ -40,7 +43,10 @@ public class BillDTO {
 		this.note = note;
 		this.createAt = createAt;
 		this.status = status;
+		this.payMethod = payMethod;
 	}
+
+
 	public String getId() {
 		return id;
 	}
@@ -131,12 +137,26 @@ public class BillDTO {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	
+	
+	
+	public String getPayMethod() {
+		return payMethod;
+	}
+
+
+	public void setPayMethod(String payMethod) {
+		this.payMethod = payMethod;
+	}
+
+
 	@Override
 	public String toString() {
-		return "BillDTO [id=" + id + ", user=" + (user !=null ? user.getId() : "guest")  + ", delivery=" + (delivery != null ? delivery.getName() : null) + ", isDisable=" + isDisable
+		return "BillDTO [id=" + id + ", user=" + (user!=null ? user.getFullname() : "GUEST")  + ", delivery=" + (delivery!=null ? delivery.getName() :"null" ) + ", isDisable=" + isDisable
 				+ ", totalPrice=" + totalPrice + ", fullname=" + fullname + ", email=" + email + ", phone=" + phone
 				+ ", city=" + city + ", district=" + district + ", ward=" + ward + ", shipAddress=" + shipAddress
-				+ ", note=" + note + ", createAt=" + createAt + ", status=" + status + "]";
+				+ ", note=" + note + ", createAt=" + createAt + ", status=" + status + ", payMethod=" + payMethod
+				+ "]";
 	}
 	
 	

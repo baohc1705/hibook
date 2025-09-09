@@ -10,10 +10,18 @@ $(document).ready(function() {
 		var txtDistrict = $("#district").val();
 		var txtWard = $("#ward").val();
 		var txtShipAddress = $("#address").val();
-		var txtDelivery = $("input[name='delivery']:checked").val();;
+		var txtDelivery = $("input[name='delivery']:checked").val();
 		var txtTotalPrice = $("#totalPrice").val();
 		var txtNote = "Đay la note doi them sau";
-
+		var txtPayMethod = $("input[name='payMethod']:checked").val();
+		if (!txtPayMethod) {
+		        Swal.fire({
+		            icon: "warning",
+		            title: "Thông báo",
+		            text: "Vui lòng chọn phương thức thanh toán!"
+		        });
+		        return;
+		    }
 		$.ajax({
 			url: "/hibook/checkout?action=add",
 			method: "POST",
@@ -27,9 +35,9 @@ $(document).ready(function() {
 				address: txtShipAddress,
 				delivery: txtDelivery,
 				totalPrice: txtTotalPrice,
-				note: txtNote
+				note: txtNote,
+				payMethod: txtPayMethod
 			},
-			dataType: "JSON",
 			success: function(res) {
 				if (res.status === "success") {
 					Swal.fire({

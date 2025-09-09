@@ -48,7 +48,7 @@ public class StringKit {
 	
 	public static String RandomBillID() {
 		String uuid = RandomToken();
-		return RandomIdTime() + uuid.substring(0, 4);
+		return RandomIdTime() + RandomOTP();
 	}
 	public static void main(String[] args) {
 		System.out.println(RandomToken());
