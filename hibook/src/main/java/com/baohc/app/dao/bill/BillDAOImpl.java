@@ -159,8 +159,43 @@ public class BillDAOImpl implements BillDAO {
 
 	@Override
 	public List<BillDTO> getBillsByFilter(BillCriteria criteria) {
-		// TODO Auto-generated method stub
-		return null;
+		List<BillDTO> bills = new ArrayList<BillDTO>();
+		
+		QueryBuilder builder = new QueryBuilder();
+		
+		builder.buildBillQueryWithFilter(criteria);
+		
+		String sql = builder.getSelectQuery();
+		
+		List<Object> params = builder.getParametersWithPagination(criteria);
+		
+		try {
+			Connection conn = ConnectionKit.getConnection();
+			PreparedStatement pmt = conn.prepareStatement(sql);
+			
+			for (int i = 0; i < params.size(); i++) {
+				pmt.setObject(i + 1, params.get(i));
+			}
+			
+			ResultSet rs = pmt.executeQuery();
+			
+			while (rs.next()) {
+				BillDTO bill = mapToResultSet(rs);
+				if (bill != null)
+					bills.add(bill);
+			}
+			
+			if (rs != null)
+				rs.close();
+			if (pmt != null)
+				pmt.close();
+			ConnectionKit.closeConnection(conn);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return bills;
 	}
 
 	@Override

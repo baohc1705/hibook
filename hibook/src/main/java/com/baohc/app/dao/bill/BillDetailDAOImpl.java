@@ -52,6 +52,31 @@ public class BillDetailDAOImpl implements BillDetailDAO {
 		}
 		return details;
 	}
+	
+	@Override
+	public List<BillDetailDTO> getAllbyBill(String billId) {
+		List<BillDetailDTO> details = new ArrayList<>();
+		try {
+			Connection conn = ConnectionKit.getConnection();
+			String sql = "SELECT * FROM bill_detail WHERE bill_id=? ";
+			PreparedStatement pmt = conn.prepareStatement(sql);
+			pmt.setString(1, billId);
+			ResultSet rs = pmt.executeQuery();
+			while (rs.next()) {
+				BillDetailDTO detail = mapToResultSet(rs);
+				if (detail != null)
+					details.add(detail);
+			}
+			if (rs != null)
+				rs.close();
+			if (pmt != null)
+				pmt.close();
+			ConnectionKit.closeConnection(conn);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return details;
+	}
 
 	@Override
 	public BillDetailDTO find(String billId, String bookId) {

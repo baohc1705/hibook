@@ -127,28 +127,10 @@ public class TestBill {
 			System.out.println(bd);
 		}
 
-		
-		
-		
 		System.out.println("BOOK AFTER ADD BILL: ");
 		System.out.println(book1);
 		System.out.println(book2);
 		
-//		billDetailService.delete(bd1);
-//		billDetailService.delete(bd2);
-//		billDetailService.delete(bd3);
-//		
-//		billService.delete(bill1);
-//		billService.delete(bill2);
-//		System.out.println("AFTER delete: ");
-//		// get all bill
-//		for (BillDTO b : billService.getAll()) {
-//			System.out.println(b);
-//		}
-//
-//		for (BillDetailDTO bd : billDetailService.getAll()) {
-//			System.out.println(bd);
-//		}
 		
 	}
 }

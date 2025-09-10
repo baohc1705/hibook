@@ -8,7 +8,9 @@ import com.baohc.app.model.BookDTO;
 
 public interface BillDetailService {
 	public List<BillDetailDTO> getAll();
-
+	
+	public List<BillDetailDTO> getAllbyBill(String billId);
+	
 	public BillDetailDTO find(String billId, String bookId);
 
 	public BillDetailDTO findByBill(BillDTO bill);

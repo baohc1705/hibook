@@ -135,6 +135,9 @@
 									    <li class="mb-3">
 									    	<a class="dropdown-item" href="${pageContext.request.contextPath }/user/show-info"><i class="fa-solid fa-user me-2"></i>Tài khoản của tôi</a>
 									    </li>
+									     <%-- <li class="mb-3">
+									    	<a class="dropdown-item" href="${pageContext.request.contextPath }/user/show-info?page=orders"><i class="fa-solid fa-receipt"></i>Đơn mua</a>
+									    </li> --%>
 									    <li class="mb-3">
 									    	<a class="dropdown-item" href="#"><i class="fa-solid fa-gear me-2"></i>Cài đặt</a>
 									    </li>

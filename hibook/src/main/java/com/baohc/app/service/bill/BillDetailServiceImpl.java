@@ -60,7 +60,13 @@ public class BillDetailServiceImpl implements BillDetailService{
 	@Override
 	public int update(BillDetailDTO billDetail) {
 		// TODO Auto-generated method stub
-		return update(billDetail);
+		return billDetailDAO.update(billDetail);
+	}
+
+	@Override
+	public List<BillDetailDTO> getAllbyBill(String billId) {
+		
+		return billDetailDAO.getAllbyBill(billId);
 	}
 
 }

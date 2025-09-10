@@ -47,8 +47,29 @@ public class UserController extends HttpServlet{
 	}
 	
 	
-	private void showInfo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void showInfo(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		try {
+			String reqPage = "";
+			String page = request.getParameter("page");
+			if (page == null || page.isEmpty()) {
+				reqPage = "info";
+				request.setAttribute("reqPage", reqPage);
+				request.getRequestDispatcher("/WEB-INF/views/user/userInfo.jsp").forward(request, response);
+			}
+				
+			switch (page) {
+			case "info":
+				reqPage = "info";
+				break;
+			case "orders":
+				reqPage = "orders";
+				break;
+			default:
+				reqPage = "info";
+				break;
+			}
+			request.setAttribute("reqPage", reqPage);
 			request.getRequestDispatcher("/WEB-INF/views/user/userInfo.jsp").forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();

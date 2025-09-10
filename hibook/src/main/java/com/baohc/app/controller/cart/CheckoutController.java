@@ -3,19 +3,15 @@ package com.baohc.app.controller.cart;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import org.apache.commons.mail.Email;
 
 import com.baohc.app.dao.book.PhotoDAO;
 import com.baohc.app.dao.book.PhotoDAOImpl;
@@ -228,6 +224,7 @@ public class CheckoutController {
 			if (insertBill == 1) {
 
 				List<CartItem> cartItems = cartService.getCartItems(request);
+				@SuppressWarnings("unchecked")
 				List<CartItem> cartItemsSelected = (List<CartItem>) session.getAttribute("cartItemsSelected");
 
 				if (cartItemsSelected == null || cartItemsSelected.isEmpty()) {
@@ -284,6 +281,10 @@ public class CheckoutController {
 					session.removeAttribute("cartItemsSelected");
 
 					sendCartToEmail(bill, cartToEmail);
+					
+					session.removeAttribute("bills");
+					session.removeAttribute("mapCoverPhotoOrder");
+					session.removeAttribute("mapBillDetails");
 
 				}
 			} else {
@@ -339,8 +340,13 @@ public class CheckoutController {
 			}
 			sb.append("</tbody>");
 			String totalPrice = df.format(cartService.getCartTotal(cartToEmail)) + " đ";
+			String priceShip = df.format(bill.getDelivery().getPrice()) + " đ";
 			// Footer
 			sb.append("<tfoot>");
+			sb.append("<tr>");
+			sb.append("<td colspan='3' style='text-align:right; font-weight:bold;'>Phí vận chuyển</td>");
+			sb.append("<td style='font-weight:bold; color:red; text-align: right;'>").append(priceShip).append("</td>");
+			sb.append("</tr>");
 			sb.append("<tr>");
 			sb.append("<td colspan='3' style='text-align:right; font-weight:bold;'>Tổng cộng</td>");
 			sb.append("<td style='font-weight:bold; color:red; text-align: right;'>").append(totalPrice).append("</td>");

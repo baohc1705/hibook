@@ -9,6 +9,8 @@ import com.baohc.app.model.BookDTO;
 public interface BillDetailDAO {
 	public List<BillDetailDTO> getAll();
 	
+	public List<BillDetailDTO> getAllbyBill(String billId);
+	
 	public BillDetailDTO find(String billId, String bookId);
 	
 	public BillDetailDTO findByBill(BillDTO bill);
@@ -20,4 +22,5 @@ public interface BillDetailDAO {
 	public int delete(BillDetailDTO billDetail);
 	
 	public int update(BillDetailDTO billDetail);
+	
 }

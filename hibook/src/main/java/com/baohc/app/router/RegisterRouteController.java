@@ -10,6 +10,7 @@ import com.baohc.app.controller.book.GetBooksController;
 import com.baohc.app.controller.cart.CartController;
 import com.baohc.app.controller.cart.CheckoutController;
 import com.baohc.app.controller.user.UserController;
+import com.baohc.app.controller.user.UserInfomationController;
 import com.baohc.core.router.BaseRouter;
 import com.baohc.core.router.Router;
 
@@ -44,7 +45,13 @@ public class RegisterRouteController implements BaseRouter{
 //		Router.get("/user/show-info", new UserController(), "showUserInfo");
 //		Router.post("/user/edit-info", new UserController(), "doEditUserInfo");
 		
+		
+		
 		Router.post("/verify-account/verify-otp-email", new VerificationController(), "updateEmailByOTP");
+		
+		//===USER INFO===
+		Router.get("/user-infomation", new UserInfomationController(), "getSinglePageApplication");
+		Router.post("/user-infomation", new UserInfomationController(), "doTask");
 		
 		//==========AMDIN===============
 		Router.get("/admin", new AdminController() , "showDashboard");
