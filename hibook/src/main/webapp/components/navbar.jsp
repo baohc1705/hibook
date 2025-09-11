@@ -133,7 +133,7 @@
 								   			</span>
 									    </li>
 									    <li class="mb-3">
-									    	<a class="dropdown-item" href="${pageContext.request.contextPath }/user/show-info"><i class="fa-solid fa-user me-2"></i>Tài khoản của tôi</a>
+									    	<a class="dropdown-item" href="${pageContext.request.contextPath }/user/show-info?page=info"><i class="fa-solid fa-user me-2"></i>Tài khoản của tôi</a>
 									    </li>
 									     <%-- <li class="mb-3">
 									    	<a class="dropdown-item" href="${pageContext.request.contextPath }/user/show-info?page=orders"><i class="fa-solid fa-receipt"></i>Đơn mua</a>

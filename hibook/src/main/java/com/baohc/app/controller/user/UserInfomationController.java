@@ -89,21 +89,24 @@ public class UserInfomationController {
 			if (bills != null && bills.size() != 0) {
 				System.err.println("BILL IN SESSION CALLED");
 			} else {
+				
 				BillCriteria billCriteria = new BillCriteria();
 				billCriteria.setUserId(user.getId());
 
 				bills = billService.getBillsByFilter(billCriteria);
+				System.err.println("bills initialize first time");
 			}
 
 			@SuppressWarnings("unchecked")
 			Map<String, Object> mapBillDetails = (Map<String, Object>) session.getAttribute("mapBillDetails");
 
 			@SuppressWarnings("unchecked")
-			Map<String, String> mapCoverPhoto = (Map<String, String>) session.getAttribute("mapCoverPhoto");
+			Map<String, String> mapCoverPhoto = (Map<String, String>) session.getAttribute("mapCoverPhotoOrder");
 			
 			if (mapBillDetails == null || mapCoverPhoto == null) {
 				mapBillDetails = new HashMap<>();
 				mapCoverPhoto = new HashMap<String, String>();
+				System.err.println("Map initialize first time");
 			}
 			
 			if (mapBillDetails.size() == 0 || mapCoverPhoto.size() == 0) {
@@ -118,8 +121,6 @@ public class UserInfomationController {
 							}
 						}
 					}
-					
-					
 				}
 			} else {
 				System.err.println("Map detail bill session CALLED");

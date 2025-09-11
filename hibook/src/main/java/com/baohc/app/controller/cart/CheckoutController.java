@@ -281,10 +281,6 @@ public class CheckoutController {
 					session.removeAttribute("cartItemsSelected");
 
 					sendCartToEmail(bill, cartToEmail);
-					
-					session.removeAttribute("bills");
-					session.removeAttribute("mapCoverPhotoOrder");
-					session.removeAttribute("mapBillDetails");
 
 				}
 			} else {
