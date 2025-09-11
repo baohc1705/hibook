@@ -9,7 +9,6 @@ import com.baohc.app.controller.auth.VerificationController;
 import com.baohc.app.controller.book.GetBooksController;
 import com.baohc.app.controller.cart.CartController;
 import com.baohc.app.controller.cart.CheckoutController;
-import com.baohc.app.controller.user.UserController;
 import com.baohc.app.controller.user.UserInfomationController;
 import com.baohc.core.router.BaseRouter;
 import com.baohc.core.router.Router;
@@ -50,8 +49,8 @@ public class RegisterRouteController implements BaseRouter{
 		Router.post("/verify-account/verify-otp-email", new VerificationController(), "updateEmailByOTP");
 		
 		//===USER INFO===
-		Router.get("/user-infomation", new UserInfomationController(), "getSinglePageApplication");
-		Router.post("/user-infomation", new UserInfomationController(), "doTask");
+		Router.get("/user-information", new UserInfomationController(), "getSinglePageApplication");
+		Router.post("/user-information", new UserInfomationController(), "doTask");
 		
 		//==========AMDIN===============
 		Router.get("/admin", new AdminController() , "showDashboard");

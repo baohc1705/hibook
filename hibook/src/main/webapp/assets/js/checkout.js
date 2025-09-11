@@ -281,9 +281,9 @@ $(document).ready(function() {
 		
 		let formatted = new Intl.NumberFormat("vi-VN").format(priceDelivery) + " đ";
 		let formattedTotal = new Intl.NumberFormat("vi-VN").format(newTotal) + " đ";
-		$("#price-delivery").text(formatted);
+		$("#price-delivery").text("+ " + formatted);
 
-		// chèn ra chỗ tổng tiền (không phải input hidden)
+		// chèn ra chỗ tổng tiền
 		$("#totalPriceDisplay").empty();
 		$("#totalPriceDisplay").text(formattedTotal);
 

@@ -4,7 +4,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
-<div class="wrapper" >
+<div class="wrapper-orders" >
 	<ul class="navbar-order d-flex justify-content-between align-items-center p-0 mb-2">
 		<li class="navbar-order-item list-group-item active">
 			<span>Tất cả</span>
@@ -61,7 +61,7 @@
 		</c:when>
 		<c:otherwise>
 			<c:forEach var="bill" items="${bills}">
-					<div class="wrapper p-3 bg_dark-blue-50 mb-3">	
+					<div class="wrapper-bill p-3 bg_dark-blue-50 mb-3">	
 						<div class="d-flex justify-content-between align-items-center p-0 mb-3">
 							<div>
 								<span class="d-block fs-base">Mã đơn hàng: ${bill.id}</span>
@@ -83,9 +83,9 @@
 						</div>
 
 						<c:if test="${not empty sessionScope.mapBillDetails[bill.id]}">
-							<table class="table-order-item bg-white">
+							<table class="table-order-item bg-white" data-bill-id="${bill.id}">
 								<c:forEach var="item" items="${sessionScope.mapBillDetails[bill.id]}">
-									<tr>
+									<tr class="book-item">
 										<td class="text-center">
 											<img alt="${sessionScope.mapCoverPhotoOrder[item.book.id]}" 
 												 src="${pageContext.request.contextPath}/assets/images/books/${sessionScope.mapCoverPhotoOrder[item.book.id]}"
@@ -125,13 +125,46 @@
 							<button type="button" class="button-fill">Hủy đơn hàng</button>
 							<button type="button" class="button-border ms-3">Liên hệ shop</button>
 						</div>
-						
-						
-						
 					</div>
-				
 			</c:forEach>
 		</c:otherwise>
 	</c:choose>
 </div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		let prevContent = ""; // biến lưu html trước đó
+		
+		$(".wrapper-orders").on("click",".table-order-item", function() {
+	        let txtBillId = $(this).data("bill-id");
+	        
+	    	 // Lưu lại html danh sách cũ trước khi load chi tiết
+	        prevContent = $(".wrapper-orders").html();
+	    	 
+	        $.ajax({
+	            url: "<%=request.getContextPath()%>/user-information",
+	            method: "GET",
+	            data: {
+	                page: "order-detail",
+	                billId : txtBillId
+	            },
+	            success: function(res) { 
+	            	$(".wrapper-orders").empty();
+	                $(".wrapper-orders").html(res);
+	            },
+	            error: function(xhr, status, error) {
+	                console.error("AJAX error:", status, error);
+	                console.error("Response text:", xhr.responseText);
+	                Swal.fire("Lỗi", "Không thể kết nối đến server", "error");
+	            }
+	        });
+	    });
+		 
+	 // Khi click nút Trở về
+	    $(document).on("click", "#btn-back-order", function(e) {
+	        e.preventDefault(); // tránh reload trang
+	        $(".wrapper-orders").html(prevContent);
+	    });
+	});
+</script>
 </html>

@@ -22,11 +22,13 @@ import com.baohc.app.service.bill.BillDetailServiceImpl;
 import com.baohc.app.service.bill.BillService;
 import com.baohc.app.service.bill.BillServiceImpl;
 import com.baohc.core.utils.BillCriteria;
+import com.mysql.cj.Session;
 
 public class UserInfomationController {
 
 	private final String INFO_PAGE = "/WEB-INF/views/user/info.jsp";
 	private final String ORDERS_PAGE = "/WEB-INF/views/user/orders.jsp";
+	private final String ORDER_DETAIL_PAGE = "/WEB-INF/views/user/order-detail.jsp";
 
 	private BillService billService;
 	private BillDetailService billDetailService;
@@ -50,6 +52,9 @@ public class UserInfomationController {
 				break;
 			case "orders":
 				viewOrder(request, response);
+				break;
+			case "order-detail":
+				viewOrderDetail(request, response);
 				break;
 			default:
 				viewInfo(request, response);
@@ -135,7 +140,53 @@ public class UserInfomationController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+	}
+	
+	private void viewOrderDetail(HttpServletRequest request, HttpServletResponse response)
+		throws ServletException, IOException {
+		try {
+			String billId = request.getParameter("billId");
+			if (billId == null || billId.isEmpty()) {
+				// TODO: DEBUG
+				System.err.println("BILL ID NOT FOUND");
+				return;
+			}
+			
+			HttpSession session = request.getSession(false);
+			
+			@SuppressWarnings("unchecked")
+			List<BillDTO> bills = (List<BillDTO>) session.getAttribute("bills");
+			@SuppressWarnings("unchecked")
+			Map<String, Object> mapBillDetails = (Map<String, Object>) session.getAttribute("mapBillDetails");@SuppressWarnings("unchecked")
+			Map<String, String> mapCoverPhoto = (Map<String, String>) session.getAttribute("mapCoverPhotoOrder");
+		
+			if (bills == null && mapBillDetails == null && mapCoverPhoto == null) {
+				//TODO: DEBUG
+				System.err.println("NOT FOUND bills mapBillDetails mapCoverPhoto");
+				return;
+			}
+			
+			List<BillDetailDTO> orderDetail = new ArrayList<BillDetailDTO>();
+			Map<String, String> coverPhotoBook = new HashMap<String, String>();
+			
+			BillDTO bill = new BillDTO();
+			for(BillDTO b : bills) {
+				if (billId.equals(b.getId())) {
+					bill = b;
+					
+					orderDetail = (List<BillDetailDTO>) mapBillDetails.get(bill.getId());
+	
+					break;
+				}
+			}
+			
+			request.setAttribute("bill", bill);
+			request.setAttribute("orderDetail", orderDetail);
+			request.getRequestDispatcher(ORDER_DETAIL_PAGE).forward(request, response);;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 }

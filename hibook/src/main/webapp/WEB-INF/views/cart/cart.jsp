@@ -58,13 +58,12 @@
 		                        	<c:forEach var="item" items="${cartItems }">
 			                            <tr>
 			                                <td class="text-center">
-			                                
 				                                <input 	type="checkbox" 
 						                                name="bookCheck" 
 						                                id="bookCheck_${item.book.id}" 
-						                                value="${item.book.id}">
-					                        
-			                                </td>
+						                                value="${item.book.id}"
+						                                data-subtotal="${item.subtotal}">
+						                    </td>
 											<td><img
 												src="${pageContext.request.contextPath}/assets/images/books/${mapCoverPhoto[item.book.id]}"
 												alt="${mapCoverPhoto[item.book.id]}"
@@ -123,16 +122,14 @@
 	                    <div class="d-flex justify-content-between">
 	                        <p>Thành tiền</p>
 	                        <p class="fw-semibold">
-	                        	<fmt:setLocale value="vi_VN"/>
-	                        	<fmt:formatNumber value="${cartTotal}"/> đ
+	                        	<span class="cart-total-selected">0 đ</span>
 	                        </p>
 	                    </div>
 	                    <hr>
 	                    <div class="d-flex justify-content-between">
 	                        <p class="fw-bold fs-5">Tổng tiền (+VAT)</p>
 	                        <p class="fw-bold fs-5 text-danger">
-	                        	<fmt:setLocale value="vi_VN"/>
-	                        	<fmt:formatNumber value="${cartTotal}"/> đ
+	                        	<span class="cart-total-selected">0 đ</span>
 	                        </p>
 	                    </div>
 	                    <button id="btn-send-checkout" type="button" class=" p-2 button-fill fw-semibold w-100">THANH TOÁN</button>

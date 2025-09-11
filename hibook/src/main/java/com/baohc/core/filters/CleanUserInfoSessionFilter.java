@@ -27,7 +27,7 @@ public class CleanUserInfoSessionFilter extends HttpFilter implements Filter {
 		String contextPath = req.getContextPath(); 
 		String relativeUri = uri.substring(contextPath.length());
 		if (session != null) {
-			if (!relativeUri.startsWith("/user/show-info") && !relativeUri.startsWith("/user-infomation")) {
+			if (!relativeUri.startsWith("/user/show-info") && !relativeUri.startsWith("/user-information")) {
 				session.removeAttribute("bills");
 				session.removeAttribute("mapCoverPhotoOrder");
 				session.removeAttribute("mapBillDetails");

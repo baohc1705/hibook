@@ -254,10 +254,9 @@ public class CheckoutController {
 					System.err.println("INSERT BILL DETAIL ERROR");
 					e.printStackTrace();
 				} finally {
-					resp.put("status", "success");
-					resp.put("message", "Đã đặt hàng thành công. Vui lòng kiểm tra email để xem đơn hàng");
-
+					
 					List<CartItem> cartToEmail = new ArrayList<CartItem>();
+					// TODO: DEBUG 
 					for(CartItem item : cartItems) {
 						System.err.println("ITEM COOKIES: " + item.getBook().getName());
 					}
@@ -281,6 +280,9 @@ public class CheckoutController {
 					session.removeAttribute("cartItemsSelected");
 
 					sendCartToEmail(bill, cartToEmail);
+					
+					resp.put("status", "success");
+					resp.put("message", "Đã đặt hàng thành công. Vui lòng kiểm tra email để xem đơn hàng");
 
 				}
 			} else {
@@ -324,7 +326,7 @@ public class CheckoutController {
 
 			// Body
 			sb.append("<tbody>");
-			for (CartItem item : cartToEmail) {
+			for (CartItem item : cartToEmail) {	
 				String price = df.format(item.getBook().getPrice()) + " đ";
 				String subTotal = df.format(item.getSubtotal()) + " đ";
 				sb.append("<tr>");
@@ -335,7 +337,7 @@ public class CheckoutController {
 				sb.append("</tr>");
 			}
 			sb.append("</tbody>");
-			String totalPrice = df.format(cartService.getCartTotal(cartToEmail)) + " đ";
+			String totalPrice = df.format(bill.getTotalPrice()) + " đ";
 			String priceShip = df.format(bill.getDelivery().getPrice()) + " đ";
 			// Footer
 			sb.append("<tfoot>");

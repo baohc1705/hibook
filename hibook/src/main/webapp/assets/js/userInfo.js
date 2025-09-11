@@ -11,7 +11,7 @@ $(document).ready(function() {
 		}
 
 		$.ajax({
-			url: "/hibook/user-infomation",
+			url: "/hibook/user-information",
 			method: "GET",
 			data: { page: page },
 			success: function(res) {

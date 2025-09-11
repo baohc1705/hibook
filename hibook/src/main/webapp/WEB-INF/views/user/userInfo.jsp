@@ -85,6 +85,10 @@
 		border-radius: .5rem;
 	}
 	
+	table.table-order-item tr:hover{
+		cursor: pointer;
+	}
+	
 	table.table-order-item td {
 		padding: 1rem;
 		border-bottom: 1px var(--dark-blue-200) solid;
@@ -148,6 +152,72 @@
 	.rotate span:last-child {
 	    transform: rotate(180deg); 
 	}
+	.wrapper-order-detail .order-detail_header {
+		border-bottom: 1px var(--dark-blue-200) dotted;
+		border-bottom-left-radius: .5rem;
+		border-bottom-right-radius: .5rem;
+	}
+	.wrapper-order-detail_log, .wrapper-order-detail_address, .wrapper-order-detail_book {
+		padding: 1rem;
+		background-color: var(--dark-blue-50);
+		border-radius: .5rem;
+		border-bottom: 1px var(--dark-blue-200) dotted;
+	}
+	
+	.order-detail_log {
+		display: flex;
+		position: relative;
+		justify-content: space-between;
+	}
+	
+	.order-detail_log div {
+		width: 140px;
+		
+		z-index: 1;
+		
+	}
+	.order-detail_log div .icon-log {
+		background-color: var(--dark-blue-50);
+		margin: auto;
+		width: 60px;
+		height: 60px;
+		border: 4px var(--dark-blue-800) solid;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: var(--fs-xlarge);
+		color: var(--dark-blue-800);
+		border-radius: 50%;		
+	}
+	
+	.order-detail_log div .icon-log.active {
+		background-color: var(--dark-blue-800);
+		color: var(--dark-blue-50);
+	}
+	
+	.order-detail_log div .log-text {
+		color: rgba(0,0,0,.8);
+	    font-size: .875rem;
+	    line-height: 1.25rem;
+	    margin: 1.25rem 0 .25rem;
+	    text-transform: capitalize
+	}
+	.order-detail_log div.line-log {
+		height: 4px;
+		position: absolute;
+		width:100%;
+		top: 30px;
+		z-index: 0;
+		
+	}
+	
+	.order-detail_log div.line-log div.line {
+		height: 4px;
+		width: calc(100% - 140px);
+		background-color: var(--dark-blue-800);
+		margin: 0 70px;
+	}
+	
 </style>
 
 </head>
@@ -190,7 +260,6 @@
 								</button>
 								<ul class="sidebar-submenu ${reqPage == 'info'?'show':''}">
 									<div class="wrapper">
-										
 										<li class="menu-item list-group-item ${reqPage == 'info'?'active':''}"data-page="info">Hồ sơ</li>
 										<li class="menu-item list-group-item">Đặt lại mật khẩu</li>
 										<li class="menu-item list-group-item">Địa chỉ</li>

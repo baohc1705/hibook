@@ -382,6 +382,7 @@ $(document).ready(function() {
 	
 	function toggleCheckoutButton() {
 		selectedBookIds = [];
+		let totalSelectedPrice = 0;
 		
 		// nếu tất cả đều được chọn thì check luôn "chọn tất cả"
 	    $("#check-all-book").prop(
@@ -391,9 +392,14 @@ $(document).ready(function() {
 		
 		$("input[name='bookCheck']:checked").each(function() {
 			selectedBookIds.push($(this).val());
+			totalSelectedPrice += parseFloat($(this).data("subtotal"));
 		});
 		
 		$("#btn-send-checkout").prop("disabled", selectedBookIds.length === 0);
+	
+		$(".cart-total-selected").text(
+		    totalSelectedPrice.toLocaleString("vi-VN") + " đ"
+		 );
 	};
 
 	
