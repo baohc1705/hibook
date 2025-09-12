@@ -24,6 +24,7 @@
     --clr-success: #4ADE80;
     --clr-gray-50: #e9edf3;
     --clr-gray-100: #8E96A0;
+    --clr-black-o50: rgba(0,0,0,.5);
 
     --ff-PaytoneOne: 'Paytone One', sans-serif;
     --ff-Roboto:'Roboto',sans-serif;
@@ -87,6 +88,10 @@ body {
 }
 .text-purple {
     color: var(--clr-purple);
+}
+
+.text-clr-black-o50 {
+    color: var(--clr-black-o50);
 }
 .bg_dark-blue-950-o50 {
     background-color: var(--dark-blue-950-o50) !important;

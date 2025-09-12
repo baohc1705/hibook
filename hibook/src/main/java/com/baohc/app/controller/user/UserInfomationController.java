@@ -22,7 +22,7 @@ import com.baohc.app.service.bill.BillDetailServiceImpl;
 import com.baohc.app.service.bill.BillService;
 import com.baohc.app.service.bill.BillServiceImpl;
 import com.baohc.core.utils.BillCriteria;
-import com.mysql.cj.Session;
+
 
 public class UserInfomationController {
 
@@ -142,6 +142,7 @@ public class UserInfomationController {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void viewOrderDetail(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
 		try {
@@ -154,10 +155,10 @@ public class UserInfomationController {
 			
 			HttpSession session = request.getSession(false);
 			
-			@SuppressWarnings("unchecked")
+			
 			List<BillDTO> bills = (List<BillDTO>) session.getAttribute("bills");
-			@SuppressWarnings("unchecked")
-			Map<String, Object> mapBillDetails = (Map<String, Object>) session.getAttribute("mapBillDetails");@SuppressWarnings("unchecked")
+			
+			Map<String, Object> mapBillDetails = (Map<String, Object>) session.getAttribute("mapBillDetails");
 			Map<String, String> mapCoverPhoto = (Map<String, String>) session.getAttribute("mapCoverPhotoOrder");
 		
 			if (bills == null && mapBillDetails == null && mapCoverPhoto == null) {
@@ -167,7 +168,7 @@ public class UserInfomationController {
 			}
 			
 			List<BillDetailDTO> orderDetail = new ArrayList<BillDetailDTO>();
-			Map<String, String> coverPhotoBook = new HashMap<String, String>();
+		
 			
 			BillDTO bill = new BillDTO();
 			for(BillDTO b : bills) {
@@ -175,11 +176,17 @@ public class UserInfomationController {
 					bill = b;
 					
 					orderDetail = (List<BillDetailDTO>) mapBillDetails.get(bill.getId());
-	
+					
 					break;
 				}
 			}
 			
+			double sum = 0;
+			for (BillDetailDTO item : orderDetail) {
+				sum += item.getPrice();
+			}
+			
+			request.setAttribute("totalPriceBill", sum);
 			request.setAttribute("bill", bill);
 			request.setAttribute("orderDetail", orderDetail);
 			request.getRequestDispatcher(ORDER_DETAIL_PAGE).forward(request, response);;

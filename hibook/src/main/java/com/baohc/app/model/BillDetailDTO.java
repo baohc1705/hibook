@@ -1,5 +1,7 @@
 package com.baohc.app.model;
 
+import java.util.List;
+
 public class BillDetailDTO {
     private BillDTO bill;
     private BookDTO book;
@@ -56,5 +58,13 @@ public class BillDetailDTO {
         String bookId = (book != null && book.getId() != null) ? book.getId() : "null";
         return "BillDetailDTO [bill=" + billId + ", book=" + bookId 
                 + ", quantity=" + quantity + ", price=" + price + "]";
+    }
+    
+    public double getTotalPriceBill(List<BillDetailDTO> billDetails) {
+    	double sum = 0;
+    	for (BillDetailDTO item : billDetails) {
+    		sum += item.getPrice();
+    	}
+    	return sum;
     }
 }

@@ -163,7 +163,6 @@
 		border-radius: .5rem;
 		border-bottom: 1px var(--dark-blue-200) dotted;
 	}
-	
 	.order-detail_log {
 		display: flex;
 		position: relative;
@@ -217,6 +216,20 @@
 		background-color: var(--dark-blue-800);
 		margin: 0 70px;
 	}
+	
+	table.order-detail_book {
+		width: 100%;
+	}
+	
+	table.order-detail_book td {
+		padding: 1rem;
+		border-bottom: 1px var(--dark-blue-200) dotted;
+	}
+	
+	.order-detail_address .info {
+		border-right: 1px var(--clr-black-o50) solid;
+	}
+	
 	
 </style>
 
@@ -286,7 +299,8 @@
 					</div>
 				</div>
 			
-				<div class="col-md-9 p-3" id="main-content">	
+				<div class="col-md-9 p-3" id="main-content">
+					<!-- <span class="loader"></span> -->
 					<!-- Mặc định là info -->
 					<jsp:include page="/WEB-INF/views/user/info.jsp"></jsp:include>
 

@@ -78,15 +78,18 @@
 			</div>
 		</div>
 	</div>
-	
+	<!-- <div class="py-1">
+		<div class="line-shape"
+			style="background-image: repeating-linear-gradient(45deg, #6fa6d6, #6fa6d6 33px, transparent 0, transparent 41px, #f18d9b 0, #f18d9b 74px, transparent 0, transparent 82px); background-position-x: -1.875rem; background-size: 7.25rem .1875rem; height: .1875rem; width: 100%"></div>
+	</div> -->
 	<div class="wrapper-order-detail_address">
-		<div class="order-detail_address fs-base">
-			<p class="fs-large">Địa chỉ giao hàng</p>
+		<div class="order-detail_address">
+			<p class="fs-large">Địa Chỉ Nhận Hàng</p>
 			<div class="row">
-				<div class="col-md-4">
-					<p>${bill.fullname}</p>
-					<p>${bill.phone}</p>
-					<p>${bill.shipAddress}, ${bill.ward}, ${bill.district}, ${bill.city}</p>
+				<div class="info col-md-4">
+					<span class="fs-base">${bill.fullname}</span><br>
+					<span class="fs-small text-clr-black-o50">${bill.phone}</span><br>
+					<span class="fs-small text-clr-black-o50">${bill.shipAddress}, ${bill.ward}, ${bill.district}, ${bill.city}</span>
 				</div>
 				<div class="col-md-4">
 					Thông tin vận chuyển
@@ -97,7 +100,7 @@
 	
 	<div class="wrapper-order-detail_book">
 		<c:if test="${not empty orderDetail}">
-			<table class="bg-white w-100">
+			<table class="order-detail_book">
 				<c:forEach var="item" items="${orderDetail}">
 					<tr class="book-item">
 						<td class="text-center">
@@ -125,6 +128,38 @@
 						</td>
 					</tr>
 				</c:forEach>
+				<tr class="fs-base">
+					<td colspan="2" class="text-end text-clr-black-o50">Tổng tiền hàng</td>
+					<td class="text-end">
+						<span>
+							<fmt:setLocale value="vi-vn"/>
+							<fmt:formatNumber value="${totalPriceBill}"/> đ
+						</span>
+					</td>
+				</tr>
+				<tr class="fs-base">
+					<td colspan="2" class="text-end text-clr-black-o50">Phí vận chuyển</td>
+					<td class="text-end">
+						<span>+ 
+							<fmt:setLocale value="vi-vn"/>
+							<fmt:formatNumber value="${bill.delivery.price}"/> đ
+						</span>
+					</td>
+				</tr>
+				<tr class="fs-base">
+					<td colspan="2" class="text-end text-clr-black-o50">Tổng tiền cần thanh toán</td>
+					<td class="text-end fs-large">
+						<span class="text-danger">
+							<fmt:setLocale value="vi-vn"/>
+							<fmt:formatNumber value="${bill.totalPrice}"/> đ
+						</span>
+					</td>
+				</tr>
+				<tr class="fs-base">
+					<td colspan="2" class="text-end text-clr-black-o50">Phương thức thanh toán</td>
+					<td class="text-end"> ${bill.payMethod}</td>
+				</tr>
+				
 			</table>
 		</c:if>
 	</div>

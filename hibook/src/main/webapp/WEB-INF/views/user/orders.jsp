@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html>
 <div class="wrapper-orders" >
+
 	<ul class="navbar-order d-flex justify-content-between align-items-center p-0 mb-2">
 		<li class="navbar-order-item list-group-item active">
 			<span>Tất cả</span>
@@ -151,6 +152,8 @@
 	            success: function(res) { 
 	            	$(".wrapper-orders").empty();
 	                $(".wrapper-orders").html(res);
+	                // Reset scroll về đầu sau khi load xong
+	                $("html, body").scrollTop(0);
 	            },
 	            error: function(xhr, status, error) {
 	                console.error("AJAX error:", status, error);
