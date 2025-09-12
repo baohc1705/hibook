@@ -67,5 +67,11 @@ public class BillServiceImpl implements BillService {
 		// TODO Auto-generated method stub
 		return billDAO.countBillsByFilter(criteria);
 	}
+	
+	@Override
+	public List<BillDTO> getBillsCriteria(BillCriteria criteria) {
+		// TODO Auto-generated method stub
+		return billDAO.getBillsCriteria(criteria);
+	}
 
 }

@@ -175,6 +175,7 @@ public class BillDAOImpl implements BillDAO {
 			
 			for (int i = 0; i < params.size(); i++) {
 				pmt.setObject(i + 1, params.get(i));
+				System.out.println("PARAMs thu " + i + " : " + params.get(i));
 			}
 			
 			ResultSet rs = pmt.executeQuery();
@@ -203,7 +204,50 @@ public class BillDAOImpl implements BillDAO {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
+	
+	@Override
+	public List<BillDTO> getBillsCriteria(BillCriteria criteria) {
+		
+		List<BillDTO> bills = new ArrayList<BillDTO>();
+		
+		QueryBuilder builder = new QueryBuilder();
+		
+		builder.buildBillQuery(criteria);
+		
+		String sql = builder.getSelectQuery();
+		
+		List<Object> params = builder.getParameters();
+		
+		try {
+			Connection conn = ConnectionKit.getConnection();
+			PreparedStatement pmt = conn.prepareStatement(sql);
+			
+			for (int i = 0; i < params.size(); i++) {
+				pmt.setObject(i + 1, params.get(i));
+				System.out.println("PARAMs thu " + i + " : " + params.get(i));
+			}
+			
+			ResultSet rs = pmt.executeQuery();
+			
+			while (rs.next()) {
+				BillDTO bill = mapToResultSet(rs);
+				if (bill != null)
+					bills.add(bill);
+			}
+			
+			if (rs != null)
+				rs.close();
+			if (pmt != null)
+				pmt.close();
+			ConnectionKit.closeConnection(conn);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return bills;
+	}
+	
 	private BillDTO mapToResultSet(ResultSet rs) throws SQLException {
 		BillDTO bill = new BillDTO();
 		UserService userService = UserServiceImpl.getInstance();
@@ -248,4 +292,5 @@ public class BillDAOImpl implements BillDAO {
 
 		return bill;
 	}
+
 }

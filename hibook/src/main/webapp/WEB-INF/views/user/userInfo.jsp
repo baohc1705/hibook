@@ -343,26 +343,21 @@
 	</div>
 	<script type="text/javascript" src="<%=url1%>/assets/js/userInfo.js"></script>
 	<script type="text/javascript">
-		const buttonTrigger = document.getElementById('btn-trigger_upload');
-		const inputUpload = document.getElementById('input-uploadfile');
-		const previewAvatar = document.getElementById('preview-avatar');
-	
-		buttonTrigger.addEventListener('click', () => {
-			document.getElementById('input-uploadfile').click();
-		});
-	
-
-		inputUpload.addEventListener('change', (e) => {
-			const file = e.target.files[0];
-			if (file) {
-				previewAvatar.src = URL.createObjectURL(file);
-			}
-		});
-		
-		
-		
 		$(document).ready(function() {
+			
 			console.log("document loaded!");
+
+			$("#btn-trigger_upload").on('click', () => {
+				$('#input-uploadfile').click();
+			});
+		
+
+			$("#input-uploadfile").on('change', (e) => {
+				const file = e.target.files[0];
+				if (file) {
+					 $("#preview-avatar").attr("src", URL.createObjectURL(file));
+				}
+			});
 			
 			$("#formEdit").on("submit", function(e) {
 				e.preventDefault();

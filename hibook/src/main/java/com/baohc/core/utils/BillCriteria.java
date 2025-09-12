@@ -93,5 +93,13 @@ public class BillCriteria {
 	public boolean hasUserId() {
 		return userId != null && !userId.isEmpty();
 	}
+
+	@Override
+	public String toString() {
+		return "BillCriteria [keyword=" + keyword + ", userId=" + userId + ", sortBy=" + sortBy + ", sortOrder="
+				+ sortOrder + ", page=" + page + ", pageSize=" + pageSize + "]";
+	}
+	
+	
 	
 }

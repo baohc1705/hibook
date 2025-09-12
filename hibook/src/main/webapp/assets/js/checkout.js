@@ -17,7 +17,7 @@ $(document).ready(function() {
 		var txtShipAddress = $("#address").val();
 		var txtDelivery = $("input[name='delivery']:checked").val();
 		var txtTotalPrice = $("#totalPrice").val();
-		var txtNote = "Đay la note doi them sau";
+		var txtNote = $("#note").val().trim();
 		var txtPayMethod = $("input[name='payMethod']:checked").val();
 		
 		if (!txtPayMethod) {
@@ -28,6 +28,17 @@ $(document).ready(function() {
 		        });
 		        return;
 		    }
+		$("#btn-checkout").empty();
+		$("#btn-checkout").html(
+			`<div class="loader-button d-flex justify-content-center align-items-center">
+				 <div class="spinner-border" role="status">
+				  	<span class="visually-hidden">Loading...</span>
+				 </div>
+				 <span class="ms-2">ĐANG HOÀN TẤT</span>
+			 </div>
+			 `
+		);
+
 		$.ajax({
 			url: "/hibook/checkout?action=add",
 			method: "POST",
@@ -65,7 +76,12 @@ $(document).ready(function() {
 			},
 			error: function() {
 				console.log("Không thể đến server /checkout")
+			},
+			complete: function() {
+				$(".loader-button").addClass("d-none");
+				$("#btn-checkout").html(`XÁC NHẬN THANH TOÁN`);
 			}
+			
 		});
 	});
 	function validateCheckoutForm() {

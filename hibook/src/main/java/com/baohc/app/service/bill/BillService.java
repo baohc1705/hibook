@@ -21,4 +21,6 @@ public interface BillService {
 	public List<BillDTO> getBillsByFilter(BillCriteria criteria);
 	
 	public int countBillsByFilter(BillCriteria criteria);
+	
+	public List<BillDTO> getBillsCriteria(BillCriteria criteria);
 }

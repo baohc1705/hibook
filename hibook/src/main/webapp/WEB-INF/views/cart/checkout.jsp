@@ -284,6 +284,7 @@
             <div class="wrapper-argeerment">
                 <input type="checkbox" name="" id="" class="" checked> 
                 <span>Đồng ý với điều khoản thanh toán của hiBook.com</span>
+                
             </div>
 
             <div class="wrapper-price w-50">
@@ -303,6 +304,7 @@
                     <hr>
                     <div class="d-flex justify-content-between">
                         <p class="fw-bold fs-5">Tổng tiền</p>
+                        
                         <p class="fw-bold fs-5 text-danger">
                         	<span id="totalPriceDisplay">
                         		<fmt:setLocale value="vi_VN"/>
@@ -313,6 +315,7 @@
                         	<input type="hidden" value="${cartTotal}" id="totalPriceTmp" readonly="readonly">
                         </p>
                     </div>
+                   
                     <button id="btn-checkout" type="submit" class=" p-2 button-fill fw-semibold w-100">XÁC NHẬN THANH TOÁN</button>
             </div>
         </div>

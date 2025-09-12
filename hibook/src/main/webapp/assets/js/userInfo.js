@@ -18,7 +18,7 @@ $(document).ready(function() {
 		                <span class="loader"></span>
 		            </div>
 		        `);
-		    }, 150); // chỉ show loader nếu request lâu hơn 150ms
+		}, 150); // chỉ show loader nếu request lâu hơn 150ms
 		
 		$.ajax({
 			url: "/hibook/user-information",

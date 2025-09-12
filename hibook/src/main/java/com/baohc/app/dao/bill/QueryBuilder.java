@@ -16,7 +16,7 @@ public class QueryBuilder {
 		this.parameters = new ArrayList<Object>();
 	}
 
-	public QueryBuilder buildBillQuery() {
+	public QueryBuilder buildBillQuery(BillCriteria criteria) {
 		// Base SQL;
 		sql.append("SELECT * ");
 		sql.append("FROM bill b ");
@@ -26,6 +26,13 @@ public class QueryBuilder {
 		countSql.append("SELECT COUNT(*) ");
 		countSql.append("FROM bill b ");
 		countSql.append("WHERE 1=1 ");
+		
+		// Add condition
+		addCondition(criteria);
+
+		// Add sort
+		addSorting(criteria);
+		
 		return this;
 	}
 

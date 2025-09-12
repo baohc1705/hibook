@@ -35,9 +35,12 @@
                 <div class="wrapper-table bg_dark-blue-50 rounded-4 p-3">
                 	<c:choose>
                 		<c:when test="${empty cartItems}">
-                			<div class="alert alert-info" role="alert">
-							 	<h2 class="">Giỏ hàng của bạn trống</h2>
-							 	<p class="fs-base">Bắt đầu thêm sản phẩm vào giỏ hàng!</p>
+                			<div class="text-center">
+                				<img alt="empty-cart.png" 
+                					src="${pageContext.request.contextPath}/assets/images/icons/order.png" 
+                					width="200"
+                					class="object-fit-contain">
+							 	<p class="fs-base">Giỏ hàng của bạn trống. Bắt đầu mua sắm!</p>
 							 	<a href="${pageContext.request.contextPath}/" class="nav-link">Xem sản phẩm</a>
 							</div>
                 		</c:when>
