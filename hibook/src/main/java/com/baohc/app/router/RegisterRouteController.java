@@ -2,6 +2,8 @@ package com.baohc.app.router;
 
 import com.baohc.app.controller.WelcomeController;
 import com.baohc.app.controller.admin.AdminController;
+import com.baohc.app.controller.admin.bill.GetBillController;
+import com.baohc.app.controller.admin.bill.BillController;
 import com.baohc.app.controller.admin.book.AdminBookController;
 import com.baohc.app.controller.admin.book.AdminGetBookController;
 import com.baohc.app.controller.auth.AuthController;
@@ -70,6 +72,8 @@ public class RegisterRouteController implements BaseRouter{
 		
 		Router.post("/admin/book/remove", new AdminBookController(), "doRemoveBook");
 		
+		Router.get("/admin/bills", new GetBillController(), "getBills");
+		Router.post("/admin/bills", new BillController(), "doBills");
 		
 		//==============USER=================
 		Router.get("/books", new GetBooksController(), "getBooks");

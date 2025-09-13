@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<aside class="sidebar"> 
+<aside class="sidebar collapsed"> 
         <!-- header sidebar -->
         <header class="sidebar-header">
             <a href="${pageContext.request.contextPath}/admin" class="nav-link header-logo d-flex align-items-center">
@@ -77,7 +77,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="${pageContext.request.contextPath}/admin/bills?action=view-all" class="nav-link">
                         <span class="nav-icon material-symbols-rounded">receipt_long</span>
                         <span class="nav-label">Đơn hàng</span>
                     </a>

@@ -18,6 +18,8 @@ public interface BillService {
 	
 	public int deleteAll(List<BillDTO> arr);
 	
+	public int update(BillDTO bill);
+	
 	public List<BillDTO> getBillsByFilter(BillCriteria criteria);
 	
 	public int countBillsByFilter(BillCriteria criteria);

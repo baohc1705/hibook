@@ -77,6 +77,14 @@ public class QueryBuilder {
 			countSql.append(condition);
 			parameters.add(criteria.getUserId());
 		}
+		
+		// Status
+		if (criteria.hasStatus()) {
+			String condition = "AND b.status=? ";
+			sql.append(condition);
+			countSql.append(condition);
+			parameters.add(criteria.getStatus());
+		}
 
 	}
 

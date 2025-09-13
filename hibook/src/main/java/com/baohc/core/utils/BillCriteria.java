@@ -3,6 +3,7 @@ package com.baohc.core.utils;
 public class BillCriteria {
 	private String keyword;
 	private String userId;
+	private String status;
 	
 	private String sortBy = "createAt";
 	private String sortOrder ="DESC";
@@ -28,6 +29,18 @@ public class BillCriteria {
 		super();
 		this.keyword = keyword;
 		this.userId = userId;
+		this.sortBy = sortBy;
+		this.sortOrder = sortOrder;
+		this.page = page;
+		this.pageSize = pageSize;
+	}
+	
+	public BillCriteria(String keyword, String userId, String status, String sortBy, String sortOrder, int page,
+			int pageSize) {
+		super();
+		this.keyword = keyword;
+		this.userId = userId;
+		this.status = status;
 		this.sortBy = sortBy;
 		this.sortOrder = sortOrder;
 		this.page = page;
@@ -82,6 +95,14 @@ public class BillCriteria {
 		this.pageSize = pageSize;
 	}
 	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	public int getOffset() {
 		return (page - 1) * pageSize;
 	}
@@ -93,7 +114,9 @@ public class BillCriteria {
 	public boolean hasUserId() {
 		return userId != null && !userId.isEmpty();
 	}
-
+	public boolean hasStatus() {
+		return status != null && !status.trim().isEmpty();
+	}
 	@Override
 	public String toString() {
 		return "BillCriteria [keyword=" + keyword + ", userId=" + userId + ", sortBy=" + sortBy + ", sortOrder="

@@ -13,13 +13,13 @@
 		<li class="navbar-order-item list-group-item" data-cate="CHO_XAC_NHAN">
 			<span>Chờ xác nhận</span>
 		</li>
-		<li class="navbar-order-item list-group-item">
+		<li class="navbar-order-item list-group-item" data-cate="XAC_NHAN">
 			<span>Vận chuyển</span>
 		</li>
-		<li class="navbar-order-item list-group-item">
+		<li class="navbar-order-item list-group-item" data-cate="DANG_VAN_CHUYEN">
 			<span>Chờ giao hàng</span>
 		</li>
-		<li class="navbar-order-item list-group-item">
+		<li class="navbar-order-item list-group-item" data-cate="DA_NHAN_HANG">
 			<span>Hoàn thành</span>
 		</li>
 		<li class="navbar-order-item list-group-item">
@@ -49,87 +49,7 @@
 		</div>
 	</div>
 	<div id="list-orders-detail">
-		<%-- <c:choose>
-			<c:when test="${empty bills}">
-				<div class="bg-white text-center p-3">
-					<img alt="empty-cart.png" 
-						 src="${pageContext.request.contextPath}/assets/images/icons/empty-cart.png"
-						 class="img-fluid object-fit-contain"
-						 width="200">
-					<p class="fs-base mt-3 fs-large">Bạn chưa có đơn hàng nào!</p>
-					
-				</div>
-			</c:when>
-			<c:otherwise>
-				<c:forEach var="bill" items="${bills}">
-						<div class="wrapper-bill p-3 bg_dark-blue-50 mb-3">	
-							<div class="d-flex justify-content-between align-items-center p-0 mb-3">
-								<div>
-									<span class="d-block fs-base">Mã đơn hàng: ${bill.id}</span>
-									<span class="d-block fs-small text_gray-100">
-										<i class="fa-regular fa-clock"></i> 
-										<fmt:formatDate value="${bill.createAt}" pattern="HH:mm dd/MM/yyyy"/>
-									</span>
-								</div>
-								<div>
-									<span class="fs-base text-success">
-										<i class="fa-regular fa-truck"></i>
-										Đang vận chuyển 
-									</span>
-										|
-									<span class="text-uppercase text_dark-blue-800">
-										${bill.status}
-									</span>
-								</div>
-							</div>
-	
-							<c:if test="${not empty sessionScope.mapBillDetails[bill.id]}">
-								<table class="table-order-item bg-white" data-bill-id="${bill.id}">
-									<c:forEach var="item" items="${sessionScope.mapBillDetails[bill.id]}">
-										<tr class="book-item">
-											<td class="text-center">
-												<img alt="${sessionScope.mapCoverPhotoOrder[item.book.id]}" 
-													 src="${pageContext.request.contextPath}/assets/images/books/${sessionScope.mapCoverPhotoOrder[item.book.id]}"
-													 class="object-fit-contain"
-													 height="100">
-											</td>
-											<td class="align-top">
-												<span class="d-block mb-1 text-overflow-oneline">
-													${item.book.name}
-												</span >
-												<span class="d-block mb-2 fs-small text_gray-100">
-													Tác giả: ${item.book.author.fullname}
-												</span>
-												<span class="d-block mb-2">
-													x${item.quantity}
-												</span>
-											</td>
-											<td class="text-end">
-												<span class="text-danger">
-													<fmt:setLocale value="vi-vn"/>
-													<fmt:formatNumber value="${item.price}"/> đ
-												</span>
-											</td>
-										</tr>
-									</c:forEach>
-								</table>
-							</c:if>
-							
-								
-							<p class="text-end mt-3">Thành tiền:  
-								<span class="fs-xlarge text-danger">
-									<fmt:setLocale value="vi-vn"/>
-									<fmt:formatNumber value="${bill.totalPrice}"/> đ
-								</span>
-							</p>
-							<div class="ms-auto d-flex justify-content-between align-items-center" style="width: fit-content">
-								<button type="button" class="button-fill">Hủy đơn hàng</button>
-								<button type="button" class="button-border ms-3">Liên hệ shop</button>
-							</div>
-						</div>
-				</c:forEach>
-			</c:otherwise>
-		</c:choose> --%>
+		<!-- Fetch data here -->
 	</div>
 </div>
 
@@ -250,7 +170,7 @@
 	                // Nếu có bill
 	                $.each(bills, function(i, bill) {
 	                    var html = ''
-	                        + '<div class="wrapper-bill p-3 bg_dark-blue-50 mb-3">'
+	                        + '<div class="wrapper-bill">'
 	                        + '  <div class="d-flex justify-content-between align-items-center p-0 mb-3">'
 	                        + '    <div>'
 	                        + '      <span class="d-block fs-base">Mã đơn hàng: ' + bill.id + '</span>'
@@ -294,6 +214,16 @@
 	                        });
 	                        html += '</table>';
 	                    }
+	                    
+	                    var btnAction = '';
+
+	                    if (bill.status === "Đang vận chuyển") {
+	                        btnAction = '<button type="button" class="btn-confirm-bill button-fill" data-bill-id="'+bill.id+'">Đã nhận hàng</button>';
+	                    } else if (bill.status === "Đã nhận hàng") {
+	                        btnAction = '<button type="button" class="btn-reorder-bill button-fill" data-bill-id="'+bill.id+'">Mua lại</button>';
+	                    } else {
+	                        btnAction = '<button type="button" class="btn-remove-bill button-fill" data-bill-id="'+bill.id+'">Hủy đơn hàng</button>';
+	                    }
 
 	                    html += ''
 	                        + '  <p class="text-end mt-3">Thành tiền: '
@@ -302,7 +232,7 @@
 	                        + '    </span>'
 	                        + '  </p>'
 	                        + '  <div class="ms-auto d-flex justify-content-between align-items-center" style="width: fit-content">'
-	                        + '    <button type="button" class="button-fill">Hủy đơn hàng</button>'
+	                        +		btnAction
 	                        + '    <button type="button" class="button-border ms-3">Liên hệ shop</button>'
 	                        + '  </div>'
 	                        + '</div>';
@@ -320,6 +250,54 @@
 	            }
 	        });
 		}
+	    
+	    $(document).on("click", ".btn-confirm-bill", function() {
+	    	let txtBillId = $(this).data("bill-id");
+			let txtStatus = 'Đã nhận hàng';
+			$.ajax({
+                url: "${pageContext.request.contextPath}/admin/bills",
+                type: "POST",
+                data: {
+                    action: "update-status",
+                    billId: txtBillId,
+                    status: txtStatus
+                },
+                success: function(res) {
+                    // Có thể show toast hoặc alert thành công
+                    console.log("Update status success for bill: " + txtBillId);
+                    if (res.status === "success") {
+                    	Swal.fire({
+                		  position: "top-end",
+                		  icon: "success",
+                		  title: res.message,
+                		  showConfirmButton: false,
+                		  timer: 1500
+                		}).then(()=>{
+                			 $(".navbar-order-item").removeClass("active");
+                             $(".navbar-order-item[data-cate='ALL']").addClass("active");
+
+                             currentCategory = "ALL";
+                             currentPage = 1;
+                             hasLoadMore = true;
+                             $("#list-orders-detail").empty();
+                             loadBills(currentCategory, true);
+                		});
+                    	
+    				}
+    				else {
+    					Swal.fire({
+    						icon: "error",
+    						title: "Thất bại",
+    						text: res.message
+    					});
+    				}
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error update status: " + error);
+                    alert("Cập nhật trạng thái thất bại!");
+                }
+            });
+	    });
 	});
 	
  	

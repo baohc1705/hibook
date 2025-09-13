@@ -55,7 +55,13 @@ public class BillServiceImpl implements BillService {
 		// TODO Auto-generated method stub
 		return billDAO.deleteAll(arr);
 	}
-
+	
+	@Override
+	public int update(BillDTO bill) {
+		
+		return billDAO.update(bill);
+	}
+	
 	@Override
 	public List<BillDTO> getBillsByFilter(BillCriteria criteria) {
 		// TODO Auto-generated method stub

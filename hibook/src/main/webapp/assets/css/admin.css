@@ -46,13 +46,14 @@ body {
     visibility: visible;
 }
 
-::-webkit-scrollbar {
+ ::-webkit-scrollbar {
     width: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
     background: rgba(255,255,255,0.3);
     border-radius: 5px;
+
 }
 
 .sidebar-header {
@@ -174,7 +175,7 @@ body {
 main {
     display: grid;
     grid-template-rows: auto 1fr;
-    grid-template-columns: auto;
+    grid-template-columns: 1fr;
 }
 
 /* navigation */
@@ -494,12 +495,12 @@ main {
     overflow-x: auto;
     position: sticky;
 }
-table {
+.table-container table {
     max-width: 100%;
     position: sticky;
     top: 100px;
 }
-table th,
+.table-container table th,
 table td {
     padding:  .5rem;
     transition: all 0.3s ease;
@@ -515,15 +516,15 @@ table td {
 }
 
 
-table thead {
+.table-container table thead {
     background-color: var(--dark-blue-800);    
 }
 
-table thead tr th {
+.table-container table thead tr th {
 	border-left: 1px rgba(255,255,255,0.5) solid;
 	border-right: 1px rgba(255,255,255,0.5) solid;
 }
-table tr:nth-child(even) {
+.table-container table tr:nth-child(even) {
     background-color: var(--dark-blue-950-o50);
 }
 

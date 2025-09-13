@@ -81,37 +81,55 @@ public class UserInfomationController {
 		try {
 			String cate = request.getParameter("cate");
 			String status = "";
-			if (BillStatus.CHO_XAC_NHAN.name().equals(cate)) {
+			if ("ALL".equals(cate) || cate == null) {
+				viewAllOrder(request, response);
+				return;
+			}
+			else if (BillStatus.CHO_XAC_NHAN.name().equals(cate)) {
 				status = BillStatus.CHO_XAC_NHAN.getDisplayName();
 				
-				HttpSession session = request.getSession(false);
+			} 
+			else if (BillStatus.DANG_VAN_CHUYEN.name().equals(cate)) {
+				status = BillStatus.DANG_VAN_CHUYEN.getDisplayName();
+				
+			}
+			else if ("DA_NHAN_HANG".equals(cate)){
+				status = BillStatus.DA_NHAN_HANG.getDisplayName();
+			}
+			else if ("XAC_NHAN".equals(cate)){
+				status = "XAC_NHAN";
+			}
+			System.err.println(status);
+			HttpSession session = request.getSession(false);
 
-				List<BillDTO> bills = (List<BillDTO>) session.getAttribute("bills");
-				Map<String, String> mapCoverPhoto = (Map<String, String>) session.getAttribute("mapCoverPhotoOrder");
-				Map<String, Object> mapBillDetails = (Map<String, Object>) session.getAttribute("mapBillDetails");
-				if (bills == null || bills.size() == 0) {
-					System.err.println("BILLS SESSION NOT FOUND");
-					return;
-				}
+			List<BillDTO> bills = (List<BillDTO>) session.getAttribute("bills");
+			Map<String, String> mapCoverPhoto = (Map<String, String>) session.getAttribute("mapCoverPhotoOrder");
+			Map<String, Object> mapBillDetails = (Map<String, Object>) session.getAttribute("mapBillDetails");
+			if (bills == null || bills.size() == 0) {
+				System.err.println("BILLS SESSION NOT FOUND");
+				return;
+			}
 
-				List<BillDTO> billsByCategory = new ArrayList<BillDTO>();
-
+			List<BillDTO> billsByCategory = new ArrayList<BillDTO>();
+			if ("XAC_NHAN".equals(status)) {
 				for (BillDTO b : bills) {
-//					if (status.equals(b.getStatus())) {
-//						billsByCategory.add(b);
-//					}
-					if (b.getTotalPrice() > 700000) {
+					if ("Đã xác nhận".equals(b.getStatus()) || "Đang chuẩn bị hàng".equals(b.getStatus())) {
 						billsByCategory.add(b);
 					}
 				}
-				resp.put("mapCoverPhoto", mapCoverPhoto);
-				resp.put("billsByCategory", billsByCategory);
-				resp.put("mapBillDetails", mapBillDetails);
-				response.getWriter().print(gson.toJson(resp));
-			} else if ("ALL".equals(cate) || cate == null) {
-				viewAllOrder(request, response);
 			}
-
+			else {
+				for (BillDTO b : bills) {
+					if (status.equals(b.getStatus())) {
+						billsByCategory.add(b);
+					}
+				}
+			}
+			
+			resp.put("mapCoverPhoto", mapCoverPhoto);
+			resp.put("billsByCategory", billsByCategory);
+			resp.put("mapBillDetails", mapBillDetails);
+			response.getWriter().print(gson.toJson(resp));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -223,72 +241,8 @@ public class UserInfomationController {
 
 	private void viewOrder(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-//		request.setCharacterEncoding("UTF-8");
-//		response.setContentType("application/json;charset=UTF-8");
-//		Gson gson = new Gson();
-//		Map<String, Object> resp = new HashMap<String, Object>();
+
 		try {
-//			HttpSession session = request.getSession();
-//
-//			UserDTO user = (UserDTO) session.getAttribute("USER_ACC");
-//			if (user == null) {
-//				System.err.println("ĐÃ HẾT PHIÊN ĐĂNG NHẬP");
-//				response.sendRedirect(request.getContextPath() + "/");
-//				return;
-//			}
-//
-//			@SuppressWarnings("unchecked")
-//			List<BillDTO> bills = (List<BillDTO>) session.getAttribute("bills");
-//
-//			if (bills != null && bills.size() != 0) {
-//				System.err.println("BILL IN SESSION CALLED");
-//			} else {
-//
-//				BillCriteria billCriteria = new BillCriteria();
-//				billCriteria.setUserId(user.getId());
-//
-//				bills = billService.getBillsByFilter(billCriteria);
-//				System.err.println("bills initialize first time");
-//			}
-//
-//			@SuppressWarnings("unchecked")
-//			Map<String, Object> mapBillDetails = (Map<String, Object>) session.getAttribute("mapBillDetails");
-//
-//			@SuppressWarnings("unchecked")
-//			Map<String, String> mapCoverPhoto = (Map<String, String>) session.getAttribute("mapCoverPhotoOrder");
-//
-//			if (mapBillDetails == null || mapCoverPhoto == null) {
-//				mapBillDetails = new HashMap<>();
-//				mapCoverPhoto = new HashMap<String, String>();
-//				System.err.println("Map initialize first time");
-//			}
-//
-//			if (mapBillDetails.size() == 0 || mapCoverPhoto.size() == 0) {
-//				for (BillDTO bill : bills) {
-//					List<BillDetailDTO> billDetails = billDetailService.getAllbyBill(bill.getId());
-//					if (billDetails != null && billDetails.size() != 0) {
-//						mapBillDetails.put(bill.getId(), billDetails);
-//						for (BillDetailDTO item : billDetails) {
-//							PhotoDTO photo = photoDAO.getCoverPhoto(item.getBook());
-//							if (photo != null) {
-//								mapCoverPhoto.put(item.getBook().getId(), photo.getPathname());
-//							}
-//						}
-//					}
-//				}
-//			} else {
-//				System.err.println("Map detail bill session CALLED");
-//				System.err.println("Map cover photo session CALLED");
-//			}
-//
-//			session.setAttribute("bills", bills);
-//			session.setAttribute("mapBillDetails", mapBillDetails);
-//			session.setAttribute("mapCoverPhotoOrder", mapCoverPhoto);
-//
-//			resp.put("mapCoverPhoto", mapCoverPhoto);
-//			resp.put("billsByCategory", bills);
-//			resp.put("mapBillDetails", mapBillDetails);
-//			response.getWriter().print(gson.toJson(resp));
 			request.getRequestDispatcher(ORDERS_PAGE).forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();

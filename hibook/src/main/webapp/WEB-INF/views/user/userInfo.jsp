@@ -230,7 +230,15 @@
 		border-right: 1px var(--clr-black-o50) solid;
 	}
 	
-	
+	.wrapper-bill {
+	    background-color: var(--dark-blue-50);
+	    padding: 1rem;
+	    margin-bottom: 1rem;
+	}
+
+	.wrapper-bill:last-child {
+	    margin-bottom: 0 !important;
+	}
 </style>
 
 </head>

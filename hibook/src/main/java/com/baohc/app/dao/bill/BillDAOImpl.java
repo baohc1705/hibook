@@ -92,7 +92,7 @@ public class BillDAOImpl implements BillDAO {
 					+ "city, district, ward, shippingAddress, note, status, pay_method) "
 					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement pmt = conn.prepareStatement(sql);
-			pmt.setString(1, bill.getId()); 
+			pmt.setString(1, bill.getId());
 			if (bill.getUser() != null)
 				pmt.setString(2, bill.getUser().getId());
 			else
@@ -110,10 +110,10 @@ public class BillDAOImpl implements BillDAO {
 			pmt.setString(13, bill.getNote());
 			pmt.setString(14, bill.getStatus());
 			pmt.setString(15, bill.getPayMethod());
-			
+
 			int row = pmt.executeUpdate();
-			
-			res = row > 0 ? 1: 0;
+
+			res = row > 0 ? 1 : 0;
 			if (pmt != null)
 				pmt.close();
 			ConnectionKit.closeConnection(conn);
@@ -133,7 +133,7 @@ public class BillDAOImpl implements BillDAO {
 	@Override
 	public int delete(BillDTO bill) {
 		int res = 0;
-		
+
 		try {
 			Connection conn = ConnectionKit.getConnection();
 			String sql = "DELETE FROM bill WHERE id=? ";
@@ -147,7 +147,7 @@ public class BillDAOImpl implements BillDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return res;
 	}
 
@@ -156,46 +156,105 @@ public class BillDAOImpl implements BillDAO {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	@Override
+	public int update(BillDTO bill) {
+		String sql = "UPDATE bill SET delivery_id=?, isDisable=?, totalPrice=?, fullname=?, "
+				+ "email=?, phone=?, city=?, district=?, ward=?, shippingAddress=?, note=?, "
+				+ "status=?, pay_method=? WHERE id=?";
+
+		try (Connection conn = ConnectionKit.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+			// 1. delivery_id
+			
+			ps.setInt(1, bill.getDelivery().getId());
+
+			// 2. is_disable
+			ps.setBoolean(2, bill.isDisable());
+
+			// 3. total_price
+			ps.setDouble(3, bill.getTotalPrice());
+
+			// 4. fullname
+			ps.setString(4, bill.getFullname());
+
+			// 5. email
+			ps.setString(5, bill.getEmail());
+
+			// 6. phone
+			ps.setString(6, bill.getPhone());
+
+			// 7. city
+			ps.setString(7, bill.getCity());
+
+			// 8. district
+			ps.setString(8, bill.getDistrict());
+
+			// 9. ward
+			ps.setString(9, bill.getWard());
+
+			// 10. ship_address
+			ps.setString(10, bill.getShipAddress());
+
+			// 11. note
+			ps.setString(11, bill.getNote());
+
+			// 12. status
+			ps.setString(12, bill.getStatus());
+
+			// 13. pay_method
+			ps.setString(13, bill.getPayMethod());
+
+			// 14. where id = ?
+			ps.setString(14, bill.getId());
+
+			return ps.executeUpdate(); // số dòng bị ảnh hưởng
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
 
 	@Override
 	public List<BillDTO> getBillsByFilter(BillCriteria criteria) {
 		List<BillDTO> bills = new ArrayList<BillDTO>();
-		
+
 		QueryBuilder builder = new QueryBuilder();
-		
+
 		builder.buildBillQueryWithFilter(criteria);
-		
+
 		String sql = builder.getSelectQuery();
-		
+
 		List<Object> params = builder.getParametersWithPagination(criteria);
-		
+
 		try {
 			Connection conn = ConnectionKit.getConnection();
 			PreparedStatement pmt = conn.prepareStatement(sql);
-			
+
 			for (int i = 0; i < params.size(); i++) {
 				pmt.setObject(i + 1, params.get(i));
 				System.out.println("PARAMs thu " + i + " : " + params.get(i));
 			}
-			
+
 			ResultSet rs = pmt.executeQuery();
-			
+
 			while (rs.next()) {
 				BillDTO bill = mapToResultSet(rs);
 				if (bill != null)
 					bills.add(bill);
 			}
-			
+
 			if (rs != null)
 				rs.close();
 			if (pmt != null)
 				pmt.close();
 			ConnectionKit.closeConnection(conn);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return bills;
 	}
 
@@ -204,50 +263,50 @@ public class BillDAOImpl implements BillDAO {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
+
 	@Override
 	public List<BillDTO> getBillsCriteria(BillCriteria criteria) {
-		
+
 		List<BillDTO> bills = new ArrayList<BillDTO>();
-		
+
 		QueryBuilder builder = new QueryBuilder();
-		
+
 		builder.buildBillQuery(criteria);
-		
+
 		String sql = builder.getSelectQuery();
-		
+
 		List<Object> params = builder.getParameters();
-		
+
 		try {
 			Connection conn = ConnectionKit.getConnection();
 			PreparedStatement pmt = conn.prepareStatement(sql);
-			
+
 			for (int i = 0; i < params.size(); i++) {
 				pmt.setObject(i + 1, params.get(i));
 				System.out.println("PARAMs thu " + i + " : " + params.get(i));
 			}
-			
+
 			ResultSet rs = pmt.executeQuery();
-			
+
 			while (rs.next()) {
 				BillDTO bill = mapToResultSet(rs);
 				if (bill != null)
 					bills.add(bill);
 			}
-			
+
 			if (rs != null)
 				rs.close();
 			if (pmt != null)
 				pmt.close();
 			ConnectionKit.closeConnection(conn);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return bills;
 	}
-	
+
 	private BillDTO mapToResultSet(ResultSet rs) throws SQLException {
 		BillDTO bill = new BillDTO();
 		UserService userService = UserServiceImpl.getInstance();
@@ -256,22 +315,22 @@ public class BillDAOImpl implements BillDAO {
 
 			bill.setId(rs.getString("id"));
 
-	        String userId = rs.getString("user_id");
-	        if (userId == null || userId.trim().isEmpty()) {
-	           
-	            bill.setUser(null); 
-	        } else {
-	            UserDTO userTmp = new UserDTO();
-	            userTmp.setId(userId);
-	            bill.setUser(userService.find(userTmp));
-	        }
+			String userId = rs.getString("user_id");
+			if (userId == null || userId.trim().isEmpty()) {
 
-	        DeliveryDTO deliveryTmp = deliveryService.findById(rs.getInt("delivery_id"));
-	        if (deliveryTmp != null) {
-	            bill.setDelivery(deliveryTmp);
-	        } else {
-	            bill.setDelivery(null);
-	        }
+				bill.setUser(null);
+			} else {
+				UserDTO userTmp = new UserDTO();
+				userTmp.setId(userId);
+				bill.setUser(userService.find(userTmp));
+			}
+
+			DeliveryDTO deliveryTmp = deliveryService.findById(rs.getInt("delivery_id"));
+			if (deliveryTmp != null) {
+				bill.setDelivery(deliveryTmp);
+			} else {
+				bill.setDelivery(null);
+			}
 			bill.setDisable(rs.getBoolean("isDisable"));
 			bill.setTotalPrice(rs.getDouble("totalPrice"));
 			bill.setFullname(rs.getString("fullname"));

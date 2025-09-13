@@ -1,0 +1,27 @@
+
+.bill-table {
+	margin: auto;
+	overflow: auto;
+}
+.bill-table table {
+	width: calc(100% - 80px);
+	font-size: var(--fs-small);
+}
+
+.bill-table table th, td {
+	padding: .75rem;
+}
+
+.bill-table table th, td:nth-child(4),
+td:nth-child(8),
+td:nth-child(9),
+td:nth-child(10),
+td:nth-child(11),
+td:nth-child(12)
+{
+	text-wrap: nowrap;
+}
+
+.bill-table table tr:nth-child(even) {
+	background-color: var(--dark-blue-950-o50);
+}

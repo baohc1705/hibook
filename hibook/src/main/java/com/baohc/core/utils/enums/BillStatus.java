@@ -4,6 +4,8 @@ public enum BillStatus {
 
 	CHO_XAC_NHAN("Chờ xác nhận"),
 	
+	DA_XAC_NHAN("Đã xác nhận"),
+	
 	DANG_CHUAN_BI_HANG("Đang chuẩn bị hàng"),
 	
 	DANG_VAN_CHUYEN("Đang vận chuyển"),
