@@ -147,6 +147,21 @@ public class TestFilter {
 			System.out.println(b);
 		}
         
+        // Test 8: GET TOP 6 NEW Book
+        System.out.println("   Test 8: 6 new book");
+        FilterCriteria criteria8 = new FilterCriteria();
+        criteria8.setPage(1);
+        criteria8.setPageSize(6);
+        criteria8.setSortBy("createDate");
+        criteria8.setSortOrder("DESC");
+        System.err.println(criteria8);
+        List<BookDTO> result8 = bookService.getBooksWithFilter(criteria8);
+        int count8 = bookService.countBooksWithFilter(criteria8);
+        System.out.println("   Result: " + result8.size() + " books found, count: " + count8);
+        for (BookDTO b : result8) {
+			System.out.println(b);
+		}
+        
         System.out.println();
 	}
 

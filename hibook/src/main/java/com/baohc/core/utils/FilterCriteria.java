@@ -112,4 +112,12 @@ public class FilterCriteria {
 	public boolean hasAuthorFilter() {
 		return authorId != null && !authorId.isEmpty();
 	}
+	@Override
+	public String toString() {
+		return "FilterCriteria [keyword=" + keyword + ", cateBookId=" + cateBookId + ", minPrice=" + minPrice
+				+ ", maxPrice=" + maxPrice + ", page=" + page + ", pageSize=" + pageSize + ", sortBy=" + sortBy
+				+ ", sortOrder=" + sortOrder + ", promotionId=" + promotionId + ", authorId=" + authorId + "]";
+	}
+	
+	
 }

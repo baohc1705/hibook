@@ -1,5 +1,6 @@
 package com.baohc.app.controller.user;
 
+import java.awt.desktop.UserSessionEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,25 +22,30 @@ import com.baohc.app.service.bill.BillDetailService;
 import com.baohc.app.service.bill.BillDetailServiceImpl;
 import com.baohc.app.service.bill.BillService;
 import com.baohc.app.service.bill.BillServiceImpl;
+import com.baohc.app.service.user.UserService;
+import com.baohc.app.service.user.UserServiceImpl;
 import com.baohc.core.utils.BillCriteria;
+import com.baohc.core.utils.EncryptPassword;
 import com.baohc.core.utils.enums.BillStatus;
 import com.google.gson.Gson;
-
 
 public class UserInfomationController {
 
 	private final String INFO_PAGE = "/WEB-INF/views/user/info.jsp";
 	private final String ORDERS_PAGE = "/WEB-INF/views/user/orders.jsp";
 	private final String ORDER_DETAIL_PAGE = "/WEB-INF/views/user/order-detail.jsp";
-
+	private final String RESET_PASS_PAGE = "/WEB-INF/views/user/reset-password.jsp";
+	private final String NO_DATA_PAGE = "/WEB-INF/views/errors/not_update.jsp";
 	private BillService billService;
 	private BillDetailService billDetailService;
 	private PhotoDAO photoDAO;
+	private UserService userService;
 
 	public UserInfomationController() {
 		billService = BillServiceImpl.getInstance();
 		billDetailService = BillDetailServiceImpl.getInstance();
 		photoDAO = PhotoDAOImpl.getInstance();
+		userService = UserServiceImpl.getInstance();
 	}
 
 	public void getSinglePageApplication(HttpServletRequest request, HttpServletResponse response)
@@ -61,6 +67,18 @@ public class UserInfomationController {
 			case "category":
 				displayByBillStatus(request, response);
 				break;
+			case "reset-password":
+				request.getRequestDispatcher(RESET_PASS_PAGE).forward(request, response);
+				break;
+			case "address":
+				request.getRequestDispatcher(NO_DATA_PAGE).forward(request, response);
+				break;
+			case "percent":
+				request.getRequestDispatcher(NO_DATA_PAGE).forward(request, response);
+				break;
+			case "notification":
+				request.getRequestDispatcher(NO_DATA_PAGE).forward(request, response);
+				break;
 			default:
 				viewInfo(request, response);
 				break;
@@ -69,6 +87,79 @@ public class UserInfomationController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void doTask(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try {
+			String action = request.getParameter("action");
+			if (action == null || action.trim().isEmpty()) {
+				System.err.println("ACTION NOT FOUND");
+				return;
+			} else {
+				switch (action) {
+				case "reset-password":
+					resetPassword(request, response);
+					break;
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void resetPassword(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json;charset=UTF-8");
+		Gson gson = new Gson();
+		Map<String, Object> resp = new HashMap<String, Object>();
+		try {
+
+			String oldPass = request.getParameter("old-password");
+			String newPass = request.getParameter("new-password");
+			if ((oldPass == null || oldPass.trim().isEmpty()) && (newPass == null || newPass.trim().isEmpty())) {
+				resp.put("status", "error");
+				resp.put("message", "Mật khẩu rỗng");
+				response.getWriter().print(gson.toJson(resp));
+				return;
+			}
+
+			HttpSession session = request.getSession();
+			UserDTO user = (UserDTO) session.getAttribute("USER_ACC");
+			if (user == null) {
+				resp.put("status", "error");
+				resp.put("message", "Đã hết phiên đăng nhập");
+				response.getWriter().print(gson.toJson(resp));
+				return;
+			}
+			oldPass = EncryptPassword.toSHA1(oldPass);
+			if (!user.getPassword().equals(oldPass)) {
+				resp.put("status", "error");
+				resp.put("message", "Mật khẩu cũ không đúng.");
+				response.getWriter().print(gson.toJson(resp));
+				return;
+			} else {
+				newPass = EncryptPassword.toSHA1(newPass);
+				int resetPass = userService.updatePassword(user.getId(), newPass);
+				
+				if (resetPass != 1) {
+					resp.put("status", "error");
+					resp.put("message", "Cập nhật mật khẩu thất bại");
+				} else {
+					UserDTO userNewPass = userService.find(user);
+					session.removeAttribute("USER_ACC");
+					session.setAttribute("USER_ACC", userNewPass);
+					
+					resp.put("status", "success");
+					resp.put("message", "Cập nhật mật khẩu thành công");	
+				}
+			}
+			response.getWriter().print(gson.toJson(resp));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	@SuppressWarnings("unchecked")
@@ -84,19 +175,15 @@ public class UserInfomationController {
 			if ("ALL".equals(cate) || cate == null) {
 				viewAllOrder(request, response);
 				return;
-			}
-			else if (BillStatus.CHO_XAC_NHAN.name().equals(cate)) {
+			} else if (BillStatus.CHO_XAC_NHAN.name().equals(cate)) {
 				status = BillStatus.CHO_XAC_NHAN.getDisplayName();
-				
-			} 
-			else if (BillStatus.DANG_VAN_CHUYEN.name().equals(cate)) {
+
+			} else if (BillStatus.DANG_VAN_CHUYEN.name().equals(cate)) {
 				status = BillStatus.DANG_VAN_CHUYEN.getDisplayName();
-				
-			}
-			else if ("DA_NHAN_HANG".equals(cate)){
+
+			} else if ("DA_NHAN_HANG".equals(cate)) {
 				status = BillStatus.DA_NHAN_HANG.getDisplayName();
-			}
-			else if ("XAC_NHAN".equals(cate)){
+			} else if ("XAC_NHAN".equals(cate)) {
 				status = "XAC_NHAN";
 			}
 			System.err.println(status);
@@ -117,15 +204,14 @@ public class UserInfomationController {
 						billsByCategory.add(b);
 					}
 				}
-			}
-			else {
+			} else {
 				for (BillDTO b : bills) {
 					if (status.equals(b.getStatus())) {
 						billsByCategory.add(b);
 					}
 				}
 			}
-			
+
 			resp.put("mapCoverPhoto", mapCoverPhoto);
 			resp.put("billsByCategory", billsByCategory);
 			resp.put("mapBillDetails", mapBillDetails);
@@ -143,7 +229,7 @@ public class UserInfomationController {
 		response.setContentType("application/json;charset=UTF-8");
 		Gson gson = new Gson();
 		Map<String, Object> resp = new HashMap<String, Object>();
-		
+
 		try {
 			HttpSession session = request.getSession();
 
@@ -161,7 +247,7 @@ public class UserInfomationController {
 			int limit = 4;
 			int offset = (page - 1) * limit;
 			boolean hasLoadMore = false;
-			
+
 			@SuppressWarnings("unchecked")
 			List<BillDTO> bills = (List<BillDTO>) session.getAttribute("bills");
 
@@ -174,13 +260,13 @@ public class UserInfomationController {
 				bills = billService.getBillsCriteria(billCriteria);
 				System.err.println("bills initialize first time");
 			}
-			
-			 // phân trang
-	        int toIndex = Math.min(offset + limit, bills.size());
-	        List<BillDTO> pagedBills = bills.subList(offset, toIndex);
-	        hasLoadMore = toIndex < bills.size();
-	        
-	        System.out.println("offset="+offset+", toIndex="+toIndex+", size="+bills.size());
+
+			// phân trang
+			int toIndex = Math.min(offset + limit, bills.size());
+			List<BillDTO> pagedBills = bills.subList(offset, toIndex);
+			hasLoadMore = toIndex < bills.size();
+
+			System.out.println("offset=" + offset + ", toIndex=" + toIndex + ", size=" + bills.size());
 			@SuppressWarnings("unchecked")
 			Map<String, Object> mapBillDetails = (Map<String, Object>) session.getAttribute("mapBillDetails");
 
@@ -214,9 +300,9 @@ public class UserInfomationController {
 			session.setAttribute("bills", bills);
 			session.setAttribute("mapBillDetails", mapBillDetails);
 			session.setAttribute("mapCoverPhotoOrder", mapCoverPhoto);
-			
+
 			// TODO: debug
-			for(BillDTO b : pagedBills) {
+			for (BillDTO b : pagedBills) {
 				System.err.println("BILL" + b);
 			}
 			resp.put("mapCoverPhoto", mapCoverPhoto);

@@ -1,6 +1,10 @@
 package com.baohc.app.controller.book;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,15 +66,111 @@ public class GetBooksController {
 				case "special-offer":
 					getSpecialOffer(request, response);
 					break;
+				case "new-book":
+					getNewBook(request, response);
+					break;
+				case "show-new-book":
+					showNewBook(request, response);
+					break;
 				default:
 					request.getRequestDispatcher(HOME_PAGE).forward(request, response);
 					break;
 				}
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 
+	}
+
+	private void showNewBook(HttpServletRequest request, HttpServletResponse response) 
+		throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json;charset=UTF-8");
+		Gson gson = new Gson();
+		Map<String, Object> resp = new HashMap<String, Object>();
+			
+		try {
+			String bookId = request.getParameter("bookId");
+			if (bookId == null || bookId.trim().isEmpty()) {
+				System.err.println("BOOKID NOT FOUND");
+				return;
+			}
+			HttpSession session = request.getSession();
+			@SuppressWarnings("unchecked")
+			List<BookDTO> newBooks = (List<BookDTO>)session.getAttribute("newBooks");
+			if (newBooks == null || newBooks.size() == 0) {
+				resp.put("status", "error");
+				resp.put("message", "Books not found");
+				response.getWriter().print(gson.toJson(resp));
+				return;
+			}
+			
+			BookDTO book = null;
+			
+			for (BookDTO b : newBooks) {
+				if (b.getId().equals(bookId)) {
+					book = b;
+					break;
+				}
+			}
+			if (book != null) {
+				Map<String, String> mapCoverPhoto = new HashMap<String, String>();
+				PhotoDTO tmp = photoDAO.getCoverPhoto(book);
+				if (tmp != null) {
+					mapCoverPhoto.put(bookId, tmp.getPathname());
+				}
+				resp.put("status", "success");
+				resp.put("book", book);
+				resp.put("mapCoverPhoto", mapCoverPhoto);
+			}
+			else {
+				resp.put("status", "error");
+				resp.put("message", "Book not found");
+			}
+			response.getWriter().print(gson.toJson(resp));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	private void getNewBook(HttpServletRequest request, HttpServletResponse response)
+		throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json;charset=UTF-8");
+		Gson gson = new Gson();
+		Map<String, Object> resp = new HashMap<String, Object>();
+		try {
+			FilterCriteria criteria = new FilterCriteria();
+			criteria.setPage(1);
+			criteria.setPageSize(6);
+			criteria.setSortBy("createDate");
+			criteria.setSortOrder("DESC");
+			
+			List<BookDTO> books = bookService.getBooksWithFilter(criteria);
+			if (books.size() > 0) {
+				Map<String, String> mapCoverPhoto = new HashMap<String, String>();
+				for (BookDTO b : books) {
+					PhotoDTO tmp = photoDAO.getCoverPhoto(b);
+					if (tmp != null) {
+						mapCoverPhoto.put(b.getId(), tmp.getPathname());
+					}
+				}
+				HttpSession session = request.getSession();
+				session.setAttribute("newBooks", books);
+				resp.put("books", books);
+				resp.put("mapCoverPhoto", mapCoverPhoto);
+			}
+			else {
+				System.err.println("NOT FOUND NEW BOOK");
+			}
+			response.getWriter().print(gson.toJson(resp));
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	private void getSpecialOffer(HttpServletRequest request, HttpServletResponse response)
@@ -147,11 +247,20 @@ public class GetBooksController {
 					mapCoverPhoto.put(b.getId(), tmp.getPathname());
 				}
 			}
+			// Lấy giờ hiện tại theo timezone VN
+			ZoneId vnZone = ZoneId.of("Asia/Ho_Chi_Minh");
+			LocalDate today = LocalDate.now(vnZone);
 
+			// Hard code: 12:45 hôm nay
+			LocalDateTime endTime = LocalDateTime.of(today, LocalTime.of(12, 52));
+
+			// Convert sang millis
+			long endTimeMillis = endTime.atZone(vnZone).toInstant().toEpochMilli();
 			resp.put("books", books);
 			resp.put("mapCoverPhoto", mapCoverPhoto);
 			resp.put("hasMore", hasMore);
 			resp.put("totalBook", totalBook);
+			resp.put("flashsaleTime",endTimeMillis);
 
 			response.getWriter().print(gson.toJson(resp));
 		} catch (Exception e) {

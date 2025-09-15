@@ -170,6 +170,12 @@ body .wrapper-navbar {
 
 .book-item:hover {
     transform: scale(1.05);
+	box-shadow: 0 0 10px 5px rgba(61, 82, 160,.5);
+}
+.book-item_active {
+	transform: scale(1.05);
+	border: 2px var(--dark-blue-800) solid;
+	box-shadow: 0 0 10px 5px rgba(61, 82, 160,.5);
 }
 .new-books {
     background-image: url(../images/backgrounds/circle-purple.png);
@@ -184,7 +190,15 @@ body .wrapper-navbar {
 .book-content {
     box-shadow: 6px 12px 10px rgb(61, 82, 160,0.5)
 }
-
+#new-book-desc {
+	overflow: hidden !important;
+	text-overflow: ellipsis !important;
+	
+	display: -webkit-box !important;
+	-webkit-box-orient: vertical !important;
+	-webkit-line-clamp: 5 !important;
+	line-clamp: 5 !important;
+}
 .new-trend .wrapper-book .row .item {
     border-radius: 1rem;
     border: 1px var(--dark-blue-200) solid;

@@ -65,7 +65,7 @@
                                 </a>
                             </button>
 
-                            <button type="button" class="button-fill">
+                            <button type="button" class="button-fill btn_buy-now" data-bookid="${sessionScope.book.id}">
                                Mua ngay
                             </button>
                         </div>
@@ -425,6 +425,44 @@
 							text: res.message,
 							confirmButtonText: "Tiếp tục mua hàng"
 						});
+					}
+					else {
+						Swal.fire({
+							icon: "error",
+							title: "Thất bại",
+							text: res.message
+						});
+					}
+				},
+				error: function() {
+					console.log("Cant connect to server Cart");
+				}
+			});
+			
+		});
+		
+		$(document).on("click", ".btn_buy-now", function(e) {
+			e.preventDefault();
+
+			let txtBookId = $(this).data("bookid");
+			let txtQuantity = $("#quantity_"+txtBookId).val();
+
+			$.ajax({
+				url : "/hibook/cart",
+				method: "POST",
+				data: {
+					action: "add",
+					bookId: txtBookId,
+					quantity: txtQuantity
+				},
+				dataType: "json",
+				success: function(res) {
+					$("#total-quantity").text(res.itemCount).removeClass("d-none");;
+
+					console.log("item count: " + res.itemCount);
+
+					if (res.status === "success") {
+						window.location.href = '/hibook/cart?action=view';
 					}
 					else {
 						Swal.fire({

@@ -12,6 +12,7 @@ $(document).ready(function() {
 
 	loadFlashSale();
 	loadSpecialOffer();
+	loadNewBook();
 
 	/*	window.addEventListener("scroll", () => {
 			if (isLoading || !hasLoadMore) return;
@@ -35,16 +36,8 @@ $(document).ready(function() {
 			data: { page: currentPage },
 			dataType: "json",
 			success: function(res) {
-				console.log("Kiểu:", typeof res);
-				console.log(res.books);
-				console.log(res.mapCoverPhoto);
 				$.each(res.books, function(i, book) {
 					let cover = res.mapCoverPhoto[book.id];
-					console.log("Book:", book);
-					console.log("Book name:", book.name);
-					console.log("Book price:", book.price);
-					console.log("Book amount:", book.amount);
-					console.log("Book cover:", cover);
 
 					// Kiểm tra và xử lý book.name
 					let bookName = book.name || 'Tên sách không có';
@@ -136,7 +129,6 @@ $(document).ready(function() {
 				page: currentPageFlashSale
 			},
 			success: function(res) {
-				console.log("FLASH SALE: " + res.books);
 				$.each(res.books, function(i, book) {
 					let cover = res.mapCoverPhoto[book.id];
 					let bookName = book.name || 'Tên sách không có';
@@ -175,14 +167,45 @@ $(document).ready(function() {
 						 </div>`;
 					$(".books-flash-sale").append(bookHTML);
 				});
-				
+
 				currentPageFlashSale++;
+				console.log(res.flashsaleTime);
+				if (res.flashsaleTime) {
+					startFlashSaleCountDown(res.flashsaleTime);
+				}
 			},
 			error: function() {
 				console.log("Cant connect to getBook Server");
 			}
 
 		});
+	}
+
+	function startFlashSaleCountDown(flashsaleTime) {
+		function updateCountDown() {
+			const now = new Date().getTime();
+			const distance = flashsaleTime - now;
+			if (!flashsaleTime || distance <= 0) {
+				// Hết thời gian
+				$("#flash-hour").text("00");
+				$("#flash-minute").text("00");
+				$("#flash-second").text("00");
+				clearInterval(interval);
+				return;
+			}
+
+
+			const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+			const minutes = Math.floor((distance / (1000 * 60)) % 60);
+			const seconds = Math.floor((distance / 1000) % 60);
+
+			$("#flash-hour").text(hours.toString().padStart(2, '0'));
+			$("#flash-minute").text(minutes.toString().padStart(2, '0'));
+			$("#flash-second").text(seconds.toString().padStart(2, '0'));
+		}
+		updateCountDown();
+		const interval = setInterval(updateCountDown, 1000);
+
 	}
 
 	function loadSpecialOffer() {
@@ -194,7 +217,6 @@ $(document).ready(function() {
 				page: currentPageSpecialOffer
 			},
 			success: function(res) {
-				console.log("SPECIAL OFFER: " + res.books);
 				$.each(res.books, function(i, book) {
 					let cover = res.mapCoverPhoto[book.id];
 					let bookName = book.name || 'Tên sách không có';
@@ -202,9 +224,9 @@ $(document).ready(function() {
 					let bookPriceFMT = bookPrice.toLocaleString("vi-VN") + " đ";
 					let bookAmount = book.amount || '0';
 					let coverImage = cover || 'default-cover.jpg';
-					
-					let bookHTML=
-					`<div class="col-md-4">
+
+					let bookHTML =
+						`<div class="col-md-4">
 		                <div class="card h-100 rounded-4 overflow-hidden">
 		                      <!-- Coupon -->
 		                    <div class="coupon bg-danger text_dark-blue-50 text-center" style="width: 200px; height: 30px;" >
@@ -212,7 +234,11 @@ $(document).ready(function() {
 		                    </div>
 		                    
 		                    <!-- Book Image -->
-		                    <img src="/hibook/assets/images/books/${coverImage}" class="card-img-top object-fit-cover" style="height: 220px;" alt="Hoàng hôn màu đỏ">
+		                    <img src="/hibook/assets/images/books/${coverImage}" 
+								class="view-book card-img-top object-fit-cover" 
+								style="height: 220px;" 
+								alt="coverImage"
+								data-id="${book.id}">
 		
 		                    <!-- Card Body -->
 		                    <div class="card-body d-flex flex-column justify-content-between">
@@ -256,9 +282,9 @@ $(document).ready(function() {
 		                    </div>
 		                </div>
 					</div>`;
-					
+
 					$(".special-books").append(bookHTML);
-					
+
 					currentPageSpecialOffer++;
 				});
 			},
@@ -268,6 +294,69 @@ $(document).ready(function() {
 		});
 	}
 
+	function loadNewBook() {
+		$.ajax({
+			url: '/hibook/books?action=new-book',
+			method: 'GET',
+			success: function(res) {
+				$(".library-grid").empty();
+				$.each(res.books, function(i, book) {
+					let cover = res.mapCoverPhoto[book.id];
+					let html = ''
+						+ '<div class="book-item" data-book-id="'+book.id+'" style="cursor:pointer">'
+						+ '<img src="/hibook/assets/images/books/' + cover + '" alt="' + cover + '">'
+						+ '</div>'
+
+					$(".library-grid").append(html);
+							
+				});
+				
+				$(".library-grid .book-item").first().trigger("click");
+			},
+			error: function() {
+				console.log("Cant connect to server");
+			}
+		});
+
+
+	}
+	$(document).on('click', '.book-item', function() {
+		$('.book-item').removeClass('book-item_active');
+		$(this).addClass('book-item_active');
+		let txtBookId = $(this).data('book-id');
+		$.ajax({
+			url: '/hibook/books?action=show-new-book',
+			method: "GET",
+			data: {
+				bookId: txtBookId
+			},
+			success: function(res) {
+				if (res.status === 'success') {
+					let book = res.book;
+					let cover = res.mapCoverPhoto[book.id];
+					$("#new-book-cover").attr('src', '/hibook/assets/images/books/' + cover);
+					$("#new-book-name").text(book.name);
+					$("#new-book-category").text(book.cateBook.name);
+					$("#new-book-desc").text(book.description);
+					$("#new-book-author").text(book.author.fullname);
+					let price =  book.price;
+					let priceFMT = price.toLocaleString("vi-VN") + " đ";
+					$("#new-book-price").text(priceFMT);
+					$(".purchase .btn_buy-now").attr('data-bookid',book.id);
+					$(".purchase .btn_add-to-cart").attr('data-bookid',book.id);
+					$(".book-content .view-book").attr('data-id', book.id);
+				}
+				else {
+					alert(res.message);
+				}
+			},
+			error: function() {
+				alert("Cant connect to server");
+			}
+
+		});
+	});
+	
 	$(document).on("click", ".view-book", function() {
 		let bookId = $(this).data("id");
 		window.location.href = "/hibook/books/view?bookId=" + bookId;
@@ -313,6 +402,42 @@ $(document).ready(function() {
 			}
 		});
 	});
+	
+	$(document).on("click", ".btn_buy-now", function(e) {
+			e.preventDefault();
+
+			let txtBookId = $(this).data("bookid");
+			let txtQuantity = $(this).data("quantity");
+			$.ajax({
+				url: "/hibook/cart",
+				method: "POST",
+				data: {
+					action: "add",
+					bookId: txtBookId,
+					quantity: txtQuantity
+				},
+				dataType: "json",
+				success: function(res) {
+					$("#total-quantity").text(res.itemCount).removeClass("d-none");;
+
+					console.log("item count: " + res.itemCount);
+
+					if (res.status === "success") {
+						window.location.href = '/hibook/cart?action=view';
+					}
+					else {
+						Swal.fire({
+							icon: "error",
+							title: "Thất bại",
+							text: res.message
+						});
+					}
+				},
+				error: function() {
+					console.log("Cant connect to server Cart");
+				}
+			});
+		});
 
 	$(".btn-minus").on("click", function() {
 		var nQuantity = parseInt($("#quantity_" + $(this).data("id")).val(), 10);
@@ -366,43 +491,43 @@ $(document).ready(function() {
 			}
 		});
 	});
-	
+
 	let selectedBookIds = [];
-	
+
 	toggleCheckoutButton();
 	// Check từng sách
 	$("input[name='bookCheck']").on("change", toggleCheckoutButton);
 
 	// Check all sách
-	$("#check-all-book").on("change", function () {
-	    const isChecked = $(this).prop("checked");
-	    $("input[name='bookCheck']").prop("checked", isChecked);
-	    toggleCheckoutButton();
+	$("#check-all-book").on("change", function() {
+		const isChecked = $(this).prop("checked");
+		$("input[name='bookCheck']").prop("checked", isChecked);
+		toggleCheckoutButton();
 	});
-	
+
 	function toggleCheckoutButton() {
 		selectedBookIds = [];
 		let totalSelectedPrice = 0;
-		
+
 		// nếu tất cả đều được chọn thì check luôn "chọn tất cả"
-	    $("#check-all-book").prop(
-	        "checked",
-	        $("input[name='bookCheck']").length === $("input[name='bookCheck']:checked").length
-	    );
-		
+		$("#check-all-book").prop(
+			"checked",
+			$("input[name='bookCheck']").length === $("input[name='bookCheck']:checked").length
+		);
+
 		$("input[name='bookCheck']:checked").each(function() {
 			selectedBookIds.push($(this).val());
 			totalSelectedPrice += parseFloat($(this).data("subtotal"));
 		});
-		
+
 		$("#btn-send-checkout").prop("disabled", selectedBookIds.length === 0);
-	
+
 		$(".cart-total-selected").text(
-		    totalSelectedPrice.toLocaleString("vi-VN") + " đ"
-		 );
+			totalSelectedPrice.toLocaleString("vi-VN") + " đ"
+		);
 	};
 
-	
+
 	$("#btn-send-checkout").on("click", function(e) {
 		/*$.ajax({
 			url: "/hibook/checkout",
@@ -421,9 +546,9 @@ $(document).ready(function() {
 			
 		})*/
 		let url = "/hibook/checkout?action=view";
-	    selectedBookIds.forEach(id => url += "&books=" + id);
+		selectedBookIds.forEach(id => url += "&books=" + id);
 
-	    window.location.href = url; // chuyển hẳn trang
+		window.location.href = url; // chuyển hẳn trang
 	});
-	
+
 });

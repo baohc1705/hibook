@@ -107,6 +107,9 @@ public class QueryBuilder {
 		case "cateBook":
 			sql.append("c.name ");
 			break;
+		case "createDate":
+			sql.append("b.createDate ");
+			break;
 		default:
 			sql.append("b.name ");
 		}

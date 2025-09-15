@@ -239,6 +239,7 @@
 	.wrapper-bill:last-child {
 	    margin-bottom: 0 !important;
 	}
+	
 </style>
 
 </head>
@@ -282,8 +283,8 @@
 								<ul class="sidebar-submenu ${reqPage == 'info'?'show':''}">
 									<div class="wrapper">
 										<li class="menu-item list-group-item ${reqPage == 'info'?'active':''}"data-page="info">Hồ sơ</li>
-										<li class="menu-item list-group-item">Đặt lại mật khẩu</li>
-										<li class="menu-item list-group-item">Địa chỉ</li>
+										<li class="menu-item list-group-item ${reqPage == 'reset-password'?'active':''}"data-page="reset-password">Đặt lại mật khẩu</li>
+										<li class="menu-item list-group-item" data-page="address">Địa chỉ</li>
 									</div>
 								</ul>
 							</li>
@@ -294,12 +295,12 @@
 								<span>Đơn mua</span>
 							</li>
 							
-							<li class="menu-item list-group-item">
+							<li class="menu-item list-group-item" data-page="percent">
 								<span class="material-symbols-rounded">percent_discount</span> 
 								<span>Kho voucher</span>
 							</li>
 							
-							<li class="menu-item list-group-item">
+							<li class="menu-item list-group-item" data-page="notification">
 								<span class="material-symbols-rounded">notifications</span> 
 								<span>Thông báo</span>
 							</li>
@@ -350,6 +351,7 @@
 	  </div>
 	</div>
 	<script type="text/javascript" src="<%=url1%>/assets/js/userInfo.js"></script>
+	
 	<script type="text/javascript">
 		$(document).ready(function() {
 			

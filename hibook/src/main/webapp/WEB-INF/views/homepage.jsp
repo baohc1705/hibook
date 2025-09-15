@@ -246,7 +246,11 @@
 	            <div class="wrapper-text bg_dark-blue-50 d-flex justify-content-between p-3 rounded-4 mt-3">
 	                <div class="text-left d-flex align-items-center">
 	                    <p class="p-0 m-0 mx-3 h2 font-PaytoneOne text_dark-blue-950">FLASH SALE</p>
-	                    <p class="p-0 m-0 ">Kết thúc trong:</p> <span class="m-1 p-1 bg_dark-blue-800 rounded-1 text_dark-blue-50">12</span>: <span class="m-1 p-1 bg_dark-blue-800 rounded-1 text_dark-blue-50">30</span>: <span class="m-1 p-1 bg_dark-blue-800 rounded-1 text_dark-blue-50">59</span>
+	                    <p class="p-0 m-0 ">Kết thúc trong: 
+	                    	<span id="flash-hour" class="m-1 p-1 bg_dark-blue-800 rounded-1 text_dark-blue-50">00</span> :
+						    <span id="flash-minute" class="m-1 p-1 bg_dark-blue-800 rounded-1 text_dark-blue-50">00</span> :
+						    <span id="flash-second" class="m-1 p-1 bg_dark-blue-800 rounded-1 text_dark-blue-50">00</span>
+						</p>
 	                </div>
 	               
 	                <button type="button" class="btn text_dark-blue-200">Xem tất cả 
@@ -273,156 +277,8 @@
 	        <p class="h1 text_dark-blue-950 font-PaytoneOne text-center">Special Offers</p>
 	        <p class="small text-center text_dark-blue-800">Top sách được mua nhiều nhất</p>
 	        <div class="row special-books">
-	            <%-- <div class="col-md-4">
-	                <div class="card h-100 rounded-4 overflow-hidden"> 
-	                    <!-- Coupon -->
-	                    <div class="coupon bg-danger text_dark-blue-50 text-center" style="width: 200px; height: 30px;" >
-	                        <p class="text-center p-0 m-0">Sale 10%</p>
-	                    </div>
-	                    
-	                    <!-- Book Image -->
-	                    <img src="${pageContext.request.contextPath}/assets/images/books/dragonball-tap16-bia.png" class="card-img-top object-fit-cover" style="height: 220px;" alt="Hoàng hôn màu đỏ">
-	
-	                    <!-- Card Body -->
-	                    <div class="card-body d-flex flex-column justify-content-between">
-	                        <!-- Title -->
-	                        <h5 class="card-title fw-bold mb-2">Hoàng hôn màu đỏ</h5>
-	
-	                        <!-- Tags -->
-	                        <ul class="md-2 d-flex p-0">
-	                            <li class="list-group-item"><a href="" class="nav-link badge rounded-pill text-primary border border-primary me-1">Tiểu thuyết</a></li>
-	                            <li class="list-group-item"><a href="" class="nav-link badge rounded-pill text-success border border-success">Truyện ngắn</a></li>
-	                        </ul>
-	
-	                        <!-- Description -->
-	                        <p class="card-text text-secondary small">
-	                        Cuốn sách là tuyển tập 14 truyện ngắn về số phận, mảnh đời éo le, khắc nghiệt của con người miền Tây sông nước, làm bật lên sức sống kiên cường...
-	                        </p>
-	
-	                        <!-- Author -->
-	                        <a href="" class="nav-link text_dark-blue-950 fw-semibold mb-3">Hoàng Khánh Duy</a>
-	
-	                        <!-- Price & Add to cart -->
-	                        <div class="d-flex justify-content-between align-items-center mt-auto">
-	                            <a href="cart.html" class="btn btn-primary rounded-3 d-flex align-items-center">
-	                               <span>
-	                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-	                                    <path d="M9.5 19C9.5 19.8284 8.82843 20.5 8 20.5C7.17157 20.5 6.5 19.8284 6.5 19C6.5 18.1716 7.17157 17.5 8 17.5C8.82843 17.5 9.5 18.1716 9.5 19Z" stroke="var(--dark-blue-50)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-	                                    <path d="M17.5 19C17.5 19.8284 16.8284 20.5 16 20.5C15.1716 20.5 14.5 19.8284 14.5 19C14.5 18.1716 15.1716 17.5 16 17.5C16.8284 17.5 17.5 18.1716 17.5 19Z" stroke="var(--dark-blue-50)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-	                                    <path d="M3 2.75C2.58579 2.75 2.25 3.08579 2.25 3.5C2.25 3.91421 2.58579 4.25 3 4.25V2.75ZM18.459 13.3703L17.7918 13.0277L18.459 13.3703ZM8 6.25H17.5873V4.75H8V6.25ZM19.5889 9.52771L17.7918 13.0277L19.1262 13.7128L20.9233 10.2128L19.5889 9.52771ZM15.7903 14.25H8V15.75H15.7903V14.25ZM5.75 12V11.5H4.25V12H5.75ZM5.75 11.5V8.5H4.25V11.5H5.75ZM5.75 11.5V5.5H4.25V11.5H5.75ZM8 14.25C6.75736 14.25 5.75 13.2426 5.75 12H4.25C4.25 14.0711 5.92893 15.75 8 15.75V14.25ZM17.7918 13.0277C17.4065 13.7781 16.6338 14.25 15.7903 14.25V15.75C17.1962 15.75 18.484 14.9636 19.1262 13.7128L17.7918 13.0277ZM17.5873 6.25C19.2705 6.25 20.3577 8.0304 19.5889 9.52771L20.9233 10.2128C22.2046 7.71733 20.3926 4.75 17.5873 4.75V6.25ZM5.75 5.5C5.75 3.98122 4.51878 2.75 3 2.75V4.25C3.69036 4.25 4.25 4.80964 4.25 5.5H5.75ZM8 4.75C5.92893 4.75 4.25 6.42893 4.25 8.5H5.75C5.75 7.25736 6.75736 6.25 8 6.25V4.75Z" fill="var(--dark-blue-50)"></path>
-	                                    </svg>
-	                               </span>
-	                                 Thêm vào giỏ hàng
-	                            </a>
-	                            <div class="text-end">
-	                                <div class="fw-bold fs-5 text-dark">40.000 đ</div>
-	                                <del class="text-muted">50.000 đ</del>
-	                            </div>
-	                        </div>
-	                    </div>
-	                </div>
-	            </div> --%>
-	
-	            <%-- <div class="col-md-4">
-	                <div class="card h-100 rounded-4 overflow-hidden">
-	                    <!-- Coupon -->
-	                    <div class="coupon bg-danger text_dark-blue-50 text-center" style="width: 200px; height: 30px;" >
-	                        <p class="text-center p-0 m-0">Sale 10%</p>
-	                    </div>
-	
-	                    <!-- Book Image -->
-	                    <img src="${pageContext.request.contextPath}/assets/images/books/hoang-hon-mau-do-bia.png" class="card-img-top object-fit-cover" style="height: 220px;" alt="Hoàng hôn màu đỏ">
-	
-	                    <!-- Card Body -->
-	                    <div class="card-body d-flex flex-column justify-content-between">
-	                        <!-- Title -->
-	                        <h5 class="card-title fw-bold mb-2">Hoàng hôn màu đỏ</h5>
-	
-	                        <!-- Tags -->
-	                         <ul class="md-2 d-flex p-0">
-	                            <li class="list-group-item"><a href="" class="nav-link badge rounded-pill text-primary border border-primary me-1">Tiểu thuyết</a></li>
-	                            <li class="list-group-item"><a href="" class="nav-link badge rounded-pill text-success border border-success">Truyện ngắn</a></li>
-	                        </ul>
-	
-	                        <!-- Description -->
-	                        <p class="card-text text-secondary small">
-	                        Cuốn sách là tuyển tập 14 truyện ngắn về số phận, mảnh đời éo le, khắc nghiệt của con người miền Tây sông nước, làm bật lên sức sống kiên cường...
-	                        </p>
-	
-	                        <!-- Author -->
-	                        <a href="" class="nav-link text_dark-blue-950 fw-semibold mb-3">Hoàng Khánh Duy</a>
-	
-	                        <!-- Price & Add to cart -->
-	                        <div class="d-flex justify-content-between align-items-center mt-auto">
-	                            <a href="" class="btn btn-primary rounded-3 d-flex align-items-center">
-	                               <span>
-	                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-	                                    <path d="M9.5 19C9.5 19.8284 8.82843 20.5 8 20.5C7.17157 20.5 6.5 19.8284 6.5 19C6.5 18.1716 7.17157 17.5 8 17.5C8.82843 17.5 9.5 18.1716 9.5 19Z" stroke="var(--dark-blue-50)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-	                                    <path d="M17.5 19C17.5 19.8284 16.8284 20.5 16 20.5C15.1716 20.5 14.5 19.8284 14.5 19C14.5 18.1716 15.1716 17.5 16 17.5C16.8284 17.5 17.5 18.1716 17.5 19Z" stroke="var(--dark-blue-50)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-	                                    <path d="M3 2.75C2.58579 2.75 2.25 3.08579 2.25 3.5C2.25 3.91421 2.58579 4.25 3 4.25V2.75ZM18.459 13.3703L17.7918 13.0277L18.459 13.3703ZM8 6.25H17.5873V4.75H8V6.25ZM19.5889 9.52771L17.7918 13.0277L19.1262 13.7128L20.9233 10.2128L19.5889 9.52771ZM15.7903 14.25H8V15.75H15.7903V14.25ZM5.75 12V11.5H4.25V12H5.75ZM5.75 11.5V8.5H4.25V11.5H5.75ZM5.75 11.5V5.5H4.25V11.5H5.75ZM8 14.25C6.75736 14.25 5.75 13.2426 5.75 12H4.25C4.25 14.0711 5.92893 15.75 8 15.75V14.25ZM17.7918 13.0277C17.4065 13.7781 16.6338 14.25 15.7903 14.25V15.75C17.1962 15.75 18.484 14.9636 19.1262 13.7128L17.7918 13.0277ZM17.5873 6.25C19.2705 6.25 20.3577 8.0304 19.5889 9.52771L20.9233 10.2128C22.2046 7.71733 20.3926 4.75 17.5873 4.75V6.25ZM5.75 5.5C5.75 3.98122 4.51878 2.75 3 2.75V4.25C3.69036 4.25 4.25 4.80964 4.25 5.5H5.75ZM8 4.75C5.92893 4.75 4.25 6.42893 4.25 8.5H5.75C5.75 7.25736 6.75736 6.25 8 6.25V4.75Z" fill="var(--dark-blue-50)"></path>
-	                                    </svg>
-	                               </span>
-	                                 Thêm vào giỏ hàng
-	                            </a>
-	                            <div class="text-end">
-	                                <div class="fw-bold fs-5 text-dark">40.000 đ</div>
-	                                <del class="text-muted">50.000 đ</del>
-	                            </div>
-	                        </div>
-	                    </div>
-	                </div>
-	            </div> --%>
-	
-	            <%-- <div class="col-md-4">
-	                <div class="card h-100 rounded-4 overflow-hidden">
-	                      <!-- Coupon -->
-	                    <div class="coupon bg-danger text_dark-blue-50 text-center" style="width: 200px; height: 30px;" >
-	                        <p class="text-center p-0 m-0">Sale 10%</p>
-	                    </div>
-	                    
-	                    <!-- Book Image -->
-	                    <img src="${pageContext.request.contextPath}/assets/images/books/biet-khi-nao-moi-gap-nhau-bia.png" class="card-img-top object-fit-cover" style="height: 220px;" alt="Hoàng hôn màu đỏ">
-	
-	                    <!-- Card Body -->
-	                    <div class="card-body d-flex flex-column justify-content-between">
-	                        <!-- Title -->
-	                        <h5 class="card-title fw-bold mb-2">Hoàng hôn màu đỏ</h5>
-	
-	                        <!-- Tags -->
-	                        <ul class="md-2 d-flex p-0">
-	                            <li class="list-group-item"><a href="" class="nav-link badge rounded-pill text-primary border border-primary me-1">Tiểu thuyết</a></li>
-	                            <li class="list-group-item"><a href="" class="nav-link badge rounded-pill text-success border border-success">Truyện ngắn</a></li>
-	                        </ul>
-	
-	                        <!-- Description -->
-	                        <p class="card-text text-secondary small">
-	                        Cuốn sách là tuyển tập 14 truyện ngắn về số phận, mảnh đời éo le, khắc nghiệt của con người miền Tây sông nước, làm bật lên sức sống kiên cường...
-	                        </p>
-	
-	                        <!-- Author -->
-	                        <a href="" class="nav-link text_dark-blue-950 fw-semibold mb-3">Hoàng Khánh Duy</a>
-	
-	                        <!-- Price & Add to cart -->
-	                        <div class="d-flex justify-content-between align-items-center mt-auto">
-	                             <a href="" class="btn btn-primary rounded-3 d-flex align-items-center">
-	                               <span>
-	                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-	                                    <path d="M9.5 19C9.5 19.8284 8.82843 20.5 8 20.5C7.17157 20.5 6.5 19.8284 6.5 19C6.5 18.1716 7.17157 17.5 8 17.5C8.82843 17.5 9.5 18.1716 9.5 19Z" stroke="var(--dark-blue-50)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-	                                    <path d="M17.5 19C17.5 19.8284 16.8284 20.5 16 20.5C15.1716 20.5 14.5 19.8284 14.5 19C14.5 18.1716 15.1716 17.5 16 17.5C16.8284 17.5 17.5 18.1716 17.5 19Z" stroke="var(--dark-blue-50)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-	                                    <path d="M3 2.75C2.58579 2.75 2.25 3.08579 2.25 3.5C2.25 3.91421 2.58579 4.25 3 4.25V2.75ZM18.459 13.3703L17.7918 13.0277L18.459 13.3703ZM8 6.25H17.5873V4.75H8V6.25ZM19.5889 9.52771L17.7918 13.0277L19.1262 13.7128L20.9233 10.2128L19.5889 9.52771ZM15.7903 14.25H8V15.75H15.7903V14.25ZM5.75 12V11.5H4.25V12H5.75ZM5.75 11.5V8.5H4.25V11.5H5.75ZM5.75 11.5V5.5H4.25V11.5H5.75ZM8 14.25C6.75736 14.25 5.75 13.2426 5.75 12H4.25C4.25 14.0711 5.92893 15.75 8 15.75V14.25ZM17.7918 13.0277C17.4065 13.7781 16.6338 14.25 15.7903 14.25V15.75C17.1962 15.75 18.484 14.9636 19.1262 13.7128L17.7918 13.0277ZM17.5873 6.25C19.2705 6.25 20.3577 8.0304 19.5889 9.52771L20.9233 10.2128C22.2046 7.71733 20.3926 4.75 17.5873 4.75V6.25ZM5.75 5.5C5.75 3.98122 4.51878 2.75 3 2.75V4.25C3.69036 4.25 4.25 4.80964 4.25 5.5H5.75ZM8 4.75C5.92893 4.75 4.25 6.42893 4.25 8.5H5.75C5.75 7.25736 6.75736 6.25 8 6.25V4.75Z" fill="var(--dark-blue-50)"></path>
-	                                    </svg>
-	                               </span>
-	                                 Thêm vào giỏ hàng
-	                            </a>
-	                            <div class="text-end">
-	                                <div class="fw-bold fs-5 text-dark">40.000 đ</div>
-	                                <del class="text-muted">50.000 đ</del>
-	                            </div>
-	                        </div>
-	                    </div>
-	                </div>
-	            </div> --%>
-	
+	            
+				<!-- Fetch data here -->
 	        </div>
 	
 	        <div class="wrapper-prev-next-button d-flex justify-content-center align-items-center">
@@ -470,45 +326,54 @@
 	                <div class="col-md-6 p-3">
 	                    <p class="h1 text_dark-blue-950 font-PaytoneOne my-4">Sách mới</p>
 	                    <div class="book-content bg_dark-blue-50 d-flex py-5 px-3 rounded-4">
-	                        <div class="left-side w-50 text-center"> 
-	                            <img src="${pageContext.request.contextPath}/assets/images/books/biet-khi-nao-moi-gap-nhau-bia.png" alt="" class="img-fluid object-fit-contain" width="200" height="300">
+	                        <div class="left-side w-50 text-center view-book" data-id=""> 
+	                            <img src="${pageContext.request.contextPath}/assets/images/books/biet-khi-nao-moi-gap-nhau-bia.png" alt="" 
+		                            class="img-fluid object-fit-contain" 
+		                            width="200" 
+		                            height="300"
+		                            id="new-book-cover">
 	                        </div>
 	
 	                        <div class="right-side w-50">
 	                            <!-- title -->
 	                             <div class="wapper-title d-flex mb-3">
 	                                <a href="bookDetail.html"><img src="${pageContext.request.contextPath}/assets/images/icons/new-icon.png" alt="" width="48" height="48"></a>
-	                                <p class="fw-bold lh-base ms-3">Biết khi nào mới gặp lại nhau</p>
+	                                <p class="fw-bold lh-base ms-3" id="new-book-name">Biết khi nào mới gặp lại nhau</p>
 	                             </div>
 	
 	                             <!-- tag -->
 	                              <ul class="d-flex p-0">
 	                                <li class="list-group-item small mx-2 p-1 rounded-2 border border-success text-success">
-	                                    <a href="" class="nav-link">Tiểu thuyết</a>
-	                                </li> 
-	                                <li class="list-group-item small mx-2 p-1 rounded-2 border border-danger text-danger">
-	                                    <a href="" class="nav-link">Ngôn tình</a>
+	                                    <a href="" class="nav-link" id="new-book-category">Tiểu thuyết</a>
 	                                </li>
 	                              </ul>
 	
 	                              <!-- Description -->
-	                               <p class="small lh-base">
+	                               <p class="fs-small lh-base" id="new-book-desc">
 	                                Cuốn sách là tuyển tập 14 truyện ngắn về số phận, mảnh đời éo le, khắc nghiệt của con người miền Tây sông nước, làm bật lên sức sống kiên cường...
 	                               </p>
 	
 	                               <!-- Author -->
-	                                <a href="" class="nav-link mb-3 fw-bold text_dark-blue-950">Hoàng Khánh Duy</a>
+	                                <a href="" class="nav-link mb-3 fw-bold text_dark-blue-950" id="new-book-author">Hoàng Khánh Duy</a>
 	
 	                                <!-- Price -->
 	                                 <div class="wrapper-price d-flex justify-content-between align-items-center" >
 	                                    <div class="price">
-	                                        <p class="fw-bold m-0 text-danger fs-5">40.000 đ</p>
+	                                        <p class="fw-bold m-0 text-danger fs-5" id="new-book-price">
+											
+											</p>
 	                                        <del class="mute small m-0">50.000 đ</del>
 	                                    </div>
 	
 	                                    <div class="purchase mx-1 d-flex">
-	                                        <a href="cart.html" class="btn-border nav-link p-2 mx-1 text_dark-blue-800 text-center">Mua ngay</a>
-	                                        <a href="cart.html" class="nav-link p-2 mx-1 text_dark-blue-50 bg_dark-blue-800 rounded-3">
+	                                        <button class="btn_buy-now button-border nav-link p-2 mx-1 text_dark-blue-800 text-center"
+	                                        		data-bookid="404"
+	                                        		data-quantity="1">
+	                                        			Mua ngay</button>
+	                                        <button type="button" 
+												 class="newbook-btn btn_add-to-cart button-fill rounded-3 d-flex align-items-center" 
+												 data-bookid="404"
+												 data-quantity="1">
 	                                            <span>
 	                                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 	                                                <path d="M9.5 19C9.5 19.8284 8.82843 20.5 8 20.5C7.17157 20.5 6.5 19.8284 6.5 19C6.5 18.1716 7.17157 17.5 8 17.5C8.82843 17.5 9.5 18.1716 9.5 19Z" stroke="var(--dark-blue-50)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -516,7 +381,7 @@
 	                                                <path d="M3 2.75C2.58579 2.75 2.25 3.08579 2.25 3.5C2.25 3.91421 2.58579 4.25 3 4.25V2.75ZM18.459 13.3703L17.7918 13.0277L18.459 13.3703ZM8 6.25H17.5873V4.75H8V6.25ZM19.5889 9.52771L17.7918 13.0277L19.1262 13.7128L20.9233 10.2128L19.5889 9.52771ZM15.7903 14.25H8V15.75H15.7903V14.25ZM5.75 12V11.5H4.25V12H5.75ZM5.75 11.5V8.5H4.25V11.5H5.75ZM5.75 11.5V5.5H4.25V11.5H5.75ZM8 14.25C6.75736 14.25 5.75 13.2426 5.75 12H4.25C4.25 14.0711 5.92893 15.75 8 15.75V14.25ZM17.7918 13.0277C17.4065 13.7781 16.6338 14.25 15.7903 14.25V15.75C17.1962 15.75 18.484 14.9636 19.1262 13.7128L17.7918 13.0277ZM17.5873 6.25C19.2705 6.25 20.3577 8.0304 19.5889 9.52771L20.9233 10.2128C22.2046 7.71733 20.3926 4.75 17.5873 4.75V6.25ZM5.75 5.5C5.75 3.98122 4.51878 2.75 3 2.75V4.25C3.69036 4.25 4.25 4.80964 4.25 5.5H5.75ZM8 4.75C5.92893 4.75 4.25 6.42893 4.25 8.5H5.75C5.75 7.25736 6.75736 6.25 8 6.25V4.75Z" fill="var(--dark-blue-50)"></path>
 	                                                </svg>
 	                                            </span>
-	                                        </a>
+	                                       </button>
 	                                    </div>
 	                                 </div>
 	                        </div>
@@ -526,26 +391,8 @@
 	                </div>
 	                <div class="col-md-6">
 	                    <div class="library-grid">
-	                        <div class="book-item">
-	                            <img src="${pageContext.request.contextPath}/assets/images/books/hoang-hon-mau-do-bia.png" alt="Lão Hạc">
-	                        </div>
-	                        <div class="book-item">
-	                            <img src="${pageContext.request.contextPath}/assets/images/books/biet-khi-nao-moi-gap-nhau-bia.png" alt="Clean Code">
-	                        </div>
-	                        <div class="book-item">
-	                            <img src="${pageContext.request.contextPath}/assets/images/books/dragonball-tap16-bia.png" alt="Chí Phèo">
-	                        </div>
-	                        <div class="book-item">
-	                            <img src="${pageContext.request.contextPath}/assets/images/books/biet-khi-nao-moi-gap-nhau-bia.png" alt="Biết khi nào mới gặp lại nhau">
-	                        </div>
-	                        <div class="book-item">
-	                            <img src="${pageContext.request.contextPath}/assets/images/books/toi-uu-toan-dien-website-bia.png" alt="AI Agent Thực Chiến">
-	                        </div>
-	                        <div class="book-item">
-	                            <img src="${pageContext.request.contextPath}/assets/images/books/dragonball-tap16-bia.png" alt="Conan">
-	                        </div>
+	                        <!-- FETCH DATA HERE -->
 	                    </div>
-	
 	                </div>
 	            </div>
 	            <div class="text-end dot-end my-3">
@@ -693,7 +540,6 @@
 	                        <div class="combo-photo mb-3" style="height: 250px;">
 	                            <img src="${pageContext.request.contextPath}/assets/images/books/toi-uu-toan-dien-website-bia.png" alt="" class="img-1" height="150">
 	                            <img src="${pageContext.request.contextPath}/assets/images/books/biet-khi-nao-moi-gap-nhau-bia.png" alt="" class="img-2" height="150">
-	                        
 	                        </div>
 	
 	                        <!-- title -->
