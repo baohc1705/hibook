@@ -99,7 +99,6 @@ public class CategoryBookController {
 			
 			String paginationJson = gson.toJson(paginationKit.getPagination());
 			request.setAttribute("pagination", paginationJson);
-			
 			request.getRequestDispatcher(SPA_CATE_FILTER_PAGE).forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -234,16 +233,15 @@ public class CategoryBookController {
 	private void viewAllCategory(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
-			List<CateBookDTO> categories = cateBookService.getAllCateBook();
-			FilterCriteria criteria = new FilterCriteria();
-			criteria.setPage(1);
-			criteria.setPageSize(8);
-			criteria.setSortBy("createDate");
-			criteria.setSortOrder("DESC");
-			List<BookDTO> books = bookService.getBooksWithFilter(criteria);
 
 			List<AuthorDTO> authors = authorService.getAllAuthors();
-			request.setAttribute("books", books);
+			String categoriesStr = request.getParameter("categories");
+			
+			if(categoriesStr != null && !categoriesStr.isEmpty()) {
+				int category = Integer.parseInt(categoriesStr); 
+				request.setAttribute("category", category);
+			}
+			
 			request.setAttribute("authors", authors);
 			request.getRequestDispatcher(CATEGORY_PAGE).forward(request, response);
 		} catch (Exception e) {

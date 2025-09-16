@@ -16,7 +16,7 @@
 		<div class="row wrapper-book">
 			<c:forEach var="book" items="${books}">
 				<div class="book-filter col-md-3 p-3">
-					<div class="view-book text-center mb-3" data-id="${book.id}">
+					<div class="view-book text-center mb-3" data-id="${book.id}" onclick="window.location.href='/hibook/books/view?bookId=${book.id}'">
 						<img src="/hibook/assets/images/books/${mapCoverPhoto[book.id]}" alt="${mapCoverPhoto[book.id]}" 
 							class="object-fit-contain" 
 							height="150">
@@ -64,8 +64,7 @@
         <script id="paginationData" type="application/json">
     		${pagination != null ? pagination : "[]"}
 		</script>
-        <div id="pagination" class="wrapper_page-navigation mt-3">
-        </div>
+        <div id="pagination" class="wrapper_page-navigation mt-3"></div>
 	</c:otherwise>
 </c:choose>
 	

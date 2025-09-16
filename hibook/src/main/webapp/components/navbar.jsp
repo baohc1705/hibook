@@ -32,16 +32,13 @@
                                 </svg>
                             </button>
                             <ul class="dropdown-menu">
-                            <c:choose>
-                            	<c:when test="${not empty sessionScope.categories}">
-                            		<c:forEach var="cate" items="${sessionScope.categories}">
-                            			<li><a class="dropdown-item" href="${pageContext.request.contextPath}/books/category">${cate.name}</a></li>
-                            		</c:forEach>
-                            	</c:when>
-                            </c:choose>
-                               <!--  <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li> -->
+	                            <c:choose>
+	                            	<c:when test="${not empty sessionScope.categories}">
+	                            		<c:forEach var="cate" items="${sessionScope.categories}">
+	                            			<li><a class="dropdown-item" href="${pageContext.request.contextPath}/books/category?categories=${cate.id}">${cate.name}</a></li>
+	                            		</c:forEach>
+	                            	</c:when>
+	                            </c:choose>
                             </ul>
                         </div>
                         <!-- end Category -->
