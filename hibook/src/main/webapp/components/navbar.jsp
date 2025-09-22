@@ -95,7 +95,7 @@
 	                            </li>
 	
 	                            <li class="list-group-item ">
-	                                <a href="${pageContext.request.contextPath}/login" class="btn nav-link px-3 py-2 bg_dark-blue-800 text_dark-blue-50 rounded-pill fs-base">Đăng nhập</a>
+	                                <a href="${pageContext.request.contextPath}/auth/login" class="btn nav-link px-3 py-2 bg_dark-blue-800 text_dark-blue-50 rounded-pill fs-base">Đăng nhập</a>
 	                            </li>
 							</c:if>
 								
@@ -146,7 +146,7 @@
 									    	<a class="dropdown-item" href="#"><i class="fa-solid fa-gear me-2"></i>Cài đặt</a>
 									    </li>
 									    <li class="mb-3">
-									    	<a class="dropdown-item" href="${pageContext.request.contextPath }/logout"><i class="fa-solid fa-right-from-bracket me-2"></i>Thoát</a>
+									    	<a class="dropdown-item" href="${pageContext.request.contextPath }/auth/logout"><i class="fa-solid fa-right-from-bracket me-2"></i>Thoát</a>
 									    </li>
 									  </ul>
 									</div>

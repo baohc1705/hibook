@@ -8,15 +8,23 @@
 
   <display-name>HiBOOK Webapp by baohc1705</display-name>
 
-  <!-- RouterServlet chỉ map ở /app/* -->
-<!--   <servlet>
-      <servlet-name>RouterServlet</servlet-name>
-      <servlet-class>com.baohc.app.router.RouterServlet</servlet-class>
-      <load-on-startup>1</load-on-startup>
-  </servlet>
+  <!-- Security Filter -->
+    <filter>
+        <filter-name>SecurityFilter</filter-name>
+        <filter-class>com.baohc.core.filters.SecurityFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>SecurityFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
-  <servlet-mapping>
-      <servlet-name>RouterServlet</servlet-name>
-      <url-pattern>/app/*</url-pattern>
-  </servlet-mapping> -->
+    <!-- Request Filter -->
+    <filter>
+        <filter-name>RequestFilter</filter-name>
+        <filter-class>com.baohc.core.filters.RequestFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>RequestFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 </web-app>

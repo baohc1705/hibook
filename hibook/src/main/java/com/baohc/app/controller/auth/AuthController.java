@@ -13,8 +13,6 @@ import javax.servlet.http.HttpSession;
 import com.baohc.app.model.CateUserDTO;
 import com.baohc.app.model.UserDTO;
 import com.baohc.app.model.UserTokenDTO;
-import com.baohc.app.service.user.CateUserService;
-import com.baohc.app.service.user.CateUserServiceImpl;
 import com.baohc.app.service.user.UserService;
 import com.baohc.app.service.user.UserServiceImpl;
 import com.baohc.app.service.user.UserTokenService;
@@ -30,7 +28,7 @@ import com.google.gson.Gson;
 /*NOTE: áp dùng PRG pattern để chuyển trang*/
 public class AuthController{
 	private UserService userService;
-	private CateUserService cateUserService;
+	//private CateUserService cateUserService;
 	private UserTokenService userTokenService;
 	
 	private final String HOME_PAGE = "/";
@@ -43,7 +41,7 @@ public class AuthController{
 	
 	public AuthController() {
 		userService = UserServiceImpl.getInstance();
-		cateUserService = CateUserServiceImpl.getInstance();
+		//cateUserService = CateUserServiceImpl.getInstance();
 		userTokenService = UserTokenServiceImpl.getInstance();
 	}
 
@@ -53,37 +51,8 @@ public class AuthController{
 	}
 
 	public void doLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		try {
-			request.setCharacterEncoding("UTF-8");
-			String email = request.getParameter("email");
-			String password = request.getParameter("password");
-
-			password = EncryptPassword.toSHA1(password);
-
-			UserDTO user_tmp = new UserDTO();
-			user_tmp.setEmail(email);
-			user_tmp.setPassword(password);
-
-			UserDTO user_found = this.userService.login(user_tmp);
-
-			HttpSession session = request.getSession();
-
-			if (user_found != null) {
-				if (user_found.getCateUser().getId() == 3) {
-					session.setAttribute("USER_ACC", user_found);
-					response.sendRedirect(request.getContextPath() + HOME_PAGE);
-				} else if (user_found.getCateUser().getId() == 1 || user_found.getCateUser().getId() == 2) {
-					session.setAttribute("ADMIN_ACC", user_found);
-					response.sendRedirect(request.getContextPath() + "/admin");
-				}
-
-			} else {
-				session.setAttribute("errMsg_Login", "Đăng nhập thất bại.");
-				response.sendRedirect(request.getContextPath() + LOGIN_SERVLET);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		
+			
 	}
 
 	public void doLogout(HttpServletRequest request, HttpServletResponse response)
@@ -107,42 +76,7 @@ public class AuthController{
 	}
 	
 	public void doRegister(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		try {
-			request.setCharacterEncoding("UTF-8");
-			response.setContentType("text/plain");
-
-			String email = request.getParameter("email");	
-			String password = request.getParameter("password");
-			
-			password = EncryptPassword.toSHA1(password);
-			
-			String fullname = request.getParameter("fullname");
-			Date birthDate = Date.valueOf(request.getParameter("birthDate"));
-
-			String id = StringKit.RandomId(); 
-			
-			CateUserDTO cateUserDTO = cateUserService.find(new CateUserDTO(3, ""));
-			
-			UserDTO user = new UserDTO(id, cateUserDTO, email, password, fullname, birthDate);
-			
-			UserDTO userGetByEmail = userService.findByEmail(user);
-			
-			HttpSession session = request.getSession();
-			
-			if (userGetByEmail == null) {			
-				session.setAttribute("userIsVerify", user);
-				response.sendRedirect(request.getContextPath() + "/verify-account");
-				System.out.println("Chuyển sang xác thực email");
-			}
-			else {
-				System.out.println("Email đã tồn tại");
-				session.setAttribute("errMsg", "Email đã tồn tại");
-				response.sendRedirect(request.getContextPath() + REGISTER_SERVLET);
-			}
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
+		
 	}
 	
 	public void showForgotPassword(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

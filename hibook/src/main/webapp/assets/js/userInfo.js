@@ -28,11 +28,13 @@ $(document).ready(function() {
 				clearTimeout(loaderTimeout);
 				$("#main-content").html(res);
 			},
-			error: function(xhr, status, error) {
+			error: function() {
 				clearTimeout(loaderTimeout);
-				console.error("AJAX error:", status, error);
-				console.error("Response text:", xhr.responseText);
-				Swal.fire("Lỗi", "Không thể kết nối đến server verify", "error");
+				Swal.fire({
+					icon: "error",
+					title: "Máy chủ bị lỗi",
+					text: "Không thể kết nối đến server!"
+				});
 			}
 		});
 	});

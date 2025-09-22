@@ -16,10 +16,12 @@
         <div class="row justify-content-center align-items-center">
             <div class="col-md-6 group_main p-5">
                 <div class="logo-home">
-                    <img src="${pageContext.request.contextPath}/assets/images/logos/logo-home.png" alt="" height="50px" />
+                    <img src="${pageContext.request.contextPath}/assets/images/logos/logo-home.png" alt="logo-home.png" height="50px" 
+                    	onclick="window.location.href='${pageContext.request.contextPath}/'"
+                    	style="cursor: pointer;"/>
                 </div>
                 <div class="group_form mt-3">
-                    <div class="group-header">
+                    <div class="group-header mb-3 pb-2">
                         <p class="h2 text-center text-dark-blue-50 font-paytone-one">
                             WELCOME BACK
                         </p>
@@ -27,10 +29,40 @@
                             Hãy đăng nhập để bắt đầu chuyến mua sắm
                         </p>
                     </div>
-
-                    <form action="${pageContext.request.contextPath}/login" method="post" class="form px-5">
+					
+                    <form action="${pageContext.request.contextPath}/auth/login" method="post" class="form px-5 mt-3">
+                    	<input type="hidden" name="csrfToken" value="${csrfToken}">
+                    	<c:if test="${not empty error}">
+		                    <div class="alert alert-danger px-3 py-2" role="alert">
+							  	${error}
+							</div>
+						</c:if>
+						<c:if test="${not empty RateLimitedTimeOut}">
+						    <div class="alert alert-warning px-3 py-2 text-center" role="alert">
+						        Bạn đã nhập sai quá nhiều lần. Vui lòng thử lại sau 
+						        <span id="countdown"></span>
+						    </div>
+						    
+						    <script type="text/javascript">
+						        let remaining = ${RateLimitedTimeOut}; // milliseconds từ server
+						        let countdownEl = document.getElementById("countdown");
+						
+						        function updateCountdown() {
+						            if (remaining <= 0) {
+						                countdownEl.textContent = "Bây giờ bạn có thể đăng nhập lại.";
+						                return;
+						            }
+						            let minutes = Math.floor(remaining / 60000);
+						            let seconds = Math.floor((remaining % 60000) / 1000);
+						            countdownEl.textContent = minutes + ":" + seconds + "s";
+						            remaining -= 1000;
+						            setTimeout(updateCountdown, 1000);
+						        }
+						        updateCountdown();
+						    </script>
+						</c:if>
                         <div class="mb-3">
-                            <label for="inputEmail" class="form-label text-dark-blue-50 font-roboto fw-bold">Email</label>
+                            <label for="inputEmail" class="form-label text-dark-blue-50 font-roboto fw-bold fs-base">Tên đăng nhập hoặc email</label>
                             <div class="input-group custom-input-group">
                                 <span class="input-group-text">
                                     <svg width="30" height="30" viewBox="0 0 24 24" fill="none"
@@ -43,17 +75,17 @@
                                             stroke="#a6c4ea" stroke-width="1.5" stroke-linejoin="round"></path>
                                     </svg>
                                 </span>
-                                <input type="email" class="border-0 form-control" id="inputEmail" name="email" value='<c:if test="${not empty sessionScope.existed_email }">${sessionScope.existed_email }</c:if>'
-                                    placeholder="Nhập vào email..." />
+                                <input type="text" class="border-0 form-control" id="inputIdentifier" name="identifier" value='<c:if test="${not empty identifier }">${identifier}</c:if>'
+                                    placeholder="abc@gmail.com" />
                             </div>
                         </div>
 
                         <div class="mb-3">
                             <div class="d-flex justify-content-between">
-                                <label for="inputPassword" class="form-label text-dark-blue-50 font-roboto fw-bold">Mật
+                                <label for="inputPassword" class="form-label text-dark-blue-50 font-roboto fw-bold fs-base">Mật
                                     khẩu</label>
                                 <label for="inputPassword" class="form-label text-dark-blue-50 font-roboto">
-	                                <a href="${pageContext.request.contextPath}/forgot-password/show" tabindex="-1" class="nav-link">
+	                                <a href="${pageContext.request.contextPath}/auth/forgot-password" tabindex="-1" class="nav-link fs-base">
 									  Quên mật khẩu ?
 									</a>
 								</label>
@@ -65,7 +97,7 @@
                                     </svg>
                                 </span>
                                 <input type="password" class="border-0 form-control" id="inputPassword" name="password"
-                                    placeholder="Nhập vào mật khẩu..." />
+                                    placeholder="●●●●●●●●●●" />
                             </div>
                         </div>
 
@@ -95,7 +127,7 @@
 
                     <div class="group_logup text-center">
                         <p class="text-dark-blue-50 fs-6">
-                            Bạn chưa phải thành viên? <a href="${pageContext.request.contextPath}/register" class="text-decoration-none ">Đăng ký tại đây</a>
+                            Bạn chưa phải thành viên? <a href="${pageContext.request.contextPath}/auth/register" class="text-decoration-none ">Đăng ký tại đây</a>
                         </p>
                     </div>
                 </div>

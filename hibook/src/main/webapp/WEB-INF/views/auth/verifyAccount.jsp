@@ -48,11 +48,12 @@
 						<c:remove var="errMsg" scope="request"/>
 					</c:if>
 					
-					<form id="form-sendOtpMail" action="${pageContext.request.contextPath}/verify-account/send-otp-mail" method="post" class="form px-5 mb-3">
+					<form id="form-sendOtpMail" action="${pageContext.request.contextPath}/verify/email" method="post" class="form px-5 mb-3">
+                        <input type="hidden" name="csrfToken" value="${csrfToken}" id="csrfTokenSend">
                         <div class="wrapper-input mb-2">
 	                        <input type="text" class="w-input" id="email" name="email"
 	                               placeholder="Nhập vào email..." required="required"
-	                               value="${sessionScope.userIsVerify.email }" readonly="readonly"/>
+	                               value="${sessionScope.userDeliveried.email }" readonly="readonly"/>
 	                        <button id="btnSendEmail" type="submit" class="w-icon button-link fs-base">
 	                           
 	                        </button> 
@@ -87,6 +88,7 @@
                     </form>  
 					
                     <form id="form-verify" action="${pageContext.request.contextPath }/verify-account" method="post" class="form px-5">
+                        <input type="hidden" name="csrfToken" value="${csrfToken}" id="csrfTokenVerify">
                         <div class="wrapper-input mb-3">
 	                        <input type="text" class="w-input" id="otp_user" name="otp_user"
 	                               placeholder="Nhập vào mã OTP 6 số..." required="required"/>
@@ -98,6 +100,7 @@
                             </button>
                         </div>
                     </form>
+                    
                 </div>
             </div>
         </div>
@@ -146,11 +149,17 @@
             $('#form-verify').on('submit', function(e) {
                 e.preventDefault();
                 console.log("form-verify loaded!");
-				
+                let csrfTokenV = $("#csrfTokenVerify").val();
                 $.ajax({
-                    url: '${pageContext.request.contextPath }/verify-account',
+                    url: '${pageContext.request.contextPath }/verify/email',
                     method: 'POST',
-                    data: { otp_user : $('#otp_user').val() },
+                    data: { 
+                    	otp_user : $('#otp_user').val(),
+                    	action: 'verify-otp'
+                    },
+                    headers: {
+                    	"X-CSRF-Token": csrfTokenV
+                    },
                     success: function(response) {
                         if (response.status === 'success') {
                             Swal.fire({
@@ -185,12 +194,18 @@
                 console.log("send otp mail loaded!");
                 let txtemail = $("#email").val().trim();
                 $("#progress-running").show();
-
+                let csrfToken = $("#csrfTokenSend").val();
                 $.ajax({
-                    url: "${pageContext.request.contextPath}/verify-account/send-otp-mail",
+                    url: "${pageContext.request.contextPath}/verify/email",
                     method: "POST",
                     dataType: "json",
-                    data: { email: txtemail },
+                    data: { 
+                    	email: txtemail,
+                    	action: 'otp'
+                    },
+                    headers: {
+                    	"X-CSRF-Token": csrfToken
+                    },
                     success: function(response) {
                         if (response.status === "success") {
                             Swal.fire({

@@ -62,9 +62,9 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDTO findByEmail(UserDTO user) {
+	public UserDTO findByEmail(String email) {
 		// TODO Auto-generated method stub
-		return this.userDAO.findByEmail(user);
+		return this.userDAO.findByEmail(email);
 	}
 
 	@Override

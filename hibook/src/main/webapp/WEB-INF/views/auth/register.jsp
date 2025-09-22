@@ -28,10 +28,12 @@
         <div class="row justify-content-center align-items-center my-5" style="height: auto !important;">
             <div class="col-md-6 group_main p-5">
                 <div class="logo-home">
-                    <img src="${pageContext.request.contextPath}/assets/images/logos/logo-home.png" alt="" height="50px" />
+                    <img src="${pageContext.request.contextPath}/assets/images/logos/logo-home.png" alt="logo-home.png" height="50px"
+                    	onclick="window.location.href='${pageContext.request.contextPath}/'"
+                    	style="cursor: pointer;"/>
                 </div>
                 <div class="group_form mt-3">
-                    <div class="group-header">
+                    <div class="group-header pb-2 mb-3">
                         <p class="h2 text-center text-dark-blue-50 font-paytone-one">
                             WELCOME BACK
                         </p>
@@ -39,16 +41,47 @@
                             Hãy tạo tài khoản để bắt đầu chuyến mua sắm
                         </p>
                     </div>
-                    
-					<c:if test="${not empty sessionScope.errMsg }">
-						<p class="text-danger h4">${sessionScope.errMsg}</p>
-						<c:remove var="errMsg" scope="session"/>
-					</c:if>
-					
-                    <form action="${pageContext.request.contextPath }/register" method="post" class="form px-5" >
+                    <form action="${pageContext.request.contextPath }/auth/register" method="post" class="form px-5" >
+                    <input type="hidden" name="csrfToken" value="${csrfToken}">
+                    	<c:if test="${not empty error}">
+		                    <div class="alert alert-danger px-3 py-2" role="alert">
+							  	${error}
+							</div>
+						</c:if>
+                    	<div class="mb-3">
+                        	<div class="d-flex justify-content-between">
+	                            <label for="inputUsername" class="form-label text-dark-blue-50 font-roboto fw-bold fs-base">Tên đăng nhập</label>
+	                            <span id="errMsg-username" class="errMsg"></span>
+	                            <svg class="rounded-pill successIcon successUsername" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<path d="M4 12L8.8 17L20 7" stroke="var(--clr-success)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+								</svg>
+                            </div>
+                            <div class="input-group custom-input-group">
+                                <span class="input-group-text">
+                                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M3 12C3 9.67029 3 8.50544 3.3806 7.58658C3.88807 6.36144 4.86144 5.38807 6.08658 4.8806C7.00544 4.5 8.17029 4.5 10.5 4.5H13.5C15.8297 4.5 16.9946 4.5 17.9134 4.8806C19.1386 5.38807 20.1119 6.36144 20.6194 7.58658C21 8.50544 21 9.67029 21 12V12C21 14.3297 21 15.4946 20.6194 16.4134C20.1119 17.6386 19.1386 18.6119 17.9134 19.1194C16.9946 19.5 15.8297 19.5 13.5 19.5H10.5C8.17029 19.5 7.00544 19.5 6.08658 19.1194C4.86144 18.6119 3.88807 17.6386 3.3806 16.4134C3 15.4946 3 14.3297 3 12V12Z"
+                                            stroke="#a6c4ea" stroke-width="1.5" stroke-linejoin="round"></path>
+                                        <path
+                                            d="M3 8L6.47486 10.7025C8.82448 12.5299 9.99929 13.4436 11.3413 13.6221C11.7788 13.6802 12.222 13.6802 12.6595 13.622C14.0015 13.4436 15.1762 12.5298 17.5258 10.7023L21 8"
+                                            stroke="#a6c4ea" stroke-width="1.5" stroke-linejoin="round"></path>
+                                    </svg>
+                                </span>
+                                <input type="text" 
+	                                class="border-0 form-control" 
+	                                id="username" 
+	                                name="username"
+	                                placeholder="Abc" 
+	                                required="required" 
+	                                onkeyup="checkUsername()"
+	                                value="${username}"/>
+                            </div>
+                        </div>
+                        
                         <div class="mb-3">
                         	<div class="d-flex justify-content-between">
-	                            <label for="inputEmail" class="form-label text-dark-blue-50 font-roboto fw-bold">Email</label>
+	                            <label for="inputEmail" class="form-label text-dark-blue-50 font-roboto fw-bold fs-base">Email</label>
 	                            <span id="errMsg-email" class="errMsg"></span>
 	                            <svg class="rounded-pill successIcon successEmail" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<path d="M4 12L8.8 17L20 7" stroke="var(--clr-success)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -66,14 +99,20 @@
                                             stroke="#a6c4ea" stroke-width="1.5" stroke-linejoin="round"></path>
                                     </svg>
                                 </span>
-                                <input type="email" class="border-0 form-control" id="email" name="email"
-                                    placeholder="Nhập vào email..." required="required" onkeyup="checkEmail()"/>
+                                <input type="email" 
+                                class="border-0 form-control" 
+                                id="email" 
+                                name="email"
+                                placeholder="abc@gmail.com" 
+                                required="required" 
+                                onkeyup="checkEmail()"
+                                value="${email}"/>
                             </div>
                         </div>
 
                         <div class="mb-3">
                             <div class="d-flex justify-content-between">
-                                <label for="password" class="form-label text-dark-blue-50 font-roboto fw-bold">Mật khẩu</label>
+                                <label for="password" class="form-label text-dark-blue-50 font-roboto fw-bold fs-base">Mật khẩu</label>
                                 <span id="errMsg-pass" class="errMsg"></span>
                                 <svg class="rounded-pill successIcon successPassword" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<path d="M4 12L8.8 17L20 7" stroke="var(--clr-success)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -85,14 +124,19 @@
                                     <path d="M17 8V8C17 5.23858 14.7614 3 12 3V3C9.23858 3 7 5.23858 7 8V8M12 15.5V15.5C13.1046 15.5 14 14.6046 14 13.5V13.5C14 12.3954 13.1046 11.5 12 11.5V11.5C10.8954 11.5 10 12.3954 10 13.5V13.5C10 14.6046 10.8954 15.5 12 15.5V15.5ZM12 15.5V18M9.5 21H14.5C16.8346 21 18.0019 21 18.8856 20.5277C19.5833 20.1548 20.1548 19.5833 20.5277 18.8856C21 18.0019 21 16.8346 21 14.5V14.5C21 12.1654 21 10.9981 20.5277 10.1144C20.1548 9.4167 19.5833 8.84525 18.8856 8.47231C18.0019 8 16.8346 8 14.5 8H9.5C7.16537 8 5.99805 8 5.11441 8.47231C4.4167 8.84525 3.84525 9.4167 3.47231 10.1144C3 10.9981 3 12.1654 3 14.5V14.5C3 16.8346 3 18.0019 3.47231 18.8856C3.84525 19.5833 4.4167 20.1548 5.11441 20.5277C5.99805 21 7.16537 21 9.5 21Z" stroke="#a6c4ea" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
                                     </svg>
                                 </span>
-                                <input type="password" class="border-0 form-control" id="password" name="password" 
-                                placeholder="Nhập vào mật khẩu..." required="required"  onkeyup="checkPass()"/>
+                                <input type="password" 
+                                class="border-0 form-control" 
+                                id="password" 
+                                name="password" 
+                                placeholder="●●●●●●●●●●" 
+                                required="required"
+                                onkeyup="checkPass()"/>
                             </div>
                         </div>
 
                         <div class="mb-3">
                             <div class="d-flex justify-content-between">
-                                <label for="inputPasswordAgain" class="form-label text-dark-blue-50 font-roboto fw-bold">Nhập lại mật khẩu</label>
+                                <label for="inputPasswordAgain" class="form-label text-dark-blue-50 font-roboto fw-bold fs-base">Nhập lại mật khẩu</label>
                                 <span id="error-msg-password" class="errMsg"></span>
                                 <svg class="rounded-pill successIcon successConfirmPasswword" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<path d="M4 12L8.8 17L20 7" stroke="var(--clr-success)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -104,14 +148,15 @@
                                     <path d="M17 8V8C17 5.23858 14.7614 3 12 3V3C9.23858 3 7 5.23858 7 8V8M12 15.5V15.5C13.1046 15.5 14 14.6046 14 13.5V13.5C14 12.3954 13.1046 11.5 12 11.5V11.5C10.8954 11.5 10 12.3954 10 13.5V13.5C10 14.6046 10.8954 15.5 12 15.5V15.5ZM12 15.5V18M9.5 21H14.5C16.8346 21 18.0019 21 18.8856 20.5277C19.5833 20.1548 20.1548 19.5833 20.5277 18.8856C21 18.0019 21 16.8346 21 14.5V14.5C21 12.1654 21 10.9981 20.5277 10.1144C20.1548 9.4167 19.5833 8.84525 18.8856 8.47231C18.0019 8 16.8346 8 14.5 8H9.5C7.16537 8 5.99805 8 5.11441 8.47231C4.4167 8.84525 3.84525 9.4167 3.47231 10.1144C3 10.9981 3 12.1654 3 14.5V14.5C3 16.8346 3 18.0019 3.47231 18.8856C3.84525 19.5833 4.4167 20.1548 5.11441 20.5277C5.99805 21 7.16537 21 9.5 21Z" stroke="#a6c4ea" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
                                     </svg>
                                 </span>
-                                <input type="password" class="border-0 form-control" id="passwordCheck" name="passwordCheck" 
-                                placeholder="Hãy nhập lại mật khẩu..." onkeyup="checkPassword()" required="required"/>
+                                <input type="password" 
+                                class="border-0 form-control" id="passwordCheck" name="passwordCheck" 
+                                placeholder="●●●●●●●●●●" onkeyup="checkPassword()" required="required"/>
                             </div>
                         </div>
 
                         <div class="mb-3">
                             <div class="d-flex justify-content-between">
-                                <label for="inputFullname" class="form-label text-dark-blue-50 font-roboto fw-bold">Họ tên</label>
+                                <label for="inputFullname" class="form-label text-dark-blue-50 font-roboto fw-bold fs-base">Họ tên</label>
                                 <span id="errMsg-fullname" class="errMsg"></span>
                                 <svg class="rounded-pill successIcon successFullname" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<path d="M4 12L8.8 17L20 7" stroke="var(--clr-success)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -125,13 +170,13 @@
                                     </svg>
                                 </span>
                                 <input type="text" class="border-0 form-control" id="fullname" name="fullname"
-                                    placeholder="Nhập vào họ tên..." required="required" onkeyup="checkFullname()"/>
+                                    placeholder="Huỳnh Chí Bảo" required="required" onkeyup="checkFullname()" value="${fullname}"/>
                             </div>
                         </div>
 
                         <div class="mb-3">
                             <div class="d-flex justify-content-between">
-                                <label for="inputBirthDate" class="form-label text-dark-blue-50 font-roboto fw-bold">Ngày sinh</label>
+                                <label for="inputBirthDate" class="form-label text-dark-blue-50 font-roboto fw-bold fs-base">Ngày sinh</label>
                             </div>
                             <div class="input-group custom-input-group">
                                 <span class="input-group-text">
@@ -156,7 +201,7 @@
                             </button>
                         </div>
                         <p class="text-dark-blue-50 fs-6">
-                            Bạn đã có tài khoản? <a href="${pageContext.request.contextPath }/login" class="text-decoration-none ">Đăng nhập tại đây</a>
+                            Bạn đã có tài khoản? <a href="${pageContext.request.contextPath }/auth/login" class="text-decoration-none ">Đăng nhập tại đây</a>
                         </p>
                     </form>
                 </div>

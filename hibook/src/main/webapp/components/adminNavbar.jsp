@@ -42,23 +42,23 @@
                     <li class="nav-item dropdown">
                         <button class="dropdown-btn-profile dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="avatar-profile">
-                            <c:if test="${not empty sessionScope.ADMIN_ACC }">
-                                <img src="${pageContext.request.contextPath}/assets/images/avatars/${sessionScope.ADMIN_ACC.avatar}" alt="profile-img" width="48" height="48" class="object-fit-cover rounded-circle">
+                            <c:if test="${not empty sessionScope.USER_ACC }">
+                                <img src="${pageContext.request.contextPath}/assets/images/avatars/${sessionScope.USER_ACC.avatar}" alt="profile-img" width="48" height="48" class="object-fit-cover rounded-circle">
                             </c:if>
                             </span>
                         </button>
 
                          <ul class="dropdown-menu">
                             <div class="">
-                            	<c:if test="${not empty sessionScope.ADMIN_ACC }">
+                            	<c:if test="${not empty sessionScope.USER_ACC }">
                                 <li class="list-group-item d-flex align-items-center ">
                                     <span>
                                     
-                                            <img src="${pageContext.request.contextPath}/assets/images/avatars/${sessionScope.ADMIN_ACC.avatar}" alt="profile-img" width="32" height="32" class="object-fit-cover rounded-circle">
+                                            <img src="${pageContext.request.contextPath}/assets/images/avatars/${sessionScope.USER_ACC.avatar}" alt="profile-img" width="32" height="32" class="object-fit-cover rounded-circle">
                                     </span>
                                     <span class="d-flex flex-column ms-2">
-                                        <span class="name">${sessionScope.ADMIN_ACC.fullname}</span>
-                                        <span class="role small">${sessionScope.ADMIN_ACC.cateUser.name}</span>
+                                        <span class="name">${sessionScope.USER_ACC.fullname}</span>
+                                        <span class="role small">${sessionScope.USER_ACC.roleNames}</span>
                                     </span>
                                 </li>
                                 </c:if>
@@ -78,7 +78,7 @@
                                 </li>
 
                                 <li class="list-group-item">
-                                    <a href="${pageContext.request.contextPath }/logout" class="submenu-link nav-link d-flex align-items-center">
+                                    <a href="${pageContext.request.contextPath }/auth/logout" class="submenu-link nav-link d-flex align-items-center">
                                         <span class="nav-icon material-symbols-rounded">logout</span>
                                         <span class="ms-2 small">Thoát</span>
                                     </a>

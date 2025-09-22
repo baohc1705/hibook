@@ -241,11 +241,10 @@
 	                });
 	                currentPage++;
 	                hasLoadMore = res.hasLoadMore;
-	                isLoading = false; // ✅ reset lại
+	                isLoading = false;
 	            },
-	            error: function(xhr, status, error) {
+	            error: function() {
 	            	clearTimeout(loaderTimeout);
-	                console.error("AJAX error:", status, error);
 	                Swal.fire("Lỗi", "Không thể kết nối đến server", "error");
 	            }
 	        });

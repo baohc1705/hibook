@@ -30,45 +30,48 @@
                         </p>  
                     </div>
 
-                    <form id="form-sendEmail" action="${pageContext.request.contextPath}/forgot-password/send-token-email" method="post" class="form px-5 mb-3" >
-                        	<div class="wrapper-input mb-2">
-		                        <input type="text" class="w-input" id="email" name="email"
-		                                  placeholder="Nhập vào email..." required="required" onkeyup="checkEmail()"/>
-		                         <button type="submit" class="w-icon button-link">
-		                         	Gửi xác minh
-		                         </button> 
-	                         </div>
-	                         
-	                         <div class="d-flex justify-content-between">
-	                         
-	                   			<div id="progress-running" style="display: none;">
-	                   				<span class="fs-base text_dark-blue-200 me-2">Đang gửi xác thực đến email của bạn</span>
-		                   			<div class="spinner-border spinner-border-sm text_dark-blue-200 ms-auto" role="status">
-								  		<span class="visually-hidden">Loading...</span>
-									</div>
-	                   			</div>
-								
-	                         	<span id="progress-complete" class="fs-base text-success-ct" style="display: none;"><i class="fa-solid fa-circle-check"></i> Đã gửi thông tin xác nhận đến email của bạn</span>
-	                         	
-	                         	<c:if test="${not empty sessionScope.msgSuccessToken}">
-	                         		<span class="fs-base text-success-ct">
-	                         			<i class="fa-solid fa-circle-check"></i> ${sessionScope.msgSuccessToken }
-	                         		</span>
-	                         		<c:remove var="msgSuccessToken" scope="session"/>
-	                         	</c:if>
-	                         	
-	                         	<c:if test="${not empty sessionScope.msgErrorToken}">
-	                         		<span class="fs-small text-danger-ct">
-	                         			<i class="fa-solid fa-triangle-exclamation"></i> ${sessionScope.msgErrorToken }
-	                         		</span>
-	                         		<c:remove var="msgErrorToken" scope="session"/>
-	                         	</c:if>
-	                         	
-	                         	<span id="errMsg-email" class="fs-small text-danger-ct"></span>
-	                         </div> 
+                    <form id="form-sendEmail" action="${pageContext.request.contextPath}/verify/email" method="post" class="form px-5 mb-3" >
+                       	<input type="hidden" name="csrfToken" value="${csrfToken}" id="csrfToken">
+                       	<input type="hidden" name="action" value="token">
+                       	<div class="wrapper-input mb-2">
+	                        <input type="text" class="w-input" id="email" name="email"
+	                                  placeholder="Nhập vào email..." required="required" onkeyup="checkEmail()"/>
+	                         <button type="submit" class="w-icon button-link">
+	                         	Gửi xác minh
+	                         </button> 
+                         </div>
+                         
+                         <div class="d-flex justify-content-between">
+                         
+                   			<div id="progress-running" style="display: none;">
+                   				<span class="fs-base text_dark-blue-200 me-2">Đang gửi xác thực đến email của bạn</span>
+	                   			<div class="spinner-border spinner-border-sm text_dark-blue-200 ms-auto" role="status">
+							  		<span class="visually-hidden">Loading...</span>
+								</div>
+                   			</div>
+							
+                         	<span id="progress-complete" class="fs-base text-success-ct" style="display: none;"><i class="fa-solid fa-circle-check"></i> Đã gửi thông tin xác nhận đến email của bạn</span>
+                         	
+                         	<c:if test="${not empty sessionScope.msgSuccessToken}">
+                         		<span class="fs-base text-success-ct">
+                         			<i class="fa-solid fa-circle-check"></i> ${sessionScope.msgSuccessToken }
+                         		</span>
+                         		<c:remove var="msgSuccessToken" scope="session"/>
+                         	</c:if>
+                         	
+                         	<c:if test="${not empty sessionScope.msgErrorToken}">
+                         		<span class="fs-small text-danger-ct">
+                         			<i class="fa-solid fa-triangle-exclamation"></i> ${sessionScope.msgErrorToken }
+                         		</span>
+                         		<c:remove var="msgErrorToken" scope="session"/>
+                         	</c:if>
+                         	
+                         	<span id="errMsg-email" class="fs-small text-danger-ct"></span>
+                         </div> 
                     </form>       
                     
-                    <form id="form-resetPassword" action="${pageContext.request.contextPath}/forgot-password" method="post" class="form px-5" >
+                    <form id="form-resetPassword" action="${pageContext.request.contextPath}/auth/forgot-password" method="post" class="form px-5" >
+	                    <input type="hidden" name="csrfToken" value="${csrfToken}" id="csrfTokenResetPass">
 	                    <input type="hidden" id="userid" name="userid" value="${user_id}" readonly="readonly">
 	    				<input type="hidden" id="token_id" name="token_id" value="${token_id}" readonly="readonly">
                     	<div class="mb-3">
@@ -89,7 +92,7 @@
                                 XÁC NHẬN
                             </button>
                             <button id="btnVerify" type="submit" class="btn btn-login font-roboto text-dark-blue-50 fs-5 fw-bold mt-3"
-                            	onclick="window.location.href = '${pageContext.request.contextPath}/login'">
+                            	onclick="window.location.href = '${pageContext.request.contextPath}/auth/login'">
                     			TRỞ VỀ
                     		</button>
                         </div>
@@ -147,7 +150,7 @@
     			let txtEmail = $("#email").val().trim();
     			let progRunning = $("#progress-running");
     			let progComplete = $("#progress-complete");
-    			
+    			let csrfToken = $("#csrfToken").val().trim();
     			
     			if (!txtEmail) {
     				$("#errMsg-email").text("Email đã lỗi. Kiểm tra lại");
@@ -158,10 +161,16 @@
     			progComplete.hide();
     			
     			$.ajax({
-    				url: "${pageContext.request.contextPath}/forgot-password/send-token-email",
-    				method: "POST",
-    				data: {email : txtEmail},
-    				dataType: "json",
+    				url: "${pageContext.request.contextPath}/verify/email",
+    			    method: "POST",
+    			    data: {
+    			        email: txtEmail, 
+    			        action: "token"
+    			    },
+    			    headers: {
+    			        "X-CSRF-Token": csrfToken
+    			    },
+    			    dataType: "json",
     				success: function(response) {
     					if (response.status === "success") {
     						Swal.fire({
@@ -187,7 +196,6 @@
     	                    title: "Thất bại",
     	                    text: "Mất kết nối server"
     	                });
-    					console.error("AJAX error:", error);
     				},
     				complete: function() {
     					progRunning.hide();	
@@ -206,14 +214,20 @@
     			let txtTokenID = $("#token_id").val();
     			let txtPass = $("#password").val();
     			let txtConfirmPass = $("#confirmPassword").val();
-    			
+    			let csrfToken = $("#csrfTokenResetPass").val().trim();
     			
     			$.ajax({
-    				url: "${pageContext.request.contextPath}/forgot-password",
+    				url: "${pageContext.request.contextPath}/auth/forgot-password",
     				method: "POST",
-    				data: {	userid: txtuid, 
-    						token_id: txtTokenID,
-    						password: txtPass },
+    				data: {	
+    					userid: txtuid, 
+    					token_id: txtTokenID,
+    					password: txtPass
+    				},
+    				headers: {
+    					"X-CSRF-Token": csrfToken
+    				},
+    				dataType: "json",
     				success: function(response) {
     					if (response.status === "success") {
     						Swal.fire({
@@ -226,7 +240,7 @@
     							}).then((result) => {
     							  
     							  if (result.isConfirmed) {
-    								  window.location.href = "${pageContext.request.contextPath}/login";
+    								  window.location.href = "${pageContext.request.contextPath}/auth/login";
     							  }
     						});
     					}

@@ -7,12 +7,14 @@ import com.baohc.app.controller.admin.bill.BillController;
 import com.baohc.app.controller.admin.book.AdminBookController;
 import com.baohc.app.controller.admin.book.AdminGetBookController;
 import com.baohc.app.controller.auth.AuthController;
+import com.baohc.app.controller.auth.AuthenticationController;
 import com.baohc.app.controller.auth.VerificationController;
 import com.baohc.app.controller.book.CategoryBookController;
 import com.baohc.app.controller.book.GetBooksController;
 import com.baohc.app.controller.cart.CartController;
 import com.baohc.app.controller.cart.CheckoutController;
 import com.baohc.app.controller.user.UserInfomationController;
+import com.baohc.app.controller.verify.VerifyController;
 import com.baohc.core.router.BaseRouter;
 import com.baohc.core.router.Router;
 
@@ -91,5 +93,20 @@ public class RegisterRouteController implements BaseRouter{
 		// ==========VERIFY=========
 		
 		Router.post("/verify", new VerificationController(), "sendMail");
+		
+		// =========AUTHENTICATION=========
+		Router.get("/auth/login", new AuthenticationController(), "doGetLogin");
+		Router.post("/auth/login", new AuthenticationController(), "doPostLogin");
+		
+		Router.get("/auth/logout", new AuthenticationController(), "doGetLogout");
+		
+		Router.get("/auth/register", new AuthenticationController(), "doGetRegister");
+		Router.post("/auth/register", new AuthenticationController(), "doPostRegister");
+		
+		Router.get("/auth/forgot-password", new AuthenticationController(), "doGetForgotPassword");
+		Router.post("/auth/forgot-password", new AuthenticationController(), "doPostForgotPassword");
+		
+		Router.post("/verify/email", new VerifyController(), "doPostSendVerificationToEmail");
+		Router.get("/verify/email", new VerifyController(), "doGetSendVerificationToEmail");
 	}
 }

@@ -2,7 +2,6 @@ package com.baohc.app.controller.auth;
 
 import java.io.IOException;
 import java.net.URLEncoder;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
@@ -61,7 +60,7 @@ public class VerificationController {
 
 			// user da ton tai chua xac minh
 			if (user == null) {
-				UserDTO useremail = userService.findByEmail(new UserDTO(null, email, null, null, null));
+				UserDTO useremail = userService.findByEmail(email);
 				if (useremail != null) {
 					user = useremail;
 				}
@@ -261,7 +260,7 @@ public class VerificationController {
 			UserDTO usertmp = new UserDTO();
 			usertmp.setEmail(email);
 
-			UserDTO userByEmail = userService.findByEmail(usertmp);
+			UserDTO userByEmail = userService.findByEmail(email);
 
 			if (userByEmail == null) {
 				resp.put("status", "error");

@@ -3,7 +3,6 @@ package com.baohc.app.router;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +12,8 @@ import com.baohc.core.SystemLoader;
 
 @WebServlet(value = "/app/*", loadOnStartup = 1)
 public class FrontController extends HttpServlet{
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public void init() throws ServletException {
 		SystemLoader loader = new SystemLoader();

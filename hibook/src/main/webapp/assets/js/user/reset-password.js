@@ -82,7 +82,7 @@ $(document).ready(function () {
 					});
                 }
             },
-            error: function (xhr, status, error) {
+            error: function () {
 				Swal.fire({
 					icon: "error",
 					title: "Thất bại",

@@ -77,6 +77,19 @@ checkEmail = () => {
 	return true;
 }
 
+checkUsername = () => {
+	let txtUsername = document.getElementById('username').value;
+	var flag = false;
+	if (txtEmail.trim().length == 0) {
+		document.getElementById('errMsg-username').innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Hãy điền vào tên đăng nhập..`;
+		document.querySelector(".successUsername").style.display = "none";
+		return false;
+	} 
+	document.getElementById('errMsg-username').innerHTML = "";
+	document.querySelector(".successUsername").style.display = "block";
+	return true;
+}
+
 checkFullname = () => {
 	var txtFullname = document.getElementById('fullname').value.trim();
 	var errMsg =  document.getElementById('errMsg-fullname');
