@@ -17,6 +17,7 @@ import javax.servlet.http.Part;
 import com.baohc.app.model.UserDTO;
 import com.baohc.app.service.user.UserService;
 import com.baohc.app.service.user.UserServiceImpl;
+import com.baohc.core.utils.CSRFTokenUtil;
 import com.baohc.core.utils.FileKit;
 import com.google.gson.Gson;
 
@@ -50,10 +51,15 @@ public class UserController extends HttpServlet{
 	private void showInfo(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
+			
+			String csrfToken = CSRFTokenUtil.generateToken(request);
+			request.setAttribute("csrfToken", csrfToken);
 			String reqPage = "";
 			String page = request.getParameter("page");
+			
 			if (page == null || page.isEmpty()) {
 				reqPage = "info";
+				
 				request.setAttribute("reqPage", reqPage);
 				request.getRequestDispatcher("/WEB-INF/views/user/userInfo.jsp").forward(request, response);
 			}

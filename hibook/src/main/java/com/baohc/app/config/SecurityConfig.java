@@ -69,7 +69,7 @@ public class SecurityConfig {
         "/forgot-password",
         "/forgot-password/*",
         "/user-information",
-        "/verify",
+        "/verify/email",
         "/user/*"
     };
     

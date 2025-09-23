@@ -182,4 +182,8 @@ public class CSRFTokenUtil {
 		return result == 0;
 	}
 	
+	public String generateToken() {
+		return generateSecureToken();
+	}
+	
 }

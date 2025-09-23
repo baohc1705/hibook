@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 08, 2025 at 06:10 PM
+-- Generation Time: Sep 23, 2025 at 06:10 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -72,19 +72,20 @@ CREATE TABLE `bill` (
   `shippingAddress` text DEFAULT NULL,
   `note` text DEFAULT NULL,
   `createAt` timestamp NULL DEFAULT current_timestamp(),
-  `status` varchar(255) DEFAULT NULL
+  `status` varchar(255) DEFAULT NULL,
+  `pay_method` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `bill`
 --
 
-INSERT INTO `bill` (`id`, `user_id`, `delivery_id`, `isDisable`, `totalPrice`, `fullname`, `email`, `phone`, `city`, `district`, `ward`, `shippingAddress`, `note`, `createAt`, `status`) VALUES
-('250908225514cb1a', NULL, 1, b'0', 397000, 'Huỳnh Chí Bảo', 'baohc2004@gmail.com', '0337778965', 'DONG_THAP', 'QUAN_8', 'PHUONG_4', 'ấp Chiến Thắng', 'Đay la note doi them sau', '2025-09-08 15:55:14', 'Chờ xác nhận'),
-('2509082257129630', NULL, 1, b'0', 103000, 'Huỳnh Chí Bảo', 'baohc2004@gmail.com', '0337778965', 'DONG_THAP', 'QUAN_8', 'PHUONG_4', 'ấp Chiến Thắng', 'Đay la note doi them sau', '2025-09-08 15:57:12', 'Chờ xác nhận'),
-('250908225802ff4e', NULL, 1, b'0', 50000, 'Huỳnh Chí Bảo', 'baohc2004@gmail.com', '0337778965', 'DONG_THAP', 'QUAN_9', 'PHUONG_4', 'ấp Chiến Thắng', 'Đay la note doi them sau', '2025-09-08 15:58:03', 'Chờ xác nhận'),
-('2509082258510d5e', NULL, 1, b'0', 375000, 'Huỳnh Chí Bảo', 'baohc2004@gmail.com', '0337778965', 'DONG_THAP', 'QUAN_8', 'PHUONG_4', 'ấp Chiến Thắng', 'Đay la note doi them sau', '2025-09-08 15:58:51', 'Chờ xác nhận'),
-('2509082302257e20', 'HB202508241549481339', 2, b'0', 230000, 'Huỳnh Chí Bảo', 'baohc2004@gmail.com', '0337778965', 'DONG_THAP', 'TAN_HONG', 'TAN_HO_CO', 'ấp Chiến Thắng', 'Đay la note doi them sau', '2025-09-08 16:02:25', 'Chờ xác nhận');
+INSERT INTO `bill` (`id`, `user_id`, `delivery_id`, `isDisable`, `totalPrice`, `fullname`, `email`, `phone`, `city`, `district`, `ward`, `shippingAddress`, `note`, `createAt`, `status`, `pay_method`) VALUES
+('250922095712734792', '202509220955349011', 1, b'0', 570000, 'Huỳnh Chí Bảo', 'devblue404@gmail.com', '0337778965', 'Hải Phòng', 'QUAN_8', 'PHUONG_4', 'ấp Chiến Thắng', 'Giao hàng vào thứ 3, 5, 7', '2025-09-22 02:57:12', 'Chờ xác nhận', 'COD'),
+('250922141513942618', '202509221409872217', 1, b'0', 68000, 'Huỳnh Chí Bảo', 'baohc2004@gmail.com', '0337778965', 'TP. Hồ Chí Minh', 'QUAN_8', 'PHUONG_4', 'Cao Lỗ', '', '2025-09-22 07:15:13', 'Chờ xác nhận', 'COD'),
+('250923164749129707', '202509220955349011', 1, b'0', 123000, 'Huỳnh Chí Bảo', 'devblue404@gmail.com', '0337778965', 'TP. Hồ Chí Minh', 'QUAN_8', 'PHUONG_4', 'Cao Lỗ', '', '2025-09-23 09:47:49', 'Đã xác nhận', 'COD'),
+('250923212703538528', NULL, 1, b'0', 830000, 'Brian Bennet', 'devblue404@gmail.com', '0337778965', 'Thái Nguyên', 'QUAN_8', 'PHUONG_4', 'Cao Lỗ', '', '2025-09-23 14:27:03', 'Chờ xác nhận', 'COD'),
+('250923213306841244', NULL, 1, b'0', 315000, 'Brian Bennet', 'devblue404@gmail.com', '0337778965', 'Cao Bằng', 'QUAN_8', 'PHUONG_4', 'Cao Lỗ', '', '2025-09-23 14:33:06', 'Chờ xác nhận', 'COD');
 
 -- --------------------------------------------------------
 
@@ -104,18 +105,14 @@ CREATE TABLE `bill_detail` (
 --
 
 INSERT INTO `bill_detail` (`bill_id`, `book_id`, `quantity`, `price`) VALUES
-('250908225514cb1a', 'B250827103214', 3, 165000),
-('250908225514cb1a', 'B250827104050', 1, 65000),
-('250908225514cb1a', 'B250827104206', 1, 88000),
-('250908225514cb1a', 'B250827104315', 1, 79000),
-('2509082257129630', 'B250827103214', 1, 55000),
-('2509082257129630', 'B250827104836', 1, 48000),
-('250908225802ff4e', 'B250827103337', 1, 25000),
-('250908225802ff4e', 'B250827103433', 1, 25000),
-('2509082258510d5e', 'B250827103337', 6, 150000),
-('2509082258510d5e', 'B250827103433', 9, 225000),
-('2509082302257e20', 'B250827103214', 3, 165000),
-('2509082302257e20', 'B250827104050', 1, 65000);
+('250922095712734792', 'B250915215848', 1, 280000),
+('250922095712734792', 'B250915215959', 1, 270000),
+('250922141513942618', 'B250827104929', 1, 48000),
+('250923164749129707', 'B250827103214', 1, 55000),
+('250923164749129707', 'B250827104836', 1, 48000),
+('250923212703538528', 'B250915215959', 3, 810000),
+('250923213306841244', 'B250827103337', 1, 25000),
+('250923213306841244', 'B250915215959', 1, 270000);
 
 -- --------------------------------------------------------
 
@@ -140,21 +137,25 @@ CREATE TABLE `book` (
 --
 
 INSERT INTO `book` (`id`, `cateBook_id`, `author_id`, `promotion_id`, `name`, `price`, `amount`, `description`, `createDate`) VALUES
-('B250827103214', 3, 'TG03', 1, 'Thám Tử Lừng Danh Conan - Tiểu Thuyết - Dư Ảnh Của Độc Nhãn', 55000, 90, 'Ông Kogoro bất ngờ nhận được cuộc gọi từ thanh tra Wani – đồng nghiệp thời còn công tác tại Sở Cảnh sát Tokyo. Người bạn cũ liên hệ để hỏi thăm về vụ tai nạn liên quan đến thanh tra Yamato Kansuke của Sở Cảnh sát Nagano, từng hợp tác phá án với ông Kogoro và Conan.', '2025-08-27 10:32:14'),
-('B250827103337', 3, 'TG07', 3, 'Dragon Ball - 7 Viên Ngọc Rồng - Tập 9 - Bà Thầy Bói', 25000, 30, 'Bộ truyện kể về một cậu bé đuôi khỉ tên là Son Goku sống một mình trong chốn rừng sâu. Cậu rất coi trọng viên ngọc kỉ vật quý giá ông nội để lại trước khi mất.', '2025-08-27 10:33:37'),
-('B250827103433', 3, 'TG07', 1, 'Dragon Ball - 7 Viên Ngọc Rồng - Tập 16 - Kì Phùng Địch Thủ', 25000, 190, 'Bộ truyện kể về một cậu bé đuôi khỉ tên là Son Goku sống một mình trong chốn rừng sâu. Cậu rất coi trọng viên ngọc kỉ vật quý giá ông nội để lại trước khi mất.', '2025-08-27 10:34:33'),
-('B250827103543', 4, 'TG08', 3, 'Tối Ưu Toàn Diện Website Doanh Nghiệp', 175000, 127, 'Chúng tôi viết cuốn sách này cho bản thân chúng tôi, cái thời chúng tôi còn trẻ. Ngày xưa, cả hai chúng tôi quản lý việc kinh doanh trực tuyến - đây là nơi đã cho chúng tôi nhiều thách thức là làm sao để có thể tăng doanh số một cách ồ ạt. Lúc đó, chúng tôi làm việc ở hai châu lục khác nhau, và cả hai đều rất áp lực khi phải tìm cách phát triển doanh nghiệp của mình bằng mọi giá.', '2025-08-27 10:35:43'),
-('B250827103632', 4, 'TG09', 1, 'AI Agent - Thực Chiến', 259000, 170, 'Cuốn sách đầu tiên được xuất bản tại Việt Nam về chủ đề “AI Agent”, cung cấp một góc nhìn toàn diện về những xu hướng mới nhất trong lĩnh vực AI Agent - những tác nhân thông minh dựa trên mô hình ngôn ngữ lớn (LLM) đang dần định hình lại cách chúng ta làm việc, học tập và vận hành xã hội.', '2025-08-27 10:36:32'),
-('B250827103946', 4, 'TG10', 3, 'Clean Code - Mã Sạch Và Con Đường Trở Thành Lập Trình Viên Giỏi', 386000, 25, 'Hiện nay, lập trình viên là một trong những nghề nghiệp được nhiều người lựa chọn theo đuổi và gắn bó. Đây là công việc đòi hỏi sự tỉ mỉ, nhiều công sức nhưng mang lại giá trị cao và một tương lai công việc hứa hẹn. Là một trong số những chuyên gia giàu kinh nghiệm, điêu luyện và lành nghề trong ngành, tác giả đã đúc rút từ kinh nghiệm của mình, viết về những tình huống trong thực tế, đôi khi có thể trái ngược với lý thuyết để xây dựng nên cuốn cẩm nang này, nhằm hỗ trợ những người đang muốn trở thành một lập trình viên chuyên nghiệp.', '2025-08-27 10:39:46'),
-('B250827104050', 1, 'TG04', 1, 'Cõi Người Mắc Cạn', 65000, 40, 'Cõi người mắc cạn là tiểu thuyết 12 chương của Hoàng Khánh Duy, được tác giả sáng tác theo phương thức huyền thoại hóa, chú trọng yếu tố văn hóa và môi trường “xanh”. Trong tác phẩm, tác giả đã tạo dựng một không gian nghệ thuật vừa lạ, vừa quen. Lạ vì đó là một không gian mang sắc màu huyền ảo, mơ hồ nhưng cũng là một không gian quen thuộc vì nó thấm đượm linh hồn của sông nước Tây Nam Bộ.  Xuyên suốt tiểu thuyết là hành trình đi tìm chân lý, đi tìm lẽ sống và đấng cứu rỗi một vùng quê đã khô cằn vì hạn mặn của nhân vật “hắn”. Nỗi bàng hoàng trước sự méo mó của phong cảnh và nỗi đau của con người là điểm khởi nguồn của dòng sông chữ Cõi người mắc cạn.', '2025-08-27 10:40:50'),
-('B250827104206', 2, 'TG04', 3, 'Hoàng Hôn Màu Đỏ', 88000, 63, 'Cuốn sách là tuyển tập 14 truyện ngắn về số phận, mảnh đời éo le, khắc nghiệt của con người miền Tây sông nước, làm bật lên sức sống kiên cường, sự lạc quan, luôn hướng về ánh sáng, về tương lai phía trước, dù hi vọng có mong manh cũng không mất đi niềm tin vào cuộc sống.', '2025-08-27 10:42:06'),
-('B250827104315', 1, 'TG04', 3, 'Biết Khi Nào Mới Gặp Lại Nhau', 79000, 22, '“Biết khi nào mới gặp lại nhau” là hồi tưởng về tuổi thơ của nhân vật Khang cùng cô bạn học gần nhà tên Bụp và các bạn đồng trang lứa khác. Tuổi thơ của Khang đầy ắp những kỉ niệm với những trò tinh nghịch như hái trộm hoa quả, trêu đùa với các bạn học cùng xóm, những trận đòn roi và cả những yêu thương vô bờ của gia đình. Nhưng tuổi thơ ấy đã ghi dấu tổn thương trong tâm hồn khi cậu bé phải chia li với cô bạn học.', '2025-08-27 10:43:15'),
-('B250827104416', 2, 'TG05', 1, 'Danh Tác Văn Học Việt Nam - Chí Phèo', 95000, 195, 'Chí Phèo - Với những tình tiết hấp dẫn Nam Cao đã đưa người đọc tái hiện bức tranh chân thực nông thôn Việt Nam trước 1945, nghèo đói, xơ xác trên con đường phá sản, bần cùng, hết sức thê thảm, người nông dân bị đẩy vào con đường tha hóa, lưu manh hóa.', '2025-08-27 10:44:16'),
-('B250827104556', 2, 'TG05', 1, 'Lão Hạc', 55000, 90, 'Lão Hạc là một truyện ngắn của nhà văn Nam Cao được viết năm 1943. Tác phẩm được đánh giá là một trong những truyện ngắn khá tiêu biểu của dòng văn học hiện thực, nội dung truyện đã phần nào phản ánh được hiện trạng xã hội Việt Nam trong giai đoạn trước Cách mạng tháng Tám.', '2025-08-27 10:45:56'),
-('B250827104714', 2, 'TG05', 1, 'Tập Truyện Ngắn Đôi Mắt - Nam Cao', 56000, 117, 'Tập truyện ngắn \"Đôi mắt\" gồm 21 tác phẩm tiêu biểu trong giai đoạn sáng tác từ 1941 - 1950 của Nam Cao, bao gồm: Đui mù, Nửa đêm, Quái dị, Cười, Nước mắt, Mua danh, Ở hiền, Rửa hờn, Rình trộm, Lang rận, Trẻ con không được ăn thịt chó, Sao lại thế này?, Điếu văn, Một chuyện xú-vơ-nia, Dì Hảo, Nỗi truân chuyên của khách má hồng, Từ ngày mẹ chết, Mò sâm banh, Chuyện buồn giữa đêm vui, Những bàn tay đẹp ấy, Đôi mắt.', '2025-08-27 10:47:14'),
-('B250827104836', 3, 'TG06', 3, 'Attack On Titan - Tập 33', 48000, 199, 'Sau nhiều năm sống yên ổn sau những bức tường thành cao lừng lững, loài người đã bắt đầu cảm nhận được nguy cơ diệt vong đến từ một giống loài khổng lồ mang tên Titan. Dù muốn dù không, họ buộc phải đứng lên, và đã đứng lên một cách đầy quyết tâm, mạnh mẽ để chống lại những kẻ thù hùng mạnh nhất.', '2025-08-27 10:48:36'),
-('B250827104929', 3, 'TG06', 1, 'Attack On Titan - Tập 32', 48000, 25, 'Sau nhiều năm sống yên ổn sau những bức tường thành cao lừng lững, loài người đã bắt đầu cảm nhận được nguy cơ diệt vong đến từ một giống loài khổng lồ mang tên Titan. Dù muốn dù không, họ buộc phải đứng lên, và đã đứng lên một cách đầy quyết tâm, mạnh mẽ để chống lại những kẻ thù hùng mạnh nhất.', '2025-08-27 10:49:29'),
-('B250905173703', 3, 'TG01', 1, 'Attack On Titan - Tập 99999', 48000, 20, 'haaaaaaaaaaaaaa', '2025-09-05 17:37:03');
+('B250827103214', 3, 'TG03', 1, 'Thám Tử Lừng Danh Conan - Tiểu Thuyết - Dư Ảnh Của Độc Nhãn', 55000, 48, 'Ông Kogoro bất ngờ nhận được cuộc gọi từ thanh tra Wani – đồng nghiệp thời còn công tác tại Sở Cảnh sát Tokyo. Người bạn cũ liên hệ để hỏi thăm về vụ tai nạn liên quan đến thanh tra Yamato Kansuke của Sở Cảnh sát Nagano, từng hợp tác phá án với ông Kogoro và Conan.', '2025-08-27 10:32:14'),
+('B250827103337', 3, 'TG07', 3, 'Dragon Ball - 7 Viên Ngọc Rồng - Tập 9 - Bà Thầy Bói', 25000, 16, 'Bộ truyện kể về một cậu bé đuôi khỉ tên là Son Goku sống một mình trong chốn rừng sâu. Cậu rất coi trọng viên ngọc kỉ vật quý giá ông nội để lại trước khi mất.', '2025-08-27 10:33:37'),
+('B250827103433', 3, 'TG07', 1, 'Dragon Ball - 7 Viên Ngọc Rồng - Tập 16 - Kì Phùng Địch Thủ', 25000, 174, 'Bộ truyện kể về một cậu bé đuôi khỉ tên là Son Goku sống một mình trong chốn rừng sâu. Cậu rất coi trọng viên ngọc kỉ vật quý giá ông nội để lại trước khi mất.', '2025-08-27 10:34:33'),
+('B250827103543', 4, 'TG08', 3, 'Tối Ưu Toàn Diện Website Doanh Nghiệp', 175000, 116, 'Chúng tôi viết cuốn sách này cho bản thân chúng tôi, cái thời chúng tôi còn trẻ. Ngày xưa, cả hai chúng tôi quản lý việc kinh doanh trực tuyến - đây là nơi đã cho chúng tôi nhiều thách thức là làm sao để có thể tăng doanh số một cách ồ ạt. Lúc đó, chúng tôi làm việc ở hai châu lục khác nhau, và cả hai đều rất áp lực khi phải tìm cách phát triển doanh nghiệp của mình bằng mọi giá.', '2025-08-27 10:35:43'),
+('B250827103632', 4, 'TG09', 1, 'AI Agent - Thực Chiến', 259000, 166, 'Cuốn sách đầu tiên được xuất bản tại Việt Nam về chủ đề “AI Agent”, cung cấp một góc nhìn toàn diện về những xu hướng mới nhất trong lĩnh vực AI Agent - những tác nhân thông minh dựa trên mô hình ngôn ngữ lớn (LLM) đang dần định hình lại cách chúng ta làm việc, học tập và vận hành xã hội.', '2025-08-27 10:36:32'),
+('B250827103946', 4, 'TG10', 3, 'Clean Code - Mã Sạch Và Con Đường Trở Thành Lập Trình Viên Giỏi', 386000, 22, 'Hiện nay, lập trình viên là một trong những nghề nghiệp được nhiều người lựa chọn theo đuổi và gắn bó. Đây là công việc đòi hỏi sự tỉ mỉ, nhiều công sức nhưng mang lại giá trị cao và một tương lai công việc hứa hẹn. Là một trong số những chuyên gia giàu kinh nghiệm, điêu luyện và lành nghề trong ngành, tác giả đã đúc rút từ kinh nghiệm của mình, viết về những tình huống trong thực tế, đôi khi có thể trái ngược với lý thuyết để xây dựng nên cuốn cẩm nang này, nhằm hỗ trợ những người đang muốn trở thành một lập trình viên chuyên nghiệp.', '2025-08-27 10:39:46'),
+('B250827104050', 1, 'TG04', 1, 'Cõi Người Mắc Cạn', 65000, 24, 'Cõi người mắc cạn là tiểu thuyết 12 chương của Hoàng Khánh Duy, được tác giả sáng tác theo phương thức huyền thoại hóa, chú trọng yếu tố văn hóa và môi trường “xanh”. Trong tác phẩm, tác giả đã tạo dựng một không gian nghệ thuật vừa lạ, vừa quen. Lạ vì đó là một không gian mang sắc màu huyền ảo, mơ hồ nhưng cũng là một không gian quen thuộc vì nó thấm đượm linh hồn của sông nước Tây Nam Bộ.  Xuyên suốt tiểu thuyết là hành trình đi tìm chân lý, đi tìm lẽ sống và đấng cứu rỗi một vùng quê đã khô cằn vì hạn mặn của nhân vật “hắn”. Nỗi bàng hoàng trước sự méo mó của phong cảnh và nỗi đau của con người là điểm khởi nguồn của dòng sông chữ Cõi người mắc cạn.', '2025-08-27 10:40:50'),
+('B250827104206', 2, 'TG04', 3, 'Hoàng Hôn Màu Đỏ', 88000, 52, 'Cuốn sách là tuyển tập 14 truyện ngắn về số phận, mảnh đời éo le, khắc nghiệt của con người miền Tây sông nước, làm bật lên sức sống kiên cường, sự lạc quan, luôn hướng về ánh sáng, về tương lai phía trước, dù hi vọng có mong manh cũng không mất đi niềm tin vào cuộc sống.', '2025-08-27 10:42:06'),
+('B250827104315', 1, 'TG04', 3, 'Biết Khi Nào Mới Gặp Lại Nhau', 79000, 2, '“Biết khi nào mới gặp lại nhau” là hồi tưởng về tuổi thơ của nhân vật Khang cùng cô bạn học gần nhà tên Bụp và các bạn đồng trang lứa khác. Tuổi thơ của Khang đầy ắp những kỉ niệm với những trò tinh nghịch như hái trộm hoa quả, trêu đùa với các bạn học cùng xóm, những trận đòn roi và cả những yêu thương vô bờ của gia đình. Nhưng tuổi thơ ấy đã ghi dấu tổn thương trong tâm hồn khi cậu bé phải chia li với cô bạn học.', '2025-08-27 10:43:15'),
+('B250827104416', 2, 'TG05', 1, 'Danh Tác Văn Học Việt Nam - Chí Phèo', 95000, 193, 'Chí Phèo - Với những tình tiết hấp dẫn Nam Cao đã đưa người đọc tái hiện bức tranh chân thực nông thôn Việt Nam trước 1945, nghèo đói, xơ xác trên con đường phá sản, bần cùng, hết sức thê thảm, người nông dân bị đẩy vào con đường tha hóa, lưu manh hóa.', '2025-08-27 10:44:16'),
+('B250827104556', 2, 'TG05', 1, 'Lão Hạc', 55000, 86, 'Lão Hạc là một truyện ngắn của nhà văn Nam Cao được viết năm 1943. Tác phẩm được đánh giá là một trong những truyện ngắn khá tiêu biểu của dòng văn học hiện thực, nội dung truyện đã phần nào phản ánh được hiện trạng xã hội Việt Nam trong giai đoạn trước Cách mạng tháng Tám.', '2025-08-27 10:45:56'),
+('B250827104714', 2, 'TG05', 1, 'Tập Truyện Ngắn Đôi Mắt - Nam Cao', 56000, 108, 'Tập truyện ngắn \"Đôi mắt\" gồm 21 tác phẩm tiêu biểu trong giai đoạn sáng tác từ 1941 - 1950 của Nam Cao, bao gồm: Đui mù, Nửa đêm, Quái dị, Cười, Nước mắt, Mua danh, Ở hiền, Rửa hờn, Rình trộm, Lang rận, Trẻ con không được ăn thịt chó, Sao lại thế này?, Điếu văn, Một chuyện xú-vơ-nia, Dì Hảo, Nỗi truân chuyên của khách má hồng, Từ ngày mẹ chết, Mò sâm banh, Chuyện buồn giữa đêm vui, Những bàn tay đẹp ấy, Đôi mắt.', '2025-08-27 10:47:14'),
+('B250827104836', 3, 'TG06', 3, 'Attack On Titan - Tập 33', 48000, 187, 'Sau nhiều năm sống yên ổn sau những bức tường thành cao lừng lững, loài người đã bắt đầu cảm nhận được nguy cơ diệt vong đến từ một giống loài khổng lồ mang tên Titan. Dù muốn dù không, họ buộc phải đứng lên, và đã đứng lên một cách đầy quyết tâm, mạnh mẽ để chống lại những kẻ thù hùng mạnh nhất.', '2025-08-27 10:48:36'),
+('B250827104929', 3, 'TG06', 1, 'Attack On Titan - Tập 32', 48000, 21, 'Sau nhiều năm sống yên ổn sau những bức tường thành cao lừng lững, loài người đã bắt đầu cảm nhận được nguy cơ diệt vong đến từ một giống loài khổng lồ mang tên Titan. Dù muốn dù không, họ buộc phải đứng lên, và đã đứng lên một cách đầy quyết tâm, mạnh mẽ để chống lại những kẻ thù hùng mạnh nhất.', '2025-08-27 10:49:29'),
+('B250905173703', 3, 'TG01', 1, 'Attack On Titan - Tập 99999', 48000, 15, 'haaaaaaaaaaaaaa', '2025-09-05 17:37:03'),
+('B250915215546', 3, 'TG01', 1, 'Đôi mắt', 120000, 200, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor. Cras vestibulum bibendum augue. Praesent egestas leo in pede. Praesent blandit odio eu enim. Pellentesque sed dui ut augue blandit sodales. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam nibh. Mauris ac mauris sed pede pellentesque fermentum. Maecenas adipiscing ante non diam sodales hendrerit.', '2025-09-15 21:55:46'),
+('B250915215848', 1, 'TG01', 1, 'Spiderman', 280000, 110, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor. Cras vestibulum bibendum augue. Praesent egestas leo in pede. Praesent blandit odio eu enim. Pellentesque sed dui ut augue blandit sodales. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam nibh. Mauris ac mauris sed pede pellentesque fermentum. Maecenas adipiscing ante non diam sodales hendrerit.', '2025-09-15 21:58:48'),
+('B250915215924', 3, 'TG01', 1, 'Spiderman 2', 400000, 222, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor. Cras vestibulum bibendum augue. Praesent egestas leo in pede. Praesent blandit odio eu enim. Pellentesque sed dui ut augue blandit sodales. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam nibh. Mauris ac mauris sed pede pellentesque fermentum. Maecenas adipiscing ante non diam sodales hendrerit.', '2025-09-15 21:59:24'),
+('B250915215959', 3, 'TG01', 1, 'Spiderman 3', 270000, 327, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor. Cras vestibulum bibendum augue. Praesent egestas leo in pede. Praesent blandit odio eu enim. Pellentesque sed dui ut augue blandit sodales. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam nibh. Mauris ac mauris sed pede pellentesque fermentum. Maecenas adipiscing ante non diam sodales hendrerit.', '2025-09-15 21:59:59');
 
 -- --------------------------------------------------------
 
@@ -176,26 +177,6 @@ INSERT INTO `cate_book` (`id`, `name`) VALUES
 (2, 'Truyện ngắn'),
 (3, 'Manga'),
 (4, 'Công nghệ thông tin');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `cate_user`
---
-
-CREATE TABLE `cate_user` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `cate_user`
---
-
-INSERT INTO `cate_user` (`id`, `name`) VALUES
-(1, 'Administrator'),
-(2, 'Quản trị viên'),
-(3, 'Khách hàng');
 
 -- --------------------------------------------------------
 
@@ -232,23 +213,30 @@ INSERT INTO `delivery` (`id`, `name`, `price`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `permission`
+-- Table structure for table `permissions`
 --
 
-CREATE TABLE `permission` (
+CREATE TABLE `permissions` (
   `id` int(11) NOT NULL,
-  `cateUser_id` int(11) NOT NULL,
-  `addPermission` bit(1) DEFAULT b'0',
-  `editPermission` bit(1) DEFAULT b'0',
-  `deletePermission` bit(1) DEFAULT b'0'
+  `name` varchar(100) NOT NULL DEFAULT '',
+  `resource` varchar(100) NOT NULL DEFAULT '',
+  `action` varchar(50) NOT NULL DEFAULT '',
+  `description` text DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `permission`
+-- Dumping data for table `permissions`
 --
 
-INSERT INTO `permission` (`id`, `cateUser_id`, `addPermission`, `editPermission`, `deletePermission`) VALUES
-(1, 1, b'1', b'1', b'1');
+INSERT INTO `permissions` (`id`, `name`, `resource`, `action`, `description`, `created_at`) VALUES
+(1, 'USER_READ', 'user', 'read', 'Xem thông tin tài khoản', '2025-09-20 12:47:57'),
+(2, 'USER_CREATE', 'user', 'create', 'Tạo tài khoản', '2025-09-20 12:48:21'),
+(3, 'USER_DELETE', 'user', 'delete', 'Xóa tài khoản', '2025-09-20 12:49:33'),
+(4, 'USER_UPDATE', 'user', 'update', 'Cập nhật thông tin tài khoản', '2025-09-20 12:49:42'),
+(5, 'ADMIN_PANEL_ACCESS', 'admin', 'access', 'Truy cập trang quản trị', '2025-09-20 12:50:59'),
+(6, 'LOCK_ACCOUNT', 'user', 'lock', 'Khóa tài khoản', '2025-09-20 12:52:31'),
+(7, 'UNLOCK_ACCOUNT', 'user', 'unlock', 'Mở khóa tài khoản', '2025-09-20 12:52:56');
 
 -- --------------------------------------------------------
 
@@ -319,7 +307,15 @@ INSERT INTO `photo` (`id`, `book_id`, `pathname`, `isCover`) VALUES
 (183, 'B250827104929', 'd5a8b64a-41bd-4cc4-bf97-d9b74f9b69af.png', 0),
 (184, 'B250827104929', '36cdabc8-87d6-4ee7-8306-8cec4f84224b.png', 0),
 (203, 'B250905173703', '6d875070-3d40-422e-8693-2860d27e7b5b.png', 1),
-(204, 'B250905173703', '70995869-c985-4d8c-8a6e-927fe0ec6a3a.png', 0);
+(204, 'B250905173703', '70995869-c985-4d8c-8a6e-927fe0ec6a3a.png', 0),
+(205, 'B250915215546', '779561c8-ffa1-4b27-819c-195d99b2169f.png', 1),
+(206, 'B250915215546', 'c5a0c6e6-ee92-4a99-97eb-f514cc4c66b6.png', 0),
+(207, 'B250915215848', '0a7ed135-0c51-4217-ac22-bafa7ee0cb1e.jpg', 1),
+(208, 'B250915215848', '010194c7-4fff-462a-a17d-b182fb5fcfc3.jpg', 0),
+(209, 'B250915215924', 'f6ad33c4-0256-4a3a-be3d-976e28b27ebc.jpg', 1),
+(210, 'B250915215924', '82926782-e79e-4aa9-9a30-11d8967048c6.jpg', 0),
+(211, 'B250915215959', '3594f5cf-ed29-4889-a4fb-f8e98407ca39.jpg', 1),
+(212, 'B250915215959', 'c849c045-7df2-4791-baf8-b40e2a2673a8.jpg', 0);
 
 -- --------------------------------------------------------
 
@@ -361,26 +357,152 @@ CREATE TABLE `review` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `roles`
+--
+
+CREATE TABLE `roles` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `description` text DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `roles`
+--
+
+INSERT INTO `roles` (`id`, `name`, `description`, `created_at`) VALUES
+(1, 'ADMIN', 'Quản trị viên có tất cả quyền', '2025-09-20 12:44:21'),
+(2, 'MANAGE', 'Quản lý có một số quyền', '2025-09-20 12:44:59'),
+(3, 'USER', 'Khách hàng thành viên', '2025-09-20 12:46:01');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `role_permissions`
+--
+
+CREATE TABLE `role_permissions` (
+  `role_id` int(11) NOT NULL,
+  `permission_id` int(11) NOT NULL,
+  `granted_at` timestamp NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `role_permissions`
+--
+
+INSERT INTO `role_permissions` (`role_id`, `permission_id`, `granted_at`) VALUES
+(1, 1, '2025-09-20 12:53:40'),
+(1, 2, '2025-09-20 12:53:26'),
+(1, 3, '2025-09-20 12:54:01'),
+(1, 4, '2025-09-20 12:53:49'),
+(1, 5, '2025-09-20 12:54:24'),
+(1, 6, '2025-09-20 12:54:09'),
+(1, 7, '2025-09-20 12:54:16'),
+(2, 1, '2025-09-20 12:56:58'),
+(3, 1, '2025-09-20 12:57:37');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `user`
 --
 
 CREATE TABLE `user` (
   `id` varchar(255) NOT NULL,
-  `cateUser_id` int(11) DEFAULT NULL,
   `email` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
+  `password` varchar(512) NOT NULL,
   `fullname` varchar(255) NOT NULL,
   `birthDate` date DEFAULT NULL,
-  `avatar` varchar(255) DEFAULT NULL
+  `avatar` varchar(255) DEFAULT NULL,
+  `username` varchar(128) NOT NULL,
+  `account_locked` tinyint(1) NOT NULL DEFAULT 0,
+  `failed_login_attemps` smallint(6) NOT NULL DEFAULT 0,
+  `last_failed_login` timestamp NULL DEFAULT NULL,
+  `password_change_required` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `last_login` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `cateUser_id`, `email`, `password`, `fullname`, `birthDate`, `avatar`) VALUES
-('HB202508231257284920', 1, 'baohc170504@gmail.com', 'rnQHrxmHFs2Khh7qxeqV1PXB1E4=', 'Huỳnh Chí Bảo', '2004-05-17', '139d416a-cb96-44f2-ac5b-2a4c69612a24.png'),
-('HB202508241549481339', 3, 'baohc2004@gmail.com', 'NIANccYzIE2VN2P9t2a+0IFDngE=', 'Huỳnh Chí Bảo', '2004-05-17', '60f9c822-7beb-44ae-aae9-14dcbb5416d0.jpg');
+INSERT INTO `user` (`id`, `email`, `password`, `fullname`, `birthDate`, `avatar`, `username`, `account_locked`, `failed_login_attemps`, `last_failed_login`, `password_change_required`, `created_at`, `updated_at`, `last_login`) VALUES
+('202509220955349011', 'devblue404@gmail.com', '$argon2id$v=19$m=65536,t=3,p=1$umGZscFsyxnX8reCLp5EXA$rcxPFTjgIf0tgXTtugYfbKQaOYme14205wwZwjd3j8w', 'Huỳnh Chí Bảo', '2004-05-17', '10837845-9572-4387-9bde-c2ff541e7e6c.jpg', 'devblue', 0, 0, NULL, 0, '2025-09-22 02:55:43', '2025-09-23 15:50:57', '2025-09-23 15:50:57'),
+('202509221409872217', 'baohc2004@gmail.com', '$argon2id$v=19$m=65536,t=3,p=1$0IwJjJ/CyL6hTMIL+axLQQ$Fr6In6lvjOYzQwW54YTzGVlj31X0KBc487cwDqDCDeo', 'Huỳnh Chí Bảo', '2004-05-17', 'f03607cc-3c1f-4eef-8e92-1fab1ec71a43.png', 'bao123', 0, 0, NULL, 0, '2025-09-22 07:09:23', '2025-09-22 07:14:21', '2025-09-22 07:13:59');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_roles`
+--
+
+CREATE TABLE `user_roles` (
+  `user_id` varchar(255) NOT NULL,
+  `role_id` int(11) NOT NULL DEFAULT 0,
+  `assigned_at` timestamp NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `user_roles`
+--
+
+INSERT INTO `user_roles` (`user_id`, `role_id`, `assigned_at`) VALUES
+('202509220955349011', 1, '2025-09-22 02:55:43'),
+('202509221409872217', 3, '2025-09-22 07:09:23');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_sessions`
+--
+
+CREATE TABLE `user_sessions` (
+  `id` varchar(128) NOT NULL,
+  `user_id` varchar(255) NOT NULL,
+  `ip_address` varchar(45) DEFAULT NULL,
+  `user_agent` text DEFAULT NULL,
+  `last_activity` timestamp NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `expires_at` timestamp NULL DEFAULT current_timestamp(),
+  `is_active` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `user_sessions`
+--
+
+INSERT INTO `user_sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `last_activity`, `created_at`, `expires_at`, `is_active`) VALUES
+('-QEsIGrpHheOghsqHdxR3oDK42SlSem9K3O8_AAKUCU', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-22 02:56:09', '2025-09-22 02:55:52', '2025-09-22 02:59:09', 0),
+('1mxUldv9qXdwF_PV5FezbqR2DEB-4-pFHsFANrq-o68', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-23 15:35:46', '2025-09-23 15:35:08', '2025-09-23 15:38:46', 0),
+('5bG_XCi0cxBvfpkkqZ1unWKMFzOOZP_kx0_sUZsG2g0', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-23 15:33:56', '2025-09-23 15:33:50', '2025-09-23 15:36:56', 0),
+('aD8rNFn0Cc1a5kW882rtDU7JlaKkTQf8XGrcPM2RO2Y', '202509221409872217', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-22 07:16:38', '2025-09-22 07:13:59', '2025-09-22 07:19:38', 0),
+('bcIPZJnNbeZtWx6wWS8z_xDhr3vTgXK0X40OSvaEXxE', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', '2025-09-22 05:23:29', '2025-09-22 05:23:29', '2025-09-22 05:26:29', 0),
+('bG836lolqW1_HRnlkPoVtoHCVWiZOn1fHeimfLz-h0o', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-23 15:03:26', '2025-09-23 15:00:37', '2025-09-23 15:06:26', 0),
+('CjHxldbqQ2c_oQ70yswS9uQZnJ7SrBgSAZbdaaSqtIs', '202509221409872217', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-22 07:09:34', '2025-09-22 07:09:34', '2025-09-22 07:12:34', 0),
+('DL5vb1AQFMBUYfUNfIaE6bBN4iEpk14LOeKv4b0nGvw', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-22 05:26:01', '2025-09-22 05:26:01', '2025-09-22 05:29:01', 0),
+('fjrABsk2PsCcXVNEroErMY41qwxP-q9DtRnik_RFjjU', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-23 14:39:49', '2025-09-23 14:39:42', '2025-09-23 14:42:49', 0),
+('fTk26gXOVYq699WZ8SXoP4R95sHKeHBuHfmA_PrCZ14', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-23 15:22:16', '2025-09-23 15:21:16', '2025-09-23 15:25:16', 0),
+('G866zPHtWsop9hd1ojNfjcHqrkNaHBddOWZm3rHRsD0', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-23 15:30:11', '2025-09-23 15:26:34', '2025-09-23 15:33:11', 0),
+('GDb1aVBNNFjruOtKZfsGNeBRu7xCS1vYHMxc8p73iaw', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-23 16:09:42', '2025-09-23 15:50:57', '2025-09-23 16:12:42', 1),
+('hoewe5wX2PRddi-xaEx5SIphBwqbecPPBRAMedQbAk0', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-23 14:58:49', '2025-09-23 14:58:43', '2025-09-23 15:01:49', 0),
+('KBSu6MeHJzrPR1JaWYZRjpK3I9GyMNvqPwT2THZd9PA', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-23 15:20:28', '2025-09-23 15:19:55', '2025-09-23 15:23:28', 0),
+('kNPas45GZDb1LsRdcuDnGKpDy6SxIgDMqBNj1p7ffAE', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-22 05:25:47', '2025-09-22 05:23:53', '2025-09-22 05:28:47', 0),
+('KqnimGa1phz4WzsUiUPxuvqe18Cky6oPyAAX8O6z9GU', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-23 15:10:57', '2025-09-23 15:10:52', '2025-09-23 15:13:57', 0),
+('M9AnPKrRIYSD9feiaewHxZqKkCmeSQWbZR_q6ncA1o0', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-23 14:45:53', '2025-09-23 14:45:17', '2025-09-23 14:48:53', 0),
+('NOQyCxHNKsJMUEq7iplHsGb-rCcadNBungZHFd9cEVY', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-23 15:46:07', '2025-09-23 15:38:59', '2025-09-23 15:49:07', 0),
+('OGSDRpRTPzqfuL2jGMV0H8w3_niodjyxkOB9gQGKmjA', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-23 15:37:54', '2025-09-23 15:37:49', '2025-09-23 15:40:54', 0),
+('PKqapuBFO4gK-INj9ZpZVUcAZnAQXBeCCYEd10cI2bY', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-23 15:26:14', '2025-09-23 15:25:20', '2025-09-23 15:29:14', 0),
+('qOSweivJ1yTrGMkja4dGfePN-j8r88-TevWbht6zO0E', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-23 15:24:34', '2025-09-23 15:24:27', '2025-09-23 15:27:34', 0),
+('T1r2ax6loxteev92dYy9RKOR4Fgfr2I_jT61d6xZQkM', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-23 09:49:37', '2025-09-23 09:47:21', '2025-09-23 09:52:37', 0),
+('TjX-t_Jqa0X4Y_8NCjNwjlp4Yo7E_1eS5QeXtriGRQA', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-23 15:18:33', '2025-09-23 15:18:26', '2025-09-23 15:21:33', 0),
+('Wph3k-vTzEGb73hVxwWDb8HNqaX_tRJZfylnwXOzQvM', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-23 14:35:37', '2025-09-23 14:34:51', '2025-09-23 14:38:37', 0),
+('Wv_2Yf0livVaA4UUbQhDsMusc3tyh-pNNrL4YyawFoM', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-22 07:18:01', '2025-09-22 07:17:22', '2025-09-22 07:21:01', 0),
+('xYkNUrmHB5vYgS7S7_T6s29rF1_Kj26LIlY5ofdOag4', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-23 12:44:02', '2025-09-23 12:42:11', '2025-09-23 12:47:02', 0),
+('zLdOwDM551wbIkvDhd7vJhVxpTA9uGZaUpL_DvTJsmI', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-23 14:54:21', '2025-09-23 14:54:15', '2025-09-23 14:57:21', 0);
 
 -- --------------------------------------------------------
 
@@ -403,10 +525,10 @@ CREATE TABLE `user_token` (
 --
 
 INSERT INTO `user_token` (`id`, `user_id`, `token`, `expiry_time`, `salt`, `used`, `createAt`) VALUES
-(69, 'HB202508241549481339', 'qhKcWc2W/bdD+jQRc8y1iWgDule3SEc4nG/5qiex2Qo=', '2025-08-24 08:50:26', 'sLgvW06dzpuP3FNcgAXlUA==', 1, '2025-08-24 08:50:16'),
-(70, 'HB202508231257284920', 'AXe4nGWTSuuQEJhgg/rbyhMdWVRuZ+VP4+EXj1mDkr4=', '2025-08-25 04:02:18', 'C67XG9uH1ABodxvo72UxDg==', 1, '2025-08-25 04:01:56'),
-(71, 'HB202508241549481339', 'HNtzBlGj8TLV+TiuEzWDJRWoChb16mgpz/j1CFT49ak=', '2025-09-08 13:36:58', 'pUWX3hJiV6V7I4uH7l4DgQ==', 0, '2025-09-08 13:35:59'),
-(72, 'HB202508241549481339', 'TcEg6sgBibT46H2Pvr5cipN8et72T0/FDP/qt96zo/c=', '2025-09-08 13:37:35', 'aXdY1BCeeX/+cz2IhFudzA==', 1, '2025-09-08 13:37:21');
+(81, '202509220955349011', 'FmIgkuUV1Ey0od3F/SDW/OnFpZTvw9MurWzyCvmnDXU=', '2025-09-22 05:13:15', '8UWB0ZBrqkRtV9N6U4L5XQ==', 1, '2025-09-22 05:13:02'),
+(82, '202509220955349011', 'V5k+XfnneLAIIyEzd6yw0TTER2mUSOeyCFS3pxEjcPc=', '2025-09-22 05:18:10', 'M2iqw2soSgcCJhV4uMOqEw==', 1, '2025-09-22 05:17:58'),
+(83, '202509220955349011', 'FAm0u3NPvdtIifpqA0fcIrkrmzr9fUUPiy8xzHHZidA=', '2025-09-22 05:20:54', 'T/chWlWxCdLOrRQeRHzvqA==', 0, '2025-09-22 05:19:54'),
+(84, '202509220955349011', 'ReQAyXgKsgYc/8tyaTGRntMIapqx/8E4oTM4YYHt48E=', '2025-09-22 05:23:17', 'D8z4WCuC/N2NWlEjH8r5RQ==', 1, '2025-09-22 05:23:06');
 
 --
 -- Indexes for dumped tables
@@ -455,12 +577,6 @@ ALTER TABLE `cate_book`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `cate_user`
---
-ALTER TABLE `cate_user`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `contact`
 --
 ALTER TABLE `contact`
@@ -474,11 +590,13 @@ ALTER TABLE `delivery`
   ADD KEY `name` (`name`);
 
 --
--- Indexes for table `permission`
+-- Indexes for table `permissions`
 --
-ALTER TABLE `permission`
+ALTER TABLE `permissions`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fK_permission_user` (`cateUser_id`);
+  ADD UNIQUE KEY `name` (`name`),
+  ADD KEY `action` (`action`),
+  ADD KEY `idx_name` (`name`) USING BTREE;
 
 --
 -- Indexes for table `photo`
@@ -501,11 +619,43 @@ ALTER TABLE `review`
   ADD KEY `fk_review_book` (`book_id`);
 
 --
+-- Indexes for table `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`),
+  ADD KEY `idx_roles_name` (`name`);
+
+--
+-- Indexes for table `role_permissions`
+--
+ALTER TABLE `role_permissions`
+  ADD PRIMARY KEY (`role_id`,`permission_id`),
+  ADD KEY `fk_permission_id` (`permission_id`);
+
+--
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_user_cateUser` (`cateUser_id`);
+  ADD UNIQUE KEY `unique_email` (`email`),
+  ADD KEY `fullname` (`fullname`),
+  ADD KEY `email` (`email`),
+  ADD KEY `idx_username` (`username`);
+
+--
+-- Indexes for table `user_roles`
+--
+ALTER TABLE `user_roles`
+  ADD PRIMARY KEY (`user_id`,`role_id`),
+  ADD KEY `fk_roles` (`role_id`);
+
+--
+-- Indexes for table `user_sessions`
+--
+ALTER TABLE `user_sessions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_user` (`user_id`);
 
 --
 -- Indexes for table `user_token`
@@ -525,12 +675,6 @@ ALTER TABLE `cate_book`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT for table `cate_user`
---
-ALTER TABLE `cate_user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
 -- AUTO_INCREMENT for table `contact`
 --
 ALTER TABLE `contact`
@@ -543,16 +687,16 @@ ALTER TABLE `delivery`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `permission`
+-- AUTO_INCREMENT for table `permissions`
 --
-ALTER TABLE `permission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+ALTER TABLE `permissions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `photo`
 --
 ALTER TABLE `photo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=205;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=213;
 
 --
 -- AUTO_INCREMENT for table `promotion`
@@ -567,10 +711,16 @@ ALTER TABLE `review`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `roles`
+--
+ALTER TABLE `roles`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `user_token`
 --
 ALTER TABLE `user_token`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
 
 --
 -- Constraints for dumped tables
@@ -599,12 +749,6 @@ ALTER TABLE `book`
   ADD CONSTRAINT `fk_book_promotion` FOREIGN KEY (`promotion_id`) REFERENCES `promotion` (`id`);
 
 --
--- Constraints for table `permission`
---
-ALTER TABLE `permission`
-  ADD CONSTRAINT `fK_permission_user` FOREIGN KEY (`cateUser_id`) REFERENCES `cate_user` (`id`);
-
---
 -- Constraints for table `photo`
 --
 ALTER TABLE `photo`
@@ -617,16 +761,30 @@ ALTER TABLE `review`
   ADD CONSTRAINT `fk_review_book` FOREIGN KEY (`book_id`) REFERENCES `book` (`id`);
 
 --
--- Constraints for table `user`
+-- Constraints for table `role_permissions`
 --
-ALTER TABLE `user`
-  ADD CONSTRAINT `fk_user_cateUser` FOREIGN KEY (`cateUser_id`) REFERENCES `cate_user` (`id`);
+ALTER TABLE `role_permissions`
+  ADD CONSTRAINT `fk_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_roles_id` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `user_roles`
+--
+ALTER TABLE `user_roles`
+  ADD CONSTRAINT `fk_roles` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_users` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `user_sessions`
+--
+ALTER TABLE `user_sessions`
+  ADD CONSTRAINT `fk_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `user_token`
 --
 ALTER TABLE `user_token`
-  ADD CONSTRAINT `fk_user_passwpord_reset_token` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+  ADD CONSTRAINT `fk_user_passwpord_reset_token` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

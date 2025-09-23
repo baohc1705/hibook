@@ -84,6 +84,9 @@ public class VerifyController {
 			case "verify-otp":
 				doVerifyOTP(request, response);
 				break;
+			case "verify-otp-email":
+				doVerifyEmailByOTP(request, response);
+				break;
 			default:
 				handelInvalidRequest(request, response);
 				break;
@@ -91,6 +94,59 @@ public class VerifyController {
 		}
 	}
 	
+	private void doVerifyEmailByOTP(HttpServletRequest request, HttpServletResponse response) 
+		throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("application/json; charset=UTF-8");
+		Map<String, Object> resp = new HashMap<String, Object>();
+
+		Gson gson = new Gson();
+		
+		try {
+			if (!CSRFTokenUtil.validateToken(request)) {
+				resp.put("status", "error");
+				resp.put("message", "Invalid request. Please try again.");
+				response.getWriter().print(gson.toJson(resp));
+				return;
+			}
+			
+			String otp_user = request.getParameter("otp_user");
+			otp_user = EncryptPassword.toSHA1(otp_user);
+			
+			HttpSession session = request.getSession(false);
+			String code_otp = (String) session.getAttribute("code_OTP");
+			Long code_OTP_Time = (Long) session.getAttribute("code_OTP_Time");
+			
+			if (code_otp == null || code_OTP_Time == null) {
+				resp.put("status", "error");
+				resp.put("message", "Mã xác thực không tồn tại!!");
+				response.getWriter().print(gson.toJson(resp));
+				return;
+			}
+			
+			if (System.currentTimeMillis() > code_OTP_Time) {
+				session.removeAttribute("code_OTP");
+				session.removeAttribute("code_OTP_Time");
+				resp.put("status", "error");
+				resp.put("message", "Mã xác thực đã không còn hiệu lực");
+				response.getWriter().print(gson.toJson(resp));
+				return;
+			}
+			
+			if (otp_user.equals(code_otp)) {
+				resp.put("status", "success");
+				resp.put("message", "Đã xác minh và tạo tài khoản thành công!");
+				resp.put("isVerified", true);
+			} else {
+				resp.put("status", "error");
+				resp.put("message", "Mã xác thực OTP không đúng. Kiểm tra lại email!");
+				resp.put("isVerified", false);
+			}
+			response.getWriter().print(gson.toJson(resp));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	private void doVerifyOTP(HttpServletRequest request, HttpServletResponse response) 
 		throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
@@ -173,7 +229,7 @@ public class VerifyController {
 			throws ServletException, IOException { 
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json; charset=UTF-8");
-		Map<String, String> resp = new HashMap<String, String>();
+		Map<String, Object> resp = new HashMap<String, Object>();
 
 		Gson gson = new Gson();
 		try {
@@ -187,13 +243,13 @@ public class VerifyController {
 			
 			String email = request.getParameter("email");
 			HttpSession session = request.getSession(false);
-			UserDTO userDeliveried = (UserDTO)session.getAttribute("userDeliveried");
-			if (userDeliveried == null) {
-				resp.put("status", "error");
-				resp.put("message", "User not found");
-				response.getWriter().print(gson.toJson(resp));
-				return;
-			}
+//			UserDTO userDeliveried = (UserDTO)session.getAttribute("userDeliveried");
+//			if (userDeliveried == null) {
+//				resp.put("status", "error");
+//				resp.put("message", "User not found");
+//				response.getWriter().print(gson.toJson(resp));
+//				return;
+//			}
 			
 			if (email == null || "".equals(email)) {
 				resp.put("status", "error");
@@ -206,7 +262,7 @@ public class VerifyController {
 			
 			// Gửi mail kèm theo mã otp
 			try {
-				String html = getHTMLTemplate(userDeliveried.getFullname(), codeOTP);
+				String html = getHTMLTemplate(codeOTP);
 				EmailKit.sendEmail(email, "Xác thực email tại HiBOOK", html);
 				
 				codeOTP = EncryptPassword.toSHA1(codeOTP);
@@ -219,10 +275,13 @@ public class VerifyController {
 				resp.put("status", "success");
 				resp.put("message", "Gửi mail thành công");
 				resp.put("expireTime", code_OTP_Time.toString());
+				resp.put("expireTime", code_OTP_Time);
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 				resp.put("status", "error");
 				resp.put("message", "Gửi mail thất bại");
+				
 			}
 			response.getWriter().print(gson.toJson(resp));
 		} catch (Exception e) {
@@ -231,7 +290,7 @@ public class VerifyController {
 		
 	}
 	
-	private String getHTMLTemplate(String fullname, String otpCode) {
+	private String getHTMLTemplate(String otpCode) {
 		StringBuilder html = new StringBuilder();
 		html.append("<!DOCTYPE html>")
 		    .append("<html lang=\"vi\">")
@@ -248,7 +307,7 @@ public class VerifyController {
 		    .append("Xác thực tài khoản của bạn")
 		    .append("</td></tr>")
 		    .append("<tr><td style=\"color:#374151;font-size:15px;line-height:22px;padding:10px 0 20px 0;\">")
-		    .append("Xin chào <strong>").append(fullname).append("</strong>,<br>")
+		    .append("Xin chào <strong>").append(" bạn thân mến ").append("</strong>,<br>")
 		    .append("Bạn vừa yêu cầu mã OTP để xác thực tài khoản tại <b>HiBOOK</b>.<br>")
 		    .append("Vui lòng sử dụng mã OTP bên dưới để hoàn tất xác thực:")
 		    .append("</td></tr>")

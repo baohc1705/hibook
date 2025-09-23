@@ -51,7 +51,7 @@ public class PasswordUtil {
 	public static void main(String[] args) {
 		String pass = "123";
 		String dbpass = hashPasswordArgon(pass);
-		
+		System.out.println(dbpass);
 		String passin = "1234";
 		if (verifyPasswordArgon(passin, dbpass)) {
 			System.out.println("OK");

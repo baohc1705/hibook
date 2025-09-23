@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.baohc.app.config.SecurityConfig;
 import com.baohc.app.dao.book.PhotoDAO;
 import com.baohc.app.dao.book.PhotoDAOImpl;
 import com.baohc.app.model.BillDTO;
@@ -30,6 +31,7 @@ import com.baohc.app.service.book.BookService;
 import com.baohc.app.service.book.BookServiceImpl;
 import com.baohc.app.service.delivery.DeliveryService;
 import com.baohc.app.service.delivery.DeliveryServiceImpl;
+import com.baohc.core.utils.CSRFTokenUtil;
 import com.baohc.core.utils.EmailKit;
 import com.baohc.core.utils.StringKit;
 import com.baohc.core.utils.enums.BillStatus;
@@ -79,6 +81,7 @@ public class CheckoutController {
 	private void viewCheckout(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
+			
 			HttpSession session = request.getSession(false);
 
 			List<CartItem> cartItems = cartService.getCartItems(request);
@@ -133,7 +136,9 @@ public class CheckoutController {
 						.append("</option>");
 			}
 			request.setAttribute("citysEnum", sb.toString());
-
+			
+			String csrfToken = CSRFTokenUtil.generateToken(request);
+			request.setAttribute(SecurityConfig.CSRF_TOKEN_NAME, csrfToken);
 			request.getRequestDispatcher(CHECKOUT_PAGE).forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();

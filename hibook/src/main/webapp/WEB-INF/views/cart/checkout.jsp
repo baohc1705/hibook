@@ -98,9 +98,22 @@
 				                        required="required"
 				                       	onkeyup="checkEmail()">
 				                        <div class="invalid-feedback">Email không hợp lệ! (Rỗng hoặc không đúng dạng)</div>
+				        
 				                <c:if test="${empty USER_ACC}">
-			                 		<button id="btn-get-otp" type="button" class="fs-base button-fill mt-3">Gửi OTP</button>
+				                	<input type="hidden" name="csrfToken" value="${csrfToken}" id="csrfTokenEmail">
+			                 		<input type="hidden" name="code_OTP" value="${code_OTP}" id="code_OTP">
+			                 		<input type="hidden" name="code_OTP_Time" value="${code_OTP_Time}" id="code_OTP_Time">
+			                 		<button id="btn-get-otp" type="button" class="fs-base button-fill mt-3 d-flex align-items-center justify-content-center">
+									    <span id="btn-text">Gửi xác minh</span>
+									    <span class="d-none ms-2" id="loading-spinner">
+									        <div class="spinner-border spinner-border-sm" role="status">
+									            <span class="visually-hidden">Loading...</span>
+									        </div>
+									        <span> Đang gửi</span>
+									    </span>
+									</button>
 			                 	</c:if>
+			                 	
                     		</div>
                     		
                     		<div class="col-md-6">
@@ -111,9 +124,11 @@
 					                        id="checkOTP"
 					                        required="required"
 					                        name="checkOTP">
-					                 <div class="invalid-feedback">Mã OTP không hợp lệ!!</div> 
+					                 <div class="invalid-feedback">Mã OTP không hợp lệ!!</div>
+					               	<input type="hidden" name="csrfToken" value="${csrfToken}" id="csrfTokenVerify">	
 					                 <button id="btn-verify-otp" type="button" class="fs-base button-fill mt-3">Xác minh</button>
 			                    </c:if>
+			                    
                     		</div>
                     	</div>
                     	<hr class="mb-3">
@@ -323,6 +338,7 @@
 	
 	<!-- Footer -->
 	<%@include file="/components/footer.jsp" %>
+	
 	<script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/checkout.js"></script>
 </body>
 </html>

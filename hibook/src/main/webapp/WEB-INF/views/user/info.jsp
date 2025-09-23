@@ -20,7 +20,7 @@
 			<span class="label">Email</span> 
 			<div class="form-input d-flex justify-content-between">
 				<input id="input-email" type="email" value="${USER_ACC.email}" name="email" readonly="readonly">
-				<button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"><span class="fs-small ms-auto">Thay đổi</span></button>
+				<button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" class="button-link"><span class="fs-small  ms-auto">Thay đổi</span></button>
 			</div>
 		</div>
 
@@ -64,3 +64,4 @@
 	</div>
 </form>
 </div>
+

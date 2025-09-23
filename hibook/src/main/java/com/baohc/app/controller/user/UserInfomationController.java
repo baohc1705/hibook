@@ -1,6 +1,5 @@
 package com.baohc.app.controller.user;
 
-import java.awt.desktop.UserSessionEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.baohc.app.config.SecurityConfig;
 import com.baohc.app.dao.book.PhotoDAO;
 import com.baohc.app.dao.book.PhotoDAOImpl;
 import com.baohc.app.model.BillDTO;
@@ -25,6 +25,7 @@ import com.baohc.app.service.bill.BillServiceImpl;
 import com.baohc.app.service.user.UserService;
 import com.baohc.app.service.user.UserServiceImpl;
 import com.baohc.core.utils.BillCriteria;
+import com.baohc.core.utils.CSRFTokenUtil;
 import com.baohc.core.utils.EncryptPassword;
 import com.baohc.core.utils.enums.BillStatus;
 import com.google.gson.Gson;
@@ -51,6 +52,7 @@ public class UserInfomationController {
 	public void getSinglePageApplication(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
+			
 			String page = request.getParameter("page");
 			if (page == null || page.isEmpty())
 				viewInfo(request, response);
@@ -317,6 +319,7 @@ public class UserInfomationController {
 
 	private void viewInfo(HttpServletRequest request, HttpServletResponse response) {
 		try {
+			
 			request.setAttribute("reqPage", "info");
 			request.getRequestDispatcher(INFO_PAGE).forward(request, response);
 		} catch (Exception e) {

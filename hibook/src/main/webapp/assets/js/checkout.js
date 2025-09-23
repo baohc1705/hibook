@@ -2,12 +2,12 @@ $(document).ready(function() {
 
 	$("#btn-checkout").on("click", function(e) {
 		e.preventDefault();
-		
+
 		// validate
-        if (!validateCheckoutForm()) {
-            return false; // nếu không hợp lệ thì dừng ở đây
-        }
-		
+		if (!validateCheckoutForm()) {
+			return false; // nếu không hợp lệ thì dừng ở đây
+		}
+
 		var txtName = $("#name").val();
 		var txtEmail = $("#email").val();
 		var txtPhone = $("#phone").val();
@@ -19,15 +19,15 @@ $(document).ready(function() {
 		var txtTotalPrice = $("#totalPrice").val();
 		var txtNote = $("#note").val().trim();
 		var txtPayMethod = $("input[name='payMethod']:checked").val();
-		
+
 		if (!txtPayMethod) {
-		        Swal.fire({
-		            icon: "warning",
-		            title: "Thông báo",
-		            text: "Vui lòng chọn phương thức thanh toán!"
-		        });
-		        return;
-		    }
+			Swal.fire({
+				icon: "warning",
+				title: "Thông báo",
+				text: "Vui lòng chọn phương thức thanh toán!"
+			});
+			return;
+		}
 		$("#btn-checkout").empty();
 		$("#btn-checkout").html(
 			`<div class="loader-button d-flex justify-content-center align-items-center">
@@ -43,9 +43,9 @@ $(document).ready(function() {
 			url: "/hibook/checkout?action=add",
 			method: "POST",
 			data: {
-				name : txtName,
-				email : txtEmail,
-				phone : txtPhone,
+				name: txtName,
+				email: txtEmail,
+				phone: txtPhone,
 				city: txtCity,
 				district: txtDistrict,
 				ward: txtWard,
@@ -63,7 +63,7 @@ $(document).ready(function() {
 						text: res.message,
 						confirmButtonText: "Tiếp tục"
 					}).then(() => {
-						window.location.href="/hibook/cart";
+						window.location.href = "/hibook/cart";
 					});
 				}
 				else {
@@ -81,21 +81,21 @@ $(document).ready(function() {
 				$(".loader-button").addClass("d-none");
 				$("#btn-checkout").html(`XÁC NHẬN THANH TOÁN`);
 			}
-			
+
 		});
 	});
 	function validateCheckoutForm() {
-	    if (!checkFullName()) return false;
-	    if (!checkPhone()) return false;
-	    if (!checkEmail()) return false;
-	    if (!checkCity()) return false;
-	    if (!checkDistrict()) return false;
-	    if (!checkWard()) return false;
-	    if (!checkAddress()) return false;
+		if (!checkFullName()) return false;
+		if (!checkPhone()) return false;
+		if (!checkEmail()) return false;
+		if (!checkCity()) return false;
+		if (!checkDistrict()) return false;
+		if (!checkWard()) return false;
+		if (!checkAddress()) return false;
 
-	    let delivery = $("input[name='delivery']:checked").val();
-	    let payMethod = $("input[name='payMethod']:checked").val();
-		
+		let delivery = $("input[name='delivery']:checked").val();
+		let payMethod = $("input[name='payMethod']:checked").val();
+
 		if ($("#checkOTP").length > 0) {
 			let otp = $("#checkOTP").val().trim();
 			if (otp === "") {
@@ -107,120 +107,131 @@ $(document).ready(function() {
 			}
 		}
 
-	    if (!delivery) {
-	        Swal.fire("Lỗi", "Vui lòng chọn hình thức giao hàng!", "warning");
-	        return false;
-	    }
-	    if (!payMethod) {
-	        Swal.fire("Lỗi", "Vui lòng chọn phương thức thanh toán!", "warning");
-	        return false;
-	    }
-	    return true; // tất cả hợp lệ
+		if (!delivery) {
+			Swal.fire("Lỗi", "Vui lòng chọn hình thức giao hàng!", "warning");
+			return false;
+		}
+		if (!payMethod) {
+			Swal.fire("Lỗi", "Vui lòng chọn phương thức thanh toán!", "warning");
+			return false;
+		}
+		return true; // tất cả hợp lệ
 	}
 
-	
+
 	checkFullName = () => {
-	    let name = $("#name").val().trim();
-	    if (name === "") {
-	        $("#name").addClass("is-invalid").removeClass("is-valid");
-	        return false;
-	    }
-	    $("#name").removeClass("is-invalid").addClass("is-valid");
-	    return true;
+		let name = $("#name").val().trim();
+		if (name === "") {
+			$("#name").addClass("is-invalid").removeClass("is-valid");
+			return false;
+		}
+		$("#name").removeClass("is-invalid").addClass("is-valid");
+		return true;
 	};
 
 	checkEmail = () => {
-	    let email = $("#email").val().trim();
-	    let regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-	    if (email === "" || !regex.test(email)) {
-	        $("#email").addClass("is-invalid").removeClass("is-valid");
-	        return false;
-	    }
-	    $("#email").removeClass("is-invalid").addClass("is-valid");
-	    return true;
+		let email = $("#email").val().trim();
+		let regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		if (email === "" || !regex.test(email)) {
+			$("#email").addClass("is-invalid").removeClass("is-valid");
+			return false;
+		}
+		$("#email").removeClass("is-invalid").addClass("is-valid");
+		return true;
 	};
 
 	checkPhone = () => {
-	    let phone = $("#phone").val().trim();
-	    let regex = /^(0[0-9]{9,10})$/;
-	    if (phone === "" || !regex.test(phone)) {
-	        $("#phone").addClass("is-invalid").removeClass("is-valid");
-	        return false;
-	    }
-	    $("#phone").removeClass("is-invalid").addClass("is-valid");
-	    return true;
+		let phone = $("#phone").val().trim();
+		let regex = /^(0[0-9]{9,10})$/;
+		if (phone === "" || !regex.test(phone)) {
+			$("#phone").addClass("is-invalid").removeClass("is-valid");
+			return false;
+		}
+		$("#phone").removeClass("is-invalid").addClass("is-valid");
+		return true;
 	};
 
 	checkCity = () => {
-	    let city = $("#city").val();
-	    if (!city || city === "") {   // check cả null và ""
-	        $("#city").addClass("is-invalid").removeClass("is-valid");
-	        return false;
-	    }
-	    $("#city").removeClass("is-invalid").addClass("is-valid");
-	    return true;
+		let city = $("#city").val();
+		if (!city || city === "") {   // check cả null và ""
+			$("#city").addClass("is-invalid").removeClass("is-valid");
+			return false;
+		}
+		$("#city").removeClass("is-invalid").addClass("is-valid");
+		return true;
 	};
 
 	checkDistrict = () => {
-	    let district = $("#district").val();
-	    if (!district || district === "") {
-	        $("#district").addClass("is-invalid").removeClass("is-valid");
-	        return false;
-	    }
-	    $("#district").removeClass("is-invalid").addClass("is-valid");
-	    return true;
+		let district = $("#district").val();
+		if (!district || district === "") {
+			$("#district").addClass("is-invalid").removeClass("is-valid");
+			return false;
+		}
+		$("#district").removeClass("is-invalid").addClass("is-valid");
+		return true;
 	};
 
 	checkWard = () => {
-	    let ward = $("#ward").val();
-	    if (!ward || ward === "") {
-	        $("#ward").addClass("is-invalid").removeClass("is-valid");
-	        return false;
-	    }
-	    $("#ward").removeClass("is-invalid").addClass("is-valid");
-	    return true;
+		let ward = $("#ward").val();
+		if (!ward || ward === "") {
+			$("#ward").addClass("is-invalid").removeClass("is-valid");
+			return false;
+		}
+		$("#ward").removeClass("is-invalid").addClass("is-valid");
+		return true;
 	};
 
 
 	checkAddress = () => {
-	    let address = $("#address").val().trim();
-	    if (address === "") {
-	        $("#address").addClass("is-invalid").removeClass("is-valid");
-	        return false;
-	    }
-	    $("#address").removeClass("is-invalid").addClass("is-valid");
-	    return true;
+		let address = $("#address").val().trim();
+		if (address === "") {
+			$("#address").addClass("is-invalid").removeClass("is-valid");
+			return false;
+		}
+		$("#address").removeClass("is-invalid").addClass("is-valid");
+		return true;
 	};
 
-	
+
+
 	$("#btn-get-otp").on("click", function() {
 		let txtEmail = $("#email").val();
-		
+		let loader = $("#loading-spinner");
+		let btnText = $("#btn-text");
 		if (txtEmail === "") {
 			Swal.fire("Lỗi", "Email rỗng!", "warning");
 			return;
 		}
-		
+
 		if (txtEmail === "" || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(txtEmail)) {
 			Swal.fire("Lỗi", "Email không hợp lệ!", "warning");
 			return;
 		}
-		
+		loader.removeClass('d-none'); // show spinner
+		btnText.empty();
+		btnText.textContent = "Đang gửi...";
 		$.ajax({
-			url: "/hibook/verify",
+			url: "/hibook/verify/email",
 			method: "POST",
+			headers: {
+				"X-CSRF-Token": $('#csrfTokenEmail').val()
+			},
 			data: {
-				action : "get-otp",
-				email : txtEmail
+				action: "otp",
+				email: txtEmail
 			},
 			success: function(res) {
 				if (res.status === "success") {
+					
 					Swal.fire({
 						icon: "success",
 						title: "Thành công!",
 						text: res.message,
 						confirmButtonText: "Tiếp tục"
 					});
+					if (res.expireTime) {
+			           startOtpCountdown(res.expireTime);
+			       	}					
 				}
 				else {
 					Swal.fire({
@@ -232,24 +243,30 @@ $(document).ready(function() {
 			},
 			error: function() {
 				console.log("Không thể gửi đến server verify");
+			},
+			complete: function() {
+				loader.addClass('d-none');
 			}
 		});
 	});
-	
+
 	$("#btn-verify-otp").on("click", function() {
 		let txtOTP = $("#checkOTP").val();
-		
+
 		if (txtOTP === "") {
 			Swal.fire("Lỗi", "Nhập vào mã OTP!", "warning");
 			return;
 		}
-		
+
 		$.ajax({
-			url: "/hibook/verify",
+			url: "/hibook/verify/email",
 			method: "POST",
+			headers: {
+				"X-CSRF-Token": $('#csrfTokenVerify').val()
+			},
 			data: {
-				action: "do-verify-otp",
-				otpInput: txtOTP
+				action: "verify-otp-email",
+				otp_user: txtOTP
 			},
 			success: function(res) {
 				if (res.status === "success") {
@@ -259,8 +276,6 @@ $(document).ready(function() {
 						text: res.message,
 						confirmButtonText: "Tiếp tục"
 					});
-					
-					
 				}
 				else {
 					Swal.fire({
@@ -289,12 +304,12 @@ $(document).ready(function() {
 			}
 		});
 	});
-	
+
 	$("input[name='delivery']").on("change", function() {
 		let priceDelivery = parseInt($(this).data("price")) || 0;
 		let baseTotal = parseInt($("#totalPriceTmp").val()) || 0;
-		let newTotal =  baseTotal + priceDelivery;
-		
+		let newTotal = baseTotal + priceDelivery;
+
 		let formatted = new Intl.NumberFormat("vi-VN").format(priceDelivery) + " đ";
 		let formattedTotal = new Intl.NumberFormat("vi-VN").format(newTotal) + " đ";
 		$("#price-delivery").text("+ " + formatted);
@@ -306,6 +321,36 @@ $(document).ready(function() {
 		// cập nhật lại input hidden để gửi về backend
 		$("#totalPrice").val(newTotal);
 	});
+
 	
 	
+	startOtpCountdown(null);
+	
+	function startOtpCountdown(expireTime) {
+	    const btnsend = document.getElementById("btn-get-otp");
+	    const btnText = document.getElementById("btn-text");
+	    let timer = null;
+
+	    function updateCountdown() {
+	        const now = new Date().getTime();
+	        const distance = expireTime - now;
+
+	        if (!expireTime || distance <= 0) {
+	            btnText.textContent = "Gửi xác minh";
+	            btnsend.disabled = false;
+	            if (timer) clearInterval(timer);
+	            return;
+	        }
+
+	        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+	        btnText.textContent = "Gửi lại sau: " + seconds + "s ";
+	        btnsend.disabled = true;
+	    }
+
+	    if (timer) clearInterval(timer);
+	    updateCountdown();
+	    timer = setInterval(updateCountdown, 1000);
+	}
+
 });
+

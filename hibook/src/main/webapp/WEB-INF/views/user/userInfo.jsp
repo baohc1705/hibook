@@ -315,7 +315,8 @@
 
 				</div>
 			</div>
-
+			<input type="hidden" name="csrfToken" value="${csrfToken}" id="csrfTokenEmail">
+			<input type="hidden" name="csrfToken" value="${csrfToken}" id="csrfTokenVerify">
 		</main>
 	</c:if>
 	<!-- Footer -->
@@ -329,23 +330,31 @@
 	        <h1 class="modal-title fs-5" id="exampleModalLabel">Thay đổi email</h1>
 	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 	      </div>
-	      
+
 	      <div class="modal-body">
-	        <form id="formVerifyEmail" action="<%=url1%>/verify-email" method="post">
-	        	 <div class="mb-3">
-				    <label for="newEmail" class="form-label">Email</label>
-				    <input type="email" class="form-control" id="newEmail" name="newEmail">
-					<button id="btnGetOTP" type="button" class="btn btn-primary">
-					  Gửi mã OTP
+			<div class="mb-3">
+				<label for="newEmail" class="form-label">Email</label>
+				<div class="d-flex align-items-center">
+					<input type="email" class="form-control" id="newEmail" name="email">
+					<button id="btn-get-otp" type="button" class="ms-1 fs-base button-border p-1 d-flex align-items-center justify-content-center"
+						style="max-width: fit-content; text-wrap: nowrap;">
+					  	<span id="btn-text">Gửi xác minh</span>
+					    	<span class="d-none ms-2" id="loading-spinner">
+					        <div class="spinner-border spinner-border-sm" role="status">
+					            <span class="visually-hidden">Loading...</span>
+					        </div>
+					        <span> Đang gửi</span>
+					    </span>
 					</button>
-				  </div>
-				  
-				 <div class="mb-3">
-				    <label for="codeOTP" class="form-label">Mã xác nhận OTP</label>
-				    <input type="text" class="form-control" id="otp_user" name="otp_user">
-				 </div>
-				 <button type="submit" class="btn btn-primary">Save changes</button>
-	        </form>
+				</div>	
+			</div>
+			  
+			<div class="mb-3">
+				<label for="codeOTP" class="form-label">Mã xác nhận OTP</label>
+				<input type="text" class="form-control" id="otp_user" name="otp_user">
+				<button type="button" id="btn-verify-otp" class="w-100 button-fill mt-3 d-flex align-items-center justify-content-center">Xác nhận</button>
+			</div>
+			
 	      </div>
 	    </div>
 	  </div>
@@ -406,107 +415,138 @@
 				});
 			});
 			
-			$('#btnGetOTP').on('click', function(e) {
-				let email = $("#newEmail").val().trim();
-				let btn = $(this);
-				
-				if (!email) {
-					Swal.fire({
-	                    icon: "error",
-	                    title: "Email lỗi",
-	                    text: "Kiểm tra lại email!"
-	                });
+			$('#btn-get-otp').on('click', function() {
+				let txtEmail = $("#newEmail").val();
+				let loader = $("#loading-spinner");
+				let btnText = $("#btn-text");
+				if (txtEmail === "") {
+					Swal.fire("Lỗi", "Email rỗng!", "warning");
 					return;
 				}
-				
-				 // Bắt đầu loading
-			    btn.prop("disabled", true);
-			    btn.html(`
-			        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
-			        <span role="status">Đang gửi...</span>
-			    `);
-				
+
+				if (txtEmail === "" || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(txtEmail)) {
+					Swal.fire("Lỗi", "Email không hợp lệ!", "warning");
+					return;
+				}
+				loader.removeClass('d-none'); // show spinner
+				btnText.empty();
+				btnText.textContent = "Đang gửi...";
 				$.ajax({
-					url: "${pageContext.request.contextPath }/verify-account/send-otp-mail",
+					url: "/hibook/verify/email",
 					method: "POST",
-					data: {email : email},
-					success: function(response) {
-						if (response.status === "success") {
+					headers: {
+						"X-CSRF-Token": $('#csrfTokenEmail').val()
+					},
+					data: {
+						action: "otp",
+						email: txtEmail
+					},
+					success: function(res) {
+						if (res.status === "success") {
+							
 							Swal.fire({
-		                        icon: "success",
-		                        title: "Thành công!",
-		                     	text: response.message,
-		                        confirmButtonText: "OK"
-	                    	});
+								icon: "success",
+								title: "Thành công!",
+								text: res.message,
+								confirmButtonText: "Tiếp tục"
+							});
+							if (res.expireTime) {
+					           startOtpCountdown(res.expireTime);
+					       	}					
 						}
 						else {
 							Swal.fire({
-	    	                    icon: "error",
-	    	                    title: "Thất bại",
-	    	                    text: response.message
-	    	                });
+								icon: "error",
+								title: "Thất bại",
+								text: res.message
+							});
 						}
-						
 					},
-					error: function(response) {
-						Swal.fire({
-    	                    icon: "error",
-    	                    title: "Máy chủ bị lỗi",
-    	                    text: "Không thể kết nối đến server!"
-    	                });
+					error: function() {
+						console.log("Không thể gửi đến server verify");
 					},
 					complete: function() {
-						// Reset lại nút sau khi xong
-			            btn.prop("disabled", false);
-			            btn.html("Gửi OTP");
-			        }
+						loader.addClass('d-none');
+					}
 				});
 			});
 			
-			$("#formVerifyEmail").on("submit", function(e) {
-				e.preventDefault();
-				
-				let email = $("#newEmail").val().trim();
-				let otp = $("#otp_user").val().trim();
-				
+			$("#btn-verify-otp").on("click", function() {
+				let txtOTP = $("#otp_user").val();
+				let txtEmail = $("#newEmail").val();
+				if (txtOTP === "") {
+					Swal.fire("Lỗi", "Nhập vào mã OTP!", "warning");
+					return;
+				}
+
 				$.ajax({
-					url: "${pageContext.request.contextPath }/verify-account/verify-otp-email",
+					url: "/hibook/verify/email",
 					method: "POST",
+					headers: {
+						"X-CSRF-Token": $('#csrfTokenVerify').val()
+					},
 					data: {
-							newEmail: email, 
-							otp_user: otp
-						   },
-					success: function(response) {
-						if (response.status === "success") {
+						action: "verify-otp-email",
+						otp_user: txtOTP
+					},
+					success: function(res) {
+						if (res.status === "success") {
 							Swal.fire({
 		                        icon: "success",
 		                        title: "Thành công!",
-		                     	text: response.message,
+		                     	text: res.message,
 		                        confirmButtonText: "OK"
 	                    	}).then (() => {
-	                    		$("#input-email").val(response.newEmail);
+	                    		$("#input-email").val(txtEmail);
 	                    		$("#exampleModal").modal("hide");
 	                    	});
 						}
 						else {
 							Swal.fire({
-	    	                    icon: "error",
-	    	                    title: "Thất bại",
-	    	                    text: response.message
-	    	                });
+								icon: "error",
+								title: "Thất bại",
+								text: res.message
+							});
 						}
 					},
-					error: function() {
-						Swal.fire({
-    	                    icon: "error",
-    	                    title: "Máy chủ bị lỗi",
-    	                    text: "Không thể kết nối đến server!"
-    	                });
+					error: function(xhr, status, error) {
+						console.error("AJAX error:", status, error);
+						console.error("Response text:", xhr.responseText);
+						Swal.fire("Lỗi", "Không thể kết nối đến server verify", "error");
 					}
 				});
+				
+				
 			});
-		});
+			
+			startOtpCountdown(null);
+		}); 
 		
+		function startOtpCountdown(expireTime) {
+		    const btnsend = document.getElementById("btn-get-otp");
+		    const btnText = document.getElementById("btn-text");
+		    let timer = null;
+
+		    function updateCountdown() {
+		        const now = new Date().getTime();
+		        const distance = expireTime - now;
+
+		        if (!expireTime || distance <= 0) {
+		            btnText.textContent = "Gửi xác minh";
+		            btnsend.disabled = false;
+		            if (timer) clearInterval(timer);
+		            return;
+		        }
+
+		        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+		        btnText.textContent = "Gửi lại sau: " + seconds + "s ";
+		        btnsend.disabled = true;
+		    }
+
+		    if (timer) clearInterval(timer);
+		    updateCountdown();
+		    timer = setInterval(updateCountdown, 1000);
+		}
 	</script>
 </body>
 </html>
