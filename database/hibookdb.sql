@@ -76,16 +76,6 @@ CREATE TABLE `bill` (
   `pay_method` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `bill`
---
-
-INSERT INTO `bill` (`id`, `user_id`, `delivery_id`, `isDisable`, `totalPrice`, `fullname`, `email`, `phone`, `city`, `district`, `ward`, `shippingAddress`, `note`, `createAt`, `status`, `pay_method`) VALUES
-('250922095712734792', '202509220955349011', 1, b'0', 570000, 'Huỳnh Chí Bảo', 'devblue404@gmail.com', '0337778965', 'Hải Phòng', 'QUAN_8', 'PHUONG_4', 'ấp Chiến Thắng', 'Giao hàng vào thứ 3, 5, 7', '2025-09-22 02:57:12', 'Chờ xác nhận', 'COD'),
-('250922141513942618', '202509221409872217', 1, b'0', 68000, 'Huỳnh Chí Bảo', 'baohc2004@gmail.com', '0337778965', 'TP. Hồ Chí Minh', 'QUAN_8', 'PHUONG_4', 'Cao Lỗ', '', '2025-09-22 07:15:13', 'Chờ xác nhận', 'COD'),
-('250923164749129707', '202509220955349011', 1, b'0', 123000, 'Huỳnh Chí Bảo', 'devblue404@gmail.com', '0337778965', 'TP. Hồ Chí Minh', 'QUAN_8', 'PHUONG_4', 'Cao Lỗ', '', '2025-09-23 09:47:49', 'Đã xác nhận', 'COD'),
-('250923212703538528', NULL, 1, b'0', 830000, 'Brian Bennet', 'devblue404@gmail.com', '0337778965', 'Thái Nguyên', 'QUAN_8', 'PHUONG_4', 'Cao Lỗ', '', '2025-09-23 14:27:03', 'Chờ xác nhận', 'COD'),
-('250923213306841244', NULL, 1, b'0', 315000, 'Brian Bennet', 'devblue404@gmail.com', '0337778965', 'Cao Bằng', 'QUAN_8', 'PHUONG_4', 'Cao Lỗ', '', '2025-09-23 14:33:06', 'Chờ xác nhận', 'COD');
 
 -- --------------------------------------------------------
 
@@ -103,16 +93,6 @@ CREATE TABLE `bill_detail` (
 --
 -- Dumping data for table `bill_detail`
 --
-
-INSERT INTO `bill_detail` (`bill_id`, `book_id`, `quantity`, `price`) VALUES
-('250922095712734792', 'B250915215848', 1, 280000),
-('250922095712734792', 'B250915215959', 1, 270000),
-('250922141513942618', 'B250827104929', 1, 48000),
-('250923164749129707', 'B250827103214', 1, 55000),
-('250923164749129707', 'B250827104836', 1, 48000),
-('250923212703538528', 'B250915215959', 3, 810000),
-('250923213306841244', 'B250827103337', 1, 25000),
-('250923213306841244', 'B250915215959', 1, 270000);
 
 -- --------------------------------------------------------
 
@@ -430,10 +410,6 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `email`, `password`, `fullname`, `birthDate`, `avatar`, `username`, `account_locked`, `failed_login_attemps`, `last_failed_login`, `password_change_required`, `created_at`, `updated_at`, `last_login`) VALUES
-('202509220955349011', 'devblue404@gmail.com', '$argon2id$v=19$m=65536,t=3,p=1$umGZscFsyxnX8reCLp5EXA$rcxPFTjgIf0tgXTtugYfbKQaOYme14205wwZwjd3j8w', 'Huỳnh Chí Bảo', '2004-05-17', '10837845-9572-4387-9bde-c2ff541e7e6c.jpg', 'devblue', 0, 0, NULL, 0, '2025-09-22 02:55:43', '2025-09-23 15:50:57', '2025-09-23 15:50:57'),
-('202509221409872217', 'baohc2004@gmail.com', '$argon2id$v=19$m=65536,t=3,p=1$0IwJjJ/CyL6hTMIL+axLQQ$Fr6In6lvjOYzQwW54YTzGVlj31X0KBc487cwDqDCDeo', 'Huỳnh Chí Bảo', '2004-05-17', 'f03607cc-3c1f-4eef-8e92-1fab1ec71a43.png', 'bao123', 0, 0, NULL, 0, '2025-09-22 07:09:23', '2025-09-22 07:14:21', '2025-09-22 07:13:59');
-
 -- --------------------------------------------------------
 
 --
@@ -474,36 +450,6 @@ CREATE TABLE `user_sessions` (
 --
 -- Dumping data for table `user_sessions`
 --
-
-INSERT INTO `user_sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `last_activity`, `created_at`, `expires_at`, `is_active`) VALUES
-('-QEsIGrpHheOghsqHdxR3oDK42SlSem9K3O8_AAKUCU', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-22 02:56:09', '2025-09-22 02:55:52', '2025-09-22 02:59:09', 0),
-('1mxUldv9qXdwF_PV5FezbqR2DEB-4-pFHsFANrq-o68', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-23 15:35:46', '2025-09-23 15:35:08', '2025-09-23 15:38:46', 0),
-('5bG_XCi0cxBvfpkkqZ1unWKMFzOOZP_kx0_sUZsG2g0', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-23 15:33:56', '2025-09-23 15:33:50', '2025-09-23 15:36:56', 0),
-('aD8rNFn0Cc1a5kW882rtDU7JlaKkTQf8XGrcPM2RO2Y', '202509221409872217', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-22 07:16:38', '2025-09-22 07:13:59', '2025-09-22 07:19:38', 0),
-('bcIPZJnNbeZtWx6wWS8z_xDhr3vTgXK0X40OSvaEXxE', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', '2025-09-22 05:23:29', '2025-09-22 05:23:29', '2025-09-22 05:26:29', 0),
-('bG836lolqW1_HRnlkPoVtoHCVWiZOn1fHeimfLz-h0o', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-23 15:03:26', '2025-09-23 15:00:37', '2025-09-23 15:06:26', 0),
-('CjHxldbqQ2c_oQ70yswS9uQZnJ7SrBgSAZbdaaSqtIs', '202509221409872217', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-22 07:09:34', '2025-09-22 07:09:34', '2025-09-22 07:12:34', 0),
-('DL5vb1AQFMBUYfUNfIaE6bBN4iEpk14LOeKv4b0nGvw', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-22 05:26:01', '2025-09-22 05:26:01', '2025-09-22 05:29:01', 0),
-('fjrABsk2PsCcXVNEroErMY41qwxP-q9DtRnik_RFjjU', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-23 14:39:49', '2025-09-23 14:39:42', '2025-09-23 14:42:49', 0),
-('fTk26gXOVYq699WZ8SXoP4R95sHKeHBuHfmA_PrCZ14', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-23 15:22:16', '2025-09-23 15:21:16', '2025-09-23 15:25:16', 0),
-('G866zPHtWsop9hd1ojNfjcHqrkNaHBddOWZm3rHRsD0', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-23 15:30:11', '2025-09-23 15:26:34', '2025-09-23 15:33:11', 0),
-('GDb1aVBNNFjruOtKZfsGNeBRu7xCS1vYHMxc8p73iaw', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-23 16:09:42', '2025-09-23 15:50:57', '2025-09-23 16:12:42', 1),
-('hoewe5wX2PRddi-xaEx5SIphBwqbecPPBRAMedQbAk0', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-23 14:58:49', '2025-09-23 14:58:43', '2025-09-23 15:01:49', 0),
-('KBSu6MeHJzrPR1JaWYZRjpK3I9GyMNvqPwT2THZd9PA', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-23 15:20:28', '2025-09-23 15:19:55', '2025-09-23 15:23:28', 0),
-('kNPas45GZDb1LsRdcuDnGKpDy6SxIgDMqBNj1p7ffAE', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-22 05:25:47', '2025-09-22 05:23:53', '2025-09-22 05:28:47', 0),
-('KqnimGa1phz4WzsUiUPxuvqe18Cky6oPyAAX8O6z9GU', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-23 15:10:57', '2025-09-23 15:10:52', '2025-09-23 15:13:57', 0),
-('M9AnPKrRIYSD9feiaewHxZqKkCmeSQWbZR_q6ncA1o0', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-23 14:45:53', '2025-09-23 14:45:17', '2025-09-23 14:48:53', 0),
-('NOQyCxHNKsJMUEq7iplHsGb-rCcadNBungZHFd9cEVY', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-23 15:46:07', '2025-09-23 15:38:59', '2025-09-23 15:49:07', 0),
-('OGSDRpRTPzqfuL2jGMV0H8w3_niodjyxkOB9gQGKmjA', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-23 15:37:54', '2025-09-23 15:37:49', '2025-09-23 15:40:54', 0),
-('PKqapuBFO4gK-INj9ZpZVUcAZnAQXBeCCYEd10cI2bY', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-23 15:26:14', '2025-09-23 15:25:20', '2025-09-23 15:29:14', 0),
-('qOSweivJ1yTrGMkja4dGfePN-j8r88-TevWbht6zO0E', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-23 15:24:34', '2025-09-23 15:24:27', '2025-09-23 15:27:34', 0),
-('T1r2ax6loxteev92dYy9RKOR4Fgfr2I_jT61d6xZQkM', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-23 09:49:37', '2025-09-23 09:47:21', '2025-09-23 09:52:37', 0),
-('TjX-t_Jqa0X4Y_8NCjNwjlp4Yo7E_1eS5QeXtriGRQA', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-23 15:18:33', '2025-09-23 15:18:26', '2025-09-23 15:21:33', 0),
-('Wph3k-vTzEGb73hVxwWDb8HNqaX_tRJZfylnwXOzQvM', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-23 14:35:37', '2025-09-23 14:34:51', '2025-09-23 14:38:37', 0),
-('Wv_2Yf0livVaA4UUbQhDsMusc3tyh-pNNrL4YyawFoM', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-22 07:18:01', '2025-09-22 07:17:22', '2025-09-22 07:21:01', 0),
-('xYkNUrmHB5vYgS7S7_T6s29rF1_Kj26LIlY5ofdOag4', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-23 12:44:02', '2025-09-23 12:42:11', '2025-09-23 12:47:02', 0),
-('zLdOwDM551wbIkvDhd7vJhVxpTA9uGZaUpL_DvTJsmI', '202509220955349011', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-23 14:54:21', '2025-09-23 14:54:15', '2025-09-23 14:57:21', 0);
-
 -- --------------------------------------------------------
 
 --
