@@ -209,9 +209,10 @@ public class VerifyController {
 					resp.put("message", "Tạo tài khoản thất bại!");
 				
 					
-					String csrfToken = CSRFTokenUtil.generateToken(request);
-					request.setAttribute(SecurityConfig.CSRF_TOKEN_NAME, csrfToken);
-					request.getRequestDispatcher(PageConfig.REGISTER).forward(request, response);
+//					String csrfToken = CSRFTokenUtil.generateToken(request);
+//					request.setAttribute(SecurityConfig.CSRF_TOKEN_NAME, csrfToken);
+//					request.getRequestDispatcher(PageConfig.REGISTER).forward(request, response);
+					response.getWriter().print(gson.toJson(resp));
 					return;
 				}
 				
@@ -222,6 +223,9 @@ public class VerifyController {
 			response.getWriter().print(gson.toJson(resp));
 		} catch (Exception e) {
 			e.printStackTrace();
+			resp.put("status", "error");
+			resp.put("message", "Lỗi server");
+			response.getWriter().print(gson.toJson(resp));
 		}
 		
 	}

@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.baohc.app.config.SecurityConfig;
 import com.baohc.app.dao.book.PhotoDAO;
 import com.baohc.app.dao.book.PhotoDAOImpl;
 import com.baohc.app.model.BillDTO;
@@ -25,8 +24,7 @@ import com.baohc.app.service.bill.BillServiceImpl;
 import com.baohc.app.service.user.UserService;
 import com.baohc.app.service.user.UserServiceImpl;
 import com.baohc.core.utils.BillCriteria;
-import com.baohc.core.utils.CSRFTokenUtil;
-import com.baohc.core.utils.EncryptPassword;
+import com.baohc.core.utils.PasswordUtil;
 import com.baohc.core.utils.enums.BillStatus;
 import com.google.gson.Gson;
 
@@ -119,29 +117,30 @@ public class UserInfomationController {
 
 			String oldPass = request.getParameter("old-password");
 			String newPass = request.getParameter("new-password");
-			if ((oldPass == null || oldPass.trim().isEmpty()) && (newPass == null || newPass.trim().isEmpty())) {
+			if ((oldPass == null || oldPass.trim().isEmpty()) || (newPass == null || newPass.trim().isEmpty())) {
 				resp.put("status", "error");
 				resp.put("message", "Mật khẩu rỗng");
 				response.getWriter().print(gson.toJson(resp));
 				return;
-			}
+			};
 
-			HttpSession session = request.getSession();
-			UserDTO user = (UserDTO) session.getAttribute("USER_ACC");
-			if (user == null) {
+			HttpSession session = request.getSession(false);
+			UserDTO userSession = (UserDTO) session.getAttribute("USER_ACC");
+			
+			if (userSession == null) {
 				resp.put("status", "error");
 				resp.put("message", "Đã hết phiên đăng nhập");
 				response.getWriter().print(gson.toJson(resp));
 				return;
 			}
-			oldPass = EncryptPassword.toSHA1(oldPass);
-			if (!user.getPassword().equals(oldPass)) {
+			UserDTO user = userService.find(userSession);
+			if (!PasswordUtil.verifyPasswordArgon(oldPass, user.getPassword())) {
 				resp.put("status", "error");
 				resp.put("message", "Mật khẩu cũ không đúng.");
 				response.getWriter().print(gson.toJson(resp));
 				return;
 			} else {
-				newPass = EncryptPassword.toSHA1(newPass);
+				newPass = PasswordUtil.hashPasswordArgon(newPass);
 				int resetPass = userService.updatePassword(user.getId(), newPass);
 				
 				if (resetPass != 1) {

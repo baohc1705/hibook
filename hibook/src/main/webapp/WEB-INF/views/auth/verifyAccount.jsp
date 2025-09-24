@@ -49,7 +49,7 @@
 					</c:if>
 					
 					<form id="form-sendOtpMail" action="${pageContext.request.contextPath}/verify/email" method="post" class="form px-5 mb-3">
-                        <input type="hidden" name="csrfToken" value="${csrfToken}" id="csrfTokenSend">
+                        <input type="text" name="csrfToken" value="${csrfToken}" id="csrfTokenSend">
                         <div class="wrapper-input mb-2">
 	                        <input type="text" class="w-input" id="email" name="email"
 	                               placeholder="Nhập vào email..." required="required"
@@ -87,8 +87,8 @@
                         </div> 
                     </form>  
 					
-                    <form id="form-verify" action="${pageContext.request.contextPath }/verify-account" method="post" class="form px-5">
-                        <input type="hidden" name="csrfToken" value="${csrfToken}" id="csrfTokenVerify">
+                    <form id="form-verify" action="${pageContext.request.contextPath }/verify/email" method="post" class="form px-5">
+                        <input type="text" name="csrfToken" value="${csrfToken}" id="csrfTokenVerify">
                         <div class="wrapper-input mb-3">
 	                        <input type="text" class="w-input" id="otp_user" name="otp_user"
 	                               placeholder="Nhập vào mã OTP 6 số..." required="required"/>
@@ -149,17 +149,20 @@
             $('#form-verify').on('submit', function(e) {
                 e.preventDefault();
                 console.log("form-verify loaded!");
-                let csrfTokenV = $("#csrfTokenVerify").val();
+                let csrfToken = $("#csrfTokenVerify").val();
+                console.log('csrf: ' + csrfToken);
+                console.log('otp: ' + $('#otp_user').val());
                 $.ajax({
-                    url: '${pageContext.request.contextPath }/verify/email',
+                    url: '${pageContext.request.contextPath}/verify/email',
                     method: 'POST',
                     data: { 
                     	otp_user : $('#otp_user').val(),
                     	action: 'verify-otp'
                     },
                     headers: {
-                    	"X-CSRF-Token": csrfTokenV
+                    	"X-CSRF-Token": csrfToken
                     },
+                    dataType: "json",
                     success: function(response) {
                         if (response.status === 'success') {
                             Swal.fire({
@@ -168,7 +171,7 @@
     	                     	text: response.message,
     	                        confirmButtonText: "OK"
     	                    }).then(() => {
-    	                    	window.location.href = "${pageContext.request.contextPath }/login";
+    	                    	window.location.href = "${pageContext.request.contextPath}/auth/login";
     	                    });
                         } else {
                             Swal.fire({
@@ -178,13 +181,14 @@
     	                    });
                         }
                     },
-                    error: function() {
-                        Swal.fire({
-    	                    icon: "error",
-    	                    title: "Máy chủ bị lỗi",
-    	                    text: "Không thể kết nối đến server!"
-    	                });
-                    }
+                    error: function(xhr) {
+                    	   console.error("AJAX error:", xhr.status, xhr.responseText);
+                    	   Swal.fire({
+                    	      icon: "error",
+                    	      title: "Máy chủ bị lỗi",
+                    	      text: "Status: " + xhr.status + " - " + xhr.responseText
+                    	   });
+                    	}
                 });
             }); 
         	 

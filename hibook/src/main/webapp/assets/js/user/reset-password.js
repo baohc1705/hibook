@@ -59,7 +59,7 @@ $(document).ready(function () {
             type: "POST",
             data: {
                 "old-password": txtOldPass,
-                "new-password": txtNewPass
+                "new-password": txtNewPass,
             },
             dataType: "json",
             success: function (res) {

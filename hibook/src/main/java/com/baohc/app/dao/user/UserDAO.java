@@ -43,4 +43,5 @@ public interface UserDAO {
 	public void updateLastLogin(String id);
 
 	public int createAccount(UserDTO newUser, String password);
+
 }

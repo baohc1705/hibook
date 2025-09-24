@@ -317,6 +317,7 @@
 			</div>
 			<input type="hidden" name="csrfToken" value="${csrfToken}" id="csrfTokenEmail">
 			<input type="hidden" name="csrfToken" value="${csrfToken}" id="csrfTokenVerify">
+			
 		</main>
 	</c:if>
 	<!-- Footer -->

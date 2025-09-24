@@ -3,6 +3,7 @@ package com.baohc.app.controller.cart;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -224,7 +225,7 @@ public class CheckoutController {
 			bill.setNote(note != null ? note : null);
 			bill.setStatus(status);
 			bill.setPayMethod(payMethod);
-
+			bill.setCreateAt(new Timestamp(System.currentTimeMillis()));
 			int insertBill = billService.insert(bill);
 			if (insertBill == 1) {
 
@@ -303,70 +304,83 @@ public class CheckoutController {
 	}
 
 	private void sendCartToEmail(BillDTO bill, List<CartItem> cartToEmail) {
-		try {
-			DecimalFormat df = new DecimalFormat("#,###");
-			
-			StringBuilder sb = new StringBuilder();
-			sb.append("<h3>Xin chào "+ bill.getFullname() +" !</h3>");
-			sb.append("<p>Cảm ơn bạn đã đặt hàng tại HiBook</p>");
-			sb.append("<p style='font-weight:bold;'>Mã đơn hàng: ").append(bill.getId()).append("</p>");
-			sb.append("<p>Địa chỉ nhận hàng: ").append(bill.getShipAddress()).append(", ")
-			.append(bill.getWard()).append(", ")
-			.append(bill.getDistrict()).append(", ")
-			.append(bill.getCity()).append("</p>");
-			sb.append("<p>Số điện thoại: ").append(bill.getPhone()).append("</p>");
-			sb.append("<p>Thời gian đặt hàng: ").append(new Timestamp(System.currentTimeMillis())).append("</p>");
-			sb.append("<h3>Chi tiết đơn hàng của bạn</h3>");
-			sb.append(
-					"<table border='1' cellspacing='0' cellpadding='5' style='border-collapse: collapse; width: 100%;'>");
-			// Header
-			sb.append("<thead style='background-color:#f2f2f2;'>");
-			sb.append("<tr>");
-			sb.append("<th style='padding: .5rem;'>Tên sách</th>");
-			sb.append("<th style='padding: .5rem;'>Giá</th>");
-			sb.append("<th style='padding: .5rem;'>Số lượng</th>");
-			sb.append("<th style='padding: .5rem;'>Thành tiền</th>");
-			sb.append("</tr>");
-			sb.append("</thead>");
+	    try {
+	        DecimalFormat df = new DecimalFormat("#,###");
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd-MM-yyyy");
 
-			// Body
-			sb.append("<tbody>");
-			for (CartItem item : cartToEmail) {	
-				String price = df.format(item.getBook().getPrice()) + " đ";
-				String subTotal = df.format(item.getSubtotal()) + " đ";
-				sb.append("<tr>");
-				sb.append("<td style='padding: .5rem;'>").append(item.getBook().getName()).append("</td>");
-				sb.append("<td style='padding: .5rem; text-align: right; color:red;'>").append(price).append("</td>");
-				sb.append("<td style='padding: .5rem; text-align: center;'>").append(item.getQuantity()).append("</td>");
-				sb.append("<td style='padding: .5rem; text-align: right; color:red; font-weight:bold'>").append(subTotal).append("</td>");
-				sb.append("</tr>");
-			}
-			sb.append("</tbody>");
-			String totalPrice = df.format(bill.getTotalPrice()) + " đ";
-			String priceShip = df.format(bill.getDelivery().getPrice()) + " đ";
-			// Footer
-			sb.append("<tfoot>");
-			sb.append("<tr>");
-			sb.append("<td colspan='3' style='text-align:right; font-weight:bold;'>Phí vận chuyển</td>");
-			sb.append("<td style='font-weight:bold; color:red; text-align: right;'>").append(priceShip).append("</td>");
-			sb.append("</tr>");
-			sb.append("<tr>");
-			sb.append("<td colspan='3' style='text-align:right; font-weight:bold;'>Tổng cộng</td>");
-			sb.append("<td style='font-weight:bold; color:red; text-align: right;'>").append(totalPrice).append("</td>");
-			sb.append("</tr>");
-			sb.append("</tfoot>");
+	        StringBuilder sb = new StringBuilder();
+	        sb.append("<div style='font-family: Arial, sans-serif; margin:0 50px; padding:20px; border:1px solid #e0e0e0; border-radius:8px; background-color:#fafafa;'>");
 
-			sb.append("</table>");
+	        sb.append("<h2 style='color:#2c3e50;'>Xin chào ").append(escapeHtml(bill.getFullname())).append("!</h2>");
+	        sb.append("<p>Cảm ơn bạn đã đặt hàng tại <strong style='color:#e74c3c;'>HiBook</strong>.</p>");
+	        sb.append("<p style='font-weight:bold;'>Mã đơn hàng: <span style='color:#2980b9;'>").append(bill.getId()).append("</span></p>");
+	        sb.append("<p><strong>Địa chỉ nhận hàng:</strong> ")
+	          .append(escapeHtml(bill.getShipAddress())).append(", ")
+	          .append(escapeHtml(bill.getWard())).append(", ")
+	          .append(escapeHtml(bill.getDistrict())).append(", ")
+	          .append(escapeHtml(bill.getCity())).append("</p>");
+	        sb.append("<p><strong>Số điện thoại:</strong> ").append(escapeHtml(bill.getPhone())).append("</p>");
+	        sb.append("<p><strong>Thời gian đặt hàng:</strong> ").append(dateFormat.format(bill.getCreateAt())).append("</p>");
 
-			if (EmailKit.sendEmail(bill.getEmail(), "ĐƠN HÀNG CỦA BẠN TẠI HIBOOK.com", sb.toString()))
-				System.out.println("Email gửi đến " + bill.getEmail() + ":\n" + sb.toString());
-			else {
-				System.err.println("GỬI EMAIL ĐƠN HÀNG THẤT BẠI");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.err.println("GỬI EMAIL ĐƠN HÀNG THẤT BẠI");
-		}
+	        sb.append("<h3 style='margin-top:20px; color:#27ae60;'>Chi tiết đơn hàng</h3>");
 
+	        sb.append("<table style='border-collapse: collapse; width: 100%; font-size:14px;'>");
+	        sb.append("<thead style='background-color:#f2f2f2;'><tr>")
+	          .append("<th style='padding:10px; border:1px solid #ddd; text-align:left;'>Tên sách</th>")
+	          .append("<th style='padding:10px; border:1px solid #ddd; text-align:right;'>Giá</th>")
+	          .append("<th style='padding:10px; border:1px solid #ddd; text-align:center;'>Số lượng</th>")
+	          .append("<th style='padding:10px; border:1px solid #ddd; text-align:right;'>Thành tiền</th>")
+	          .append("</tr></thead><tbody>");
+
+	        for (CartItem item : cartToEmail) {	
+	            String price = df.format(item.getBook().getPrice()) + " đ";
+	            String subTotal = df.format(item.getSubtotal()) + " đ";
+	            sb.append("<tr>")
+	              .append("<td style='padding:10px; border:1px solid #ddd;'>").append(escapeHtml(item.getBook().getName())).append("</td>")
+	              .append("<td style='padding:10px; border:1px solid #ddd; text-align:right; color:#e74c3c; text-wrap:nowrap;'>").append(price).append("</td>")
+	              .append("<td style='padding:10px; border:1px solid #ddd; text-align:center;'>").append(item.getQuantity()).append("</td>")
+	              .append("<td style='padding:10px; border:1px solid #ddd; text-align:right; color:#c0392b; font-weight:bold; text-wrap:nowrap;'>").append(subTotal).append("</td>")
+	              .append("</tr>");
+	        }
+	        sb.append("</tbody>");
+
+	        String totalPrice = df.format(bill.getTotalPrice()) + " đ";
+	        String priceShip = (bill.getDelivery() != null) ? df.format(bill.getDelivery().getPrice()) + " đ" : "0 đ";
+
+	        sb.append("<tfoot>")
+	          .append("<tr>")
+	          .append("<td colspan='3' style='padding:10px; border:1px solid #ddd; text-align:right; font-weight:bold;'>Phí vận chuyển</td>")
+	          .append("<td style='padding:10px; border:1px solid #ddd; text-align:right; color:#e67e22; font-weight:bold; text-wrap:nowrap;'>").append(priceShip).append("</td>")
+	          .append("</tr>")
+	          .append("<tr style='background-color:#f9f9f9;'>")
+	          .append("<td colspan='3' style='padding:10px; border:1px solid #ddd; text-align:right; font-weight:bold;'>Tổng cộng</td>")
+	          .append("<td style='padding:10px; border:1px solid #ddd; text-align:right; color:#d35400; font-size:16px; font-weight:bold; text-wrap:nowrap;'>").append(totalPrice).append("</td>")
+	          .append("</tr>")
+	          .append("</tfoot></table>");
+
+	        sb.append("<p style='margin-top:20px;'>Nếu bạn có bất kỳ câu hỏi nào, vui lòng liên hệ với chúng tôi qua email <a href='mailto:support@hibook.com'>support@hibook.com</a>.</p>");
+	        sb.append("<p style='color:#7f8c8d; font-size:12px;'>Đây là email tự động, vui lòng không trả lời.</p>");
+	        sb.append("</div>");
+
+	        String subject = "Đơn hàng #" + bill.getId() + " tại HiBook";
+	        if (EmailKit.sendEmail(bill.getEmail(), subject, sb.toString())) {
+	            System.out.println("Email gửi đến " + bill.getEmail());
+	        } else {
+	            System.err.println("GỬI EMAIL ĐƠN HÀNG THẤT BẠI");
+	        }
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        System.err.println("GỬI EMAIL ĐƠN HÀNG THẤT BẠI");
+	    }
 	}
+
+	private String escapeHtml(String input) {
+	    if (input == null) return "";
+	    return input.replace("&", "&amp;")
+	                .replace("<", "&lt;")
+	                .replace(">", "&gt;")
+	                .replace("\"", "&quot;");
+	}
+
 }

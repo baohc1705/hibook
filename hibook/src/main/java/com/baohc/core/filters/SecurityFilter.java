@@ -1,7 +1,7 @@
 package com.baohc.core.filters;
 
 import java.io.IOException;
-import java.security.Security;
+import java.util.List;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -18,23 +18,28 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.baohc.app.config.SecurityConfig;
+import com.baohc.app.controller.cart.CartService;
+import com.baohc.app.model.CartItem;
 import com.baohc.app.service.auth.AuthenticationService;
 import com.baohc.app.service.auth.AuthorizationService;
-import com.baohc.core.utils.CSRFTokenUtil;
 
 /**
  * Filter kiểm tra authentication tất cả request
  */
 @WebFilter("/*")
 public class SecurityFilter extends HttpFilter implements Filter {
+	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = LoggerFactory.getLogger(SecurityFilter.class);
 	private AuthenticationService authN;
 	private AuthorizationService authO;
+	private CartService cartService;
 	
 	@Override
 	public void init() throws ServletException {
 		authN = new AuthenticationService();
 		authO = new AuthorizationService();
+		cartService = new CartService();
+		
 	}
 
 	@Override
@@ -51,6 +56,7 @@ public class SecurityFilter extends HttpFilter implements Filter {
 			// Bỏ qua các path public không cần authentication
 			if (isPublicUrl(path)) {
 				LOGGER.debug("PUBLIC PATH: " + path);
+				loadCartItem(request);
 				chain.doFilter(request, response);
 				return;
 			}
@@ -75,13 +81,24 @@ public class SecurityFilter extends HttpFilter implements Filter {
 				handleUnauthorized(request, response, path);
 				return;
 			}
-
+			
+			loadCartItem(request);
+			
 			chain.doFilter(request, response);
 		} catch (Exception e) {
 			LOGGER.error("Security filter error: {}", e.getMessage(), e);
             sendInternalError(response, request);
 		}
 		
+	}
+
+	private void loadCartItem(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		if (session.getAttribute("itemCount") == null) {
+			List<CartItem> cartItems = cartService.getCartItems(request);
+			int itemCount = cartService.countCartItem(cartItems);
+			session.setAttribute("itemCount", itemCount);
+		}
 	}
 
 	private void sendInternalError(HttpServletResponse res, HttpServletRequest request) throws IOException {
