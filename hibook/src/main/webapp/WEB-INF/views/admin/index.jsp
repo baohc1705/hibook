@@ -189,8 +189,59 @@ request.setAttribute("stats", stats);
 					<div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
 						<div class="xl:col-span-2">
 							<!-- Table -->
-							<div class="space-4-6">
+							<div class="space-y-6">
 								<!-- Recent Orders -->
+								<div class="bg-white/80 dark:bg-slate-900/80 border border-slate-200/50 dark:border-slate-700/50 backdrop-blur-xl overflow-hidden
+											rounded-b-xl ">
+									<div class="flex items-center justify-between p-6">
+										<div>
+											<h3 class="text-xl font-bold text-slate-800 dark:text-white">
+												Đơn hàng gần đây
+											</h3>
+											<p class="text-sm text-slate-500 dark:text-slate-300">
+												Đơn hàng mới nhất của khách hàng
+											</p>
+										</div>
+										
+										<button class="text-sm font-medium text-violet-500 hover:underline hover:text-violet-700 transition-all duration-200 cursor-pointer">
+											Xem tất cả
+										</button>
+									</div>
+									
+									<div class="overflow-x-auto">
+										<table class="w-full">
+											<thead>
+												<tr>
+													<th class="text-left text-slate-800 dark:text-white text-sm font-semibold p-4 text-nowrap">
+														Mã đơn hàng
+													</th>
+													<th class="text-left text-slate-800 dark:text-white text-sm font-semibold p-4 text-nowrap">
+														Khách hàng
+													</th>
+													<th class="text-left text-slate-800 dark:text-white text-sm font-semibold p-4 text-nowrap">
+														Sách
+													</th>
+													<th class="text-left text-slate-800 dark:text-white text-sm font-semibold p-4 text-nowrap">
+														Số lượng
+													</th>
+													<th class="text-left text-slate-800 dark:text-white text-sm font-semibold p-4 text-nowrap">
+														Trạng thái
+													</th>
+													<th class="text-left text-slate-800 dark:text-white text-sm font-semibold p-4 text-nowrap">
+														Thời gian đặt
+													</th>
+													
+												</tr>
+												
+											</thead>
+											
+											<tbody id="table-content">
+												<!-- Render JS -->
+											</tbody>
+											
+										</table>
+									</div>
+								</div>
 							</div>
 							
 						</div>
@@ -208,5 +259,6 @@ request.setAttribute("stats", stats);
 	<script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/admin/main.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/admin/RevenueChart.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/admin/SalesChart.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/admin/TableSection.js"></script>
 </body>
 </html>
