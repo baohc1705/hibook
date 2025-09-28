@@ -8,5 +8,7 @@ public class PageConfig {
 	public static final String VERIFY_ACCOUNT= "/WEB-INF/views/auth/verifyAccount.jsp";
 	public static final String FORGOT_PASSWORD = "/WEB-INF/views/auth/forgotPassword.jsp";
 	
-	
+	//Admin Dashboard
+	public static final String ADMIN_INDEX= "/WEB-INF/views/admin/index.jsp";
+	public static final String ADMIN_DASHBOARD= "/WEB-INF/views/admin/components/Dashboard/Dashboard.jsp";
 }

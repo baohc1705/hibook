@@ -153,7 +153,7 @@ public class AuthenticationService {
 	}
 
 	public boolean regiter(String username, String email, String password, String confirmPassword, String fullname,
-			String birthDate, HttpServletRequest request) {
+			String birthDate, HttpServletRequest request, String mess) {
 		boolean validation = validateRegistrationInput(username, email, password, confirmPassword, fullname, birthDate);
 		if (!validation) {
 			return false;
@@ -162,12 +162,12 @@ public class AuthenticationService {
 		email = email.trim().toLowerCase();
 		try {
 			if (userDAO.findByUsername(username) != null) {
-				request.setAttribute("error", "Tên đăng nhập đã tồn tại");
+				mess =  "Tên đăng nhập đã tồn tại";
 				return false;
 			}
 			
 			if (userDAO.findByEmail(email) != null) {
-				request.setAttribute("error", "Email đã tồn tại");
+				mess =  "Email đã tồn tại";
 				return false;
 			}
 			
@@ -180,10 +180,10 @@ public class AuthenticationService {
 			
 			int created = userDAO.insertAccount(newUser, password);
 			if (created == 1) {
-				System.out.println("Account created successfully");
+				mess = "Đã tạo tài khoản thành công";
 				return true;
 			} else {
-				request.setAttribute("error", "Tạo tài khoản thất bại");
+				mess =  "Tạo tài khoản thất bại";
 				return false;
 			}
 		} catch (Exception e) {

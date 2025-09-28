@@ -54,12 +54,12 @@ public class SecurityFilter extends HttpFilter implements Filter {
 		LOGGER.debug("PATH: " + path);
 		try {
 			// Bỏ qua các path public không cần authentication
-			if (isPublicUrl(path)) {
-				LOGGER.debug("PUBLIC PATH: " + path);
-				loadCartItem(request);
-				chain.doFilter(request, response);
-				return;
-			}
+//			if (isPublicUrl(path)) {
+//				LOGGER.debug("PUBLIC PATH: " + path);
+//				loadCartItem(request);
+//				chain.doFilter(request, response);
+//				return;
+//			}
 			
 //			if ("POST".equalsIgnoreCase(request.getMethod())) {
 //				// Kiểm tra CSRFToken của request POST
@@ -70,17 +70,17 @@ public class SecurityFilter extends HttpFilter implements Filter {
 //				}
 //			}
 			
-			if (!authN.isAuthenticated(request)) {
-				LOGGER.debug("Path không xác thực: " + path);
-				handelUnauthenticated(request, response, path);
-				return;
-			}
-			
-			if (!isAuthorized(request, path)) {
-				LOGGER.error("DEBUGG: Path không có quyền: " + path);
-				handleUnauthorized(request, response, path);
-				return;
-			}
+//			if (!authN.isAuthenticated(request)) {
+//				LOGGER.debug("Path không xác thực: " + path);
+//				handelUnauthenticated(request, response, path);
+//				return;
+//			}
+//			
+//			if (!isAuthorized(request, path)) {
+//				LOGGER.error("DEBUGG: Path không có quyền: " + path);
+//				handleUnauthorized(request, response, path);
+//				return;
+//			}
 			
 			loadCartItem(request);
 			
