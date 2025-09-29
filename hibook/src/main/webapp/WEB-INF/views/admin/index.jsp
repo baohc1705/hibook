@@ -13,10 +13,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com">
+	
 	<link href="https://fonts.googleapis.com/css2?family=Chango&family=Paytone+One&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
-	 <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.1.0/dist/boxicons.js"></script>
+	<!-- fontawesome -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	
 	<style type="text/tailwindcss">
      	@custom-variant dark (&:where(.dark, .dark *));
 		.font-header{
@@ -83,7 +88,7 @@ request.setAttribute("stats", stats);
 		<div class="flex h-screen overflow-hidden">
 			<jsp:include page="components/Layout/Sidebar.jsp"></jsp:include>
 			
-			<div class="flex flex-1 flex-col overflow-hidden">
+			<div class="flex flex-1 flex-col overslow-hidden">
 				<jsp:include page="components/Layout/Header.jsp"></jsp:include>
 				
 				<main class="flex-1 overflow-y-auto bg-transparent p-6 space-y-4">
@@ -175,7 +180,7 @@ request.setAttribute("stats", stats);
 										Biểu đồ bán hàng
 									</h3>
 									<p class="text-sm text-slate-500 dark:text-slate-300">
-										Top sách bán nhiều nhất
+										Top thể loại sách bán nhiều nhất
 									</p>
 								</div>
 								<div  class="h-48">
@@ -193,7 +198,7 @@ request.setAttribute("stats", stats);
 								<!-- Recent Orders -->
 								<div class="bg-white/80 dark:bg-slate-900/80 border border-slate-200/50 dark:border-slate-700/50 backdrop-blur-xl overflow-hidden
 											rounded-b-xl ">
-									<div class="flex items-center justify-between p-6">
+									<div class="flex items-center justify-between p-6 border-b border-slate-200/50 dark:border-slate-700/50">
 										<div>
 											<h3 class="text-xl font-bold text-slate-800 dark:text-white">
 												Đơn hàng gần đây
@@ -242,16 +247,66 @@ request.setAttribute("stats", stats);
 										</table>
 									</div>
 								</div>
+								
+								<!-- Top sách -->
+								<div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-2xl border border-slate-200/50 dark:border-slate-700/50
+											overflow-hidden">
+									<div class="p-6">
+										<div class="flex justify-between">
+											<div>
+												<h3 class="text-xl font-bold text-slate-800 dark:text-white">
+													Top sách	
+												</h3>
+												<button class="text-sm text-violet-500 hover:text-violet-700">
+													Xem tất cả
+												</button>
+											</div>
+											<p class="text-sm font-semibold text-slate-500 dark:text-slate-300">
+												Sách hoạt động tốt nhất
+											</p>
+										</div>
+										<div class="p-6 space-y-4" id="top-product">
+											<!-- Render JS -->
+										</div>
+									</div>
+								</div>
 							</div>
-							
 						</div>
 						
+						<!-- Activity -->
 						<div>
-						
+							<div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-2xl border
+        							border-slate-200/50 dark:border-slate-700/50">
+								<div class="p-6 border-b border-slate-200/50 dark:border-slate-700/50">
+					                <div>
+					                    <h3 class="text-lg font-bold text-slate-800 dark:text-white">
+					                        Theo dõi hoạt động
+					                    </h3>
+					                    <p class="text-sm text-slate-500 dark:text-slate-400">
+					                        Hành động hệ thống gần đây
+					                    </p>
+					                </div>
+					                <button class="text-blue-500 hover:text-blue-700 text-sm font-medium
+					                        cursor-pointer">
+					                    Xem tất cả
+					                </button>
+					            </div>
+					            
+					            <div class="p-6">
+					            	<div class="space-y-4" id="active-feed"> 
+					            		<!-- Render active feed by JS -->
+					            	</div>
+					            </div>
+							</div>
 						</div>
 					</div>
 				</main>
+				<div class="md:hidden">
+					<jsp:include page="components/Layout/Footer.jsp"></jsp:include>
+				</div>
 			</div>
+			
+			
 		</div>
 	</div>
 	
@@ -260,5 +315,6 @@ request.setAttribute("stats", stats);
 	<script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/admin/RevenueChart.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/admin/SalesChart.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/admin/TableSection.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/admin/ActivityFeed.js"></script>
 </body>
 </html>

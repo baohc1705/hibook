@@ -7,10 +7,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
 <body>
 <%
     // Danh sách menu chính
@@ -143,7 +139,7 @@
     request.setAttribute("menuItems", menuItems);
 %>
 
-	<div id="menuItem" class="w-72 h-screen flex flex-col bg-white/80 dark:bg-slate-900 border-r border-slate-200/50 dark:border-slate-700/50
+	<div id="menuItem" class="hidden md:flex w-72 h-screen  flex-col bg-white/80 dark:bg-slate-900 border-r border-slate-200/50 dark:border-slate-700/50
 						transition-all duration-300">
 		<!-- Logo -->
 		<div class="flex items-center  justify-center p-4">

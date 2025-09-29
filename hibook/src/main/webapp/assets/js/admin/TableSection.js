@@ -126,5 +126,39 @@ document.addEventListener('DOMContentLoaded', function() {
 		const table = document.getElementById('table-content');
 		table.insertAdjacentHTML('beforeend', html);
 	});
+	
+	
+	topProducts.map((product) => {
+	    const html = `
+	        <div class="flex items-center justify-between p-4 rounded-xl hover:bg-slate-50
+	                    dark:hover:bg-slate-800/50 transition-all duration-200">
+	            <div class="flex-1"> 
+	                <h4 class="text-sm font-semibold text-slate-800 dark:text-white"> 
+	                    ${product.name}
+	                </h4>
+	                <p class="text-xs text-slate-500 dark:text-slate-400">
+	                    ${product.sale}
+	                </p>
+	            </div>
+	            <div class="text-right">
+	                <h4 class="text-sm font-semibold text-slate-800 dark:text-white">
+	                    ${product.revenue}
+	                </h4>
+					<div class='flex items-center justify-end'>
+						${ product.trend === "up"
+							? '<span class="material-symbols-rounded text-emerald-500">moving</span>'
+							: '<span class="material-symbols-rounded tranform rotate-60 text-red-500">moving</span>'
+						}
+						<p class="text-xs text-semibold ${product.trend === 'up' ? 'text-emerald-500' : 'text-red-500'}">
+		                    ${product.change}
+		                </p>
+					</div>
+	            </div>
+	        </div>
+	    `;
+	    
+	    const topProductsContainer = document.getElementById('top-product');
+	    topProductsContainer.insertAdjacentHTML('beforeend', html);
+	});
 
 });
