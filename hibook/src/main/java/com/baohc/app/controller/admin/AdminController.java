@@ -22,7 +22,10 @@ public class AdminController {
 			if (page != null && !"".equals(page)) {
 				switch (page) {
 				case "dashboard":
-					redirect = PageConfig.ADMIN_DASHBOARD;
+					redirect = PageConfig.ADMIN_INDEX;
+					break;
+				case "book":
+					redirect = PageConfig.ADMIN_BOOK;
 					break;
 				default:
 					redirect = PageConfig.ADMIN_INDEX;

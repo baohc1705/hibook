@@ -41,7 +41,7 @@
 			<div class="flex-1 max-w-md mx-2 md:mx-8">
 				<div class="relative">
 					<span class="material-symbols-rounded text-xl text-slate-500 dark:text-slate-300
-								absolute top-1/2 transform -translate-y-1/2 md:left-1 -right-3 p-2">
+								absolute top-1/2 transform -translate-y-1/2 md:left-1 xs-right-3 p-2">
 						search
 					</span>
 					<input

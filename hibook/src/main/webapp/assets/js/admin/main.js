@@ -19,6 +19,20 @@ $(document).ready(function() {
 		arrowDown.toggleClass('rotate-180');
 
 	});
+	$(document).on('click', '.btnSubmenu', function() {
+			let submenu = $(this).next("div");
+			let arrowDown = $(this).find(".arrowToggle");
+
+			if (submenu.hasClass("hidden")) {
+				submenu.removeClass("hidden").hide().slideDown(200);
+			} else {
+				submenu.slideUp(200, function() {
+					submenu.addClass("hidden");
+				});
+			}
+			arrowDown.toggleClass('rotate-180');
+
+	});
 
 	$(document).on('click', '.btn-menu-item', function() {
 		$('.btn-menu-item').removeClass('bg-gradient-to-r from-violet-600 via-pink-500 to-orange-500 text-white');

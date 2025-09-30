@@ -32,9 +32,9 @@
         item.put("label", "Thống kê");
 
         List<Map<String, Object>> submenu = new ArrayList<>();
-        submenu.add(Map.of("id", "overview", "label", "Tổng quan"));
-        submenu.add(Map.of("id", "reports", "label", "Báo cáo"));
-        submenu.add(Map.of("id", "insights", "label", "Chi tiết"));
+        submenu.add(Map.of("id", "overview", "label", "Tổng quan","page","overview"));
+        submenu.add(Map.of("id", "reports", "label", "Báo cáo","page","reports"));
+        submenu.add(Map.of("id", "insights", "label", "Chi tiết","page","insights"));
 
         item.put("submenu", submenu);
         menuItems.add(item);
@@ -49,9 +49,9 @@
         item.put("count", "2.4k");
 
         List<Map<String, Object>> submenu = new ArrayList<>();
-        submenu.add(Map.of("id", "all-users", "label", "Tất cả"));
-        submenu.add(Map.of("id", "roles", "label", "Cấp quyền"));
-        submenu.add(Map.of("id", "activity", "label", "Hoạt động"));
+        submenu.add(Map.of("id", "all-users", "label", "Tất cả","page","all-user"));
+        submenu.add(Map.of("id", "roles", "label", "Cấp quyền","page","role"));
+        submenu.add(Map.of("id", "activity", "label", "Hoạt động","page","user-active"));
 
         item.put("submenu", submenu);
         menuItems.add(item);
@@ -65,9 +65,9 @@
         item.put("label", "Cửa hàng");
 
          List< Map<String, Object>> submenu = new  ArrayList<>();
-        submenu.add( Map.of("id", "products", "label", "Sách"));
-        submenu.add( Map.of("id", "orders", "label", "Đơn hàng"));
-        submenu.add( Map.of("id", "customers", "label", "Khách hàng"));
+        submenu.add( Map.of("id", "products", "label", "Sách","page","book"));
+        submenu.add( Map.of("id", "orders", "label", "Đơn hàng","page","bill"));
+        submenu.add( Map.of("id", "customers", "label", "Khách hàng","page","customer"));
 
         item.put("submenu", submenu);
         menuItems.add(item);
@@ -189,10 +189,13 @@
 							}
 							${ item.active
 								?'bg-gradient-to-r from-violet-600 via-pink-500 to-orange-500 text-white'
-								:''
+								:'hover:bg-slate-200/50 dark:hover:bg-slate-700/50'
 							 }
 						w-full p-3 text-slate-500
-						flex items-center justify-between transition-all ease-in-out duration-200 cursor-pointer rounded-xl"  
+						flex items-center justify-between transition-all ease-in-out duration-200 cursor-pointer rounded-xl"
+						<c:if test="${empty item.submenu}">
+						onclick="window.location.href='${pageContext.request.contextPath}/admin?page=${item.page}'"
+					 </c:if>
 				>
 					<div class="flex items-center space-x-2">
 						<!-- Icon -->
@@ -236,7 +239,7 @@
                                        dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200
                                        hover:bg-slate-100 dark:hover:bg-slate-800/50 rounded-lg
                                        transition-all duration-200"
-                              
+                              	onclick="window.location.href='${pageContext.request.contextPath}/admin?page=${submenu.page}'"
 							>
 								<span>${submenu.label}</span>
 							</button>
