@@ -60,6 +60,7 @@
 								<button type="button"
 										class="px-4 py-2 bg-gradient-to-r from-violet-600 via-pink-500 to-orange-500 text-sm rounded-xl
 										text-white flex items-center justify-center cursor-pointer"
+										onclick="window.location.href='${pageContext.request.contextPath}/admin/book?action=add'"
 								>
 									<i class="fa-solid fa-plus"></i>
 									<span class="ml-2">Thêm sách mới</span>

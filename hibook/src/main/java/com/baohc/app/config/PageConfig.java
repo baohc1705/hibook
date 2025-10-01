@@ -11,4 +11,5 @@ public class PageConfig {
 	//Admin Dashboard
 	public static final String ADMIN_INDEX= "/WEB-INF/views/admin/index.jsp";
 	public static final String ADMIN_BOOK= "/WEB-INF/views/admin/book.jsp";
+	public static final String ADMIN_ADD_BOOK = "/WEB-INF/views/admin/book/AddBook.jsp";
 }

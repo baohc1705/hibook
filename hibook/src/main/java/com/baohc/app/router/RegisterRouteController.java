@@ -6,6 +6,7 @@ import com.baohc.app.controller.admin.bill.GetBillController;
 import com.baohc.app.controller.admin.bill.BillController;
 import com.baohc.app.controller.admin.book.AdminBookController;
 import com.baohc.app.controller.admin.book.AdminGetBookController;
+import com.baohc.app.controller.admin.book.BookController;
 import com.baohc.app.controller.auth.AuthenticationController;
 import com.baohc.app.controller.book.CategoryBookController;
 import com.baohc.app.controller.book.GetBooksController;
@@ -29,7 +30,7 @@ public class RegisterRouteController implements BaseRouter {
 
 		// ==========AMDIN===============
 		Router.get("/admin", new AdminController(), "showDashboard");
-		Router.get("/admin/book", new AdminBookController(), "showBooks");
+		Router.get("/admin/book", new BookController(), "doGetBook");
 		Router.get("/admin/book/show", new AdminBookController(), "doPaginationBook");
 		Router.get("/admin/books/show", new AdminGetBookController(), "getBooksWithFilter");
 		Router.get("/admin/book/add", new AdminBookController(), "showAddBook");
