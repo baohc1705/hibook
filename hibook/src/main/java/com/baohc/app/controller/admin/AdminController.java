@@ -27,8 +27,15 @@ public class AdminController {
 				case "book":
 					redirect = PageConfig.ADMIN_BOOK;
 					break;
+				case "all-user":
+					redirect = PageConfig.ADMIN_ALL_USER;
+					break;
+				case "role":
+					redirect = PageConfig.ADMIN_ROLE;
+					break;
 				default:
 					redirect = PageConfig.ADMIN_INDEX;
+					break;
 				}
 			}
 			else 

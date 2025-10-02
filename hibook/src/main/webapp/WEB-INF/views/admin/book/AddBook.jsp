@@ -49,7 +49,8 @@
 							<div class="flex items-center space-x-3">
 								<button
 										type="button"
-										class="px-2 py-1 border border-slate-500 dark:border-slate-400 flex items-center justify-center rounded-lg"
+										class="px-2 py-1 border border-slate-500 dark:border-slate-400 flex items-center justify-center rounded-lg cursor-pointer" 
+										onclick="window.location.href='${pageContext.request.contextPath}/admin?page=book'"
 								>
 									<span class="material-symbols-rounded text-slate-600 dark:text-slate-400">
 									arrow_back
@@ -296,103 +297,106 @@
 										</span>
 									</button>
 								</div>
-								<div class="overflow-auto h-80 p-4 flex flex-col space-y-3">
-									<div class="flex items-start justify-between">
-										<div class="flex items-start space-x-2">
-											<img 
-												alt="" 
-												src="${pageContext.request.contextPath}/assets/images/books/hoang-hon-mau-do-bia.png"
-												class="w-10 object-contain"
+								<div class="overflow-y-auto max-h-48">
+									<div class=" p-4 flex flex-col space-y-3">
+										<div class="flex items-start justify-between">
+											<div class="flex items-start space-x-2">
+												<img 
+													alt="" 
+													src="${pageContext.request.contextPath}/assets/images/books/hoang-hon-mau-do-bia.png"
+													class="w-10 object-contain"
+												>
+												<p class="max-w-24 truncate text-xs text-slate-500 dark:text-slate-300">Hoàng hôn màu đỏ Hoàng hôn màu đỏ Hoàng hôn màu đỏ</p>
+											</div>
+											
+											<button
+												type="button"
+												class="border border-red-700/50 rounded-md p-1 flex items-center justify-center"
 											>
-											<p class="max-w-24 truncate text-xs text-slate-500 dark:text-slate-300">Hoàng hôn màu đỏ Hoàng hôn màu đỏ Hoàng hôn màu đỏ</p>
+												<span class="material-symbols-rounded text-red-500 text-xs!">
+												delete
+												</span>
+											</button>
 										</div>
-										
-										<button
-											type="button"
-											class="border border-red-700/50 rounded-md p-1 flex items-center justify-center"
-										>
-											<span class="material-symbols-rounded text-red-500 text-xs!">
-											delete
-											</span>
-										</button>
-									</div>
-									<div class="flex items-start justify-between">
-										<div class="flex items-start space-x-2">
-											<img 
-												alt="" 
-												src="${pageContext.request.contextPath}/assets/images/books/hoang-hon-mau-do-bia.png"
-												class="w-10 object-contain"
+										<div class="flex items-start justify-between">
+											<div class="flex items-start space-x-2">
+												<img 
+													alt="" 
+													src="${pageContext.request.contextPath}/assets/images/books/hoang-hon-mau-do-bia.png"
+													class="w-10 object-contain"
+												>
+												<p class="max-w-24 truncate text-xs text-slate-500 dark:text-slate-300">Hoàng hôn màu đỏ Hoàng hôn màu đỏ Hoàng hôn màu đỏ</p>
+											</div>
+											
+											<button
+												type="button"
+												class="border border-red-700/50 rounded-md p-1 flex items-center justify-center"
 											>
-											<p class="max-w-24 truncate text-xs text-slate-500 dark:text-slate-300">Hoàng hôn màu đỏ Hoàng hôn màu đỏ Hoàng hôn màu đỏ</p>
+												<span class="material-symbols-rounded text-red-500 text-xs!">
+												delete
+												</span>
+											</button>
 										</div>
-										
-										<button
-											type="button"
-											class="border border-red-700/50 rounded-md p-1 flex items-center justify-center"
-										>
-											<span class="material-symbols-rounded text-red-500 text-xs!">
-											delete
-											</span>
-										</button>
-									</div>
-									<div class="flex items-start justify-between">
-										<div class="flex items-start space-x-2">
-											<img 
-												alt="" 
-												src="${pageContext.request.contextPath}/assets/images/books/hoang-hon-mau-do-bia.png"
-												class="w-10 object-contain"
+										<div class="flex items-start justify-between">
+											<div class="flex items-start space-x-2">
+												<img 
+													alt="" 
+													src="${pageContext.request.contextPath}/assets/images/books/hoang-hon-mau-do-bia.png"
+													class="w-10 object-contain"
+												>
+												<p class="max-w-24 truncate text-xs text-slate-500 dark:text-slate-300">Hoàng hôn màu đỏ Hoàng hôn màu đỏ Hoàng hôn màu đỏ</p>
+											</div>
+											
+											<button
+												type="button"
+												class="border border-red-700/50 rounded-md p-1 flex items-center justify-center"
 											>
-											<p class="max-w-24 truncate text-xs text-slate-500 dark:text-slate-300">Hoàng hôn màu đỏ Hoàng hôn màu đỏ Hoàng hôn màu đỏ</p>
+												<span class="material-symbols-rounded text-red-500 text-xs!">
+												delete
+												</span>
+											</button>
 										</div>
-										
-										<button
-											type="button"
-											class="border border-red-700/50 rounded-md p-1 flex items-center justify-center"
-										>
-											<span class="material-symbols-rounded text-red-500 text-xs!">
-											delete
-											</span>
-										</button>
-									</div>
-									<div class="flex items-start justify-between">
-										<div class="flex items-start space-x-2">
-											<img 
-												alt="" 
-												src="${pageContext.request.contextPath}/assets/images/books/hoang-hon-mau-do-bia.png"
-												class="w-10 object-contain"
+										<div class="flex items-start justify-between">
+											<div class="flex items-start space-x-2">
+												<img 
+													alt="" 
+													src="${pageContext.request.contextPath}/assets/images/books/hoang-hon-mau-do-bia.png"
+													class="w-10 object-contain"
+												>
+												<p class="max-w-24 truncate text-xs text-slate-500 dark:text-slate-300">Hoàng hôn màu đỏ Hoàng hôn màu đỏ Hoàng hôn màu đỏ</p>
+											</div>
+											
+											<button
+												type="button"
+												class="border border-red-700/50 rounded-md p-1 flex items-center justify-center"
 											>
-											<p class="max-w-24 truncate text-xs text-slate-500 dark:text-slate-300">Hoàng hôn màu đỏ Hoàng hôn màu đỏ Hoàng hôn màu đỏ</p>
+												<span class="material-symbols-rounded text-red-500 text-xs!">
+												delete
+												</span>
+											</button>
 										</div>
-										
-										<button
-											type="button"
-											class="border border-red-700/50 rounded-md p-1 flex items-center justify-center"
-										>
-											<span class="material-symbols-rounded text-red-500 text-xs!">
-											delete
-											</span>
-										</button>
-									</div>
-									<div class="flex items-start justify-between">
-										<div class="flex items-start space-x-2">
-											<img 
-												alt="" 
-												src="${pageContext.request.contextPath}/assets/images/books/hoang-hon-mau-do-bia.png"
-												class="w-10 object-contain"
+										<div class="flex items-start justify-between">
+											<div class="flex items-start space-x-2">
+												<img 
+													alt="" 
+													src="${pageContext.request.contextPath}/assets/images/books/hoang-hon-mau-do-bia.png"
+													class="w-10 object-contain"
+												>
+												<p class="max-w-24 truncate text-xs text-slate-500 dark:text-slate-300">Hoàng hôn màu đỏ Hoàng hôn màu đỏ Hoàng hôn màu đỏ</p>
+											</div>
+											
+											<button
+												type="button"
+												class="border border-red-700/50 rounded-md p-1 flex items-center justify-center"
 											>
-											<p class="max-w-24 truncate text-xs text-slate-500 dark:text-slate-300">Hoàng hôn màu đỏ Hoàng hôn màu đỏ Hoàng hôn màu đỏ</p>
+												<span class="material-symbols-rounded text-red-500 text-xs!">
+												delete
+												</span>
+											</button>
 										</div>
-										
-										<button
-											type="button"
-											class="border border-red-700/50 rounded-md p-1 flex items-center justify-center"
-										>
-											<span class="material-symbols-rounded text-red-500 text-xs!">
-											delete
-											</span>
-										</button>
 									</div>
 								</div>
+								
 							</div>
 							<div class="bg-white/80 dark:bg-slate-900/80 rounded-xl p-4 flex flex-col justify-between">
 								<div>

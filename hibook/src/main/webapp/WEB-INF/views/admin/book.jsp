@@ -53,6 +53,7 @@
 								<button type="button"
 										class = "px-4 py-2 bg-emerald-50 dark:bg-emerald-900/50 text-emerald-500 text-sm rounded-xl 
 												flex items-center justify-center cursor-pointer"
+										
 								>
 									<i class="fa-solid fa-file-export"></i>
 									<span class="ml-2">Xuất Excel</span>
@@ -521,7 +522,6 @@
 							  </table>
 							
 							<!-- navigation -->
-							
 						</div>
 						<div class="grid grid-cols-1 lg:grid-cols-2 place-items-center">
 							<div class="p-4 lg:place-self-start flex justify-between items-center w-full lg:flex-col lg:items-start">

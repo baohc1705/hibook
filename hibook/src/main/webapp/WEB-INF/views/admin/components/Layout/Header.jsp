@@ -56,18 +56,6 @@
 			
 			<!-- Right -->
 			<div class="flex items-center md:space-x-3">
-				<!-- Quick Action -->
-				<button
-					type="button"
-					class="hidden lg:flex items-center justify-center text-white space-x-2 px-4 py-2 rounded-xl 
-						  bg-gradient-to-r from-violet-600 via-pink-500 to-orange-500"
-				>
-					<span class="material-symbols-rounded text-xl">
-						add
-					</span>
-					<span class="text-sm font-semibold">New</span>
-				</button>
-				
 				<!-- Toggle dark mode -->
 				<button 
 					type="button"
