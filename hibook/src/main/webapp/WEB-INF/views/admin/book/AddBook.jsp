@@ -76,7 +76,8 @@
 								<button
 										type="button"
 										class="px-2 py-1.5 bg-gradient-to-r from-violet-600 via-pink-500 to-orange-500 flex items-center justify-center space-x-2
-												rounded-lg "
+												rounded-lg cursor-pointer hover:outline-2 hover:outline-violet-500 hover:outline-offset-2"
+										id="btn-submit-book"
 								>	
 									<span class="material-symbols-rounded text-white">
 										save
@@ -90,47 +91,64 @@
 					<!-- body -->
 					<div class="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-2 gap-4 ">
 						<!-- Left col -->
-						<div class="order-2 lg:order-1 lg:h-80 grid grid-cols-4 grid-rows-2 gap-4 p-4 bg-white/80 dark:bg-slate-900/80 rounded-xl">
+						<div class="order-2 lg:order-1 lg:h-80 grid grid-cols-1 lg:grid-cols-2 grid-rows-2 lg:grid-rows-1 p-4 bg-white/80 dark:bg-slate-900/80 rounded-xl">
+							
+							
+							
+							
 							<!-- Cover photo -->
-							<div class="col-start-1 col-end-5 lg:col-span-2 lg:row-span-2 h-full rounded-xl border border-slate-200/50 dark:border-slate-700 
-										flex items-center justify-center p-2 relative">
+							<div class="col-span-2 lg:col-span-1 h-full rounded-xl border border-slate-200/50 dark:border-slate-700 
+										flex items-center justify-center p-2 relative ">
 								<img 
 									alt="cover-photo" 
 									src="${pageContext.request.contextPath}/assets/images/books/biet-khi-nao-moi-gap-nhau-bia.png"
-									class="h-48 lg:h-full object-contain"
+									class="hidden h-48 lg:h-full object-contain"
+									id="coverPhoto-preview"
 								>
-								<div class="absolute left-2 bottom-2 px-2 py-1.5 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400 text-xs">
+								<div id="label-cover-photo"
+									class="label-cover-photo hidden absolute left-2 bottom-2 px-2 py-1.5 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400 text-xs">
 									Ảnh bìa
 								</div>
-							</div>
-							<div class="rounded-xl border border-slate-200/50 dark:border-slate-700/50 flex items-center justify-center overflow-hidden">
-								<img 
-									alt="cover-photo" 
-									src="${pageContext.request.contextPath}/assets/images/books/biet-khi-nao-moi-gap-nhau-pic1.png"
-									class="w-full h-full object-cover "
+								<div id="delete-cover-photo"
+									class="label-cover-photo hidden flex absolute right-2 top-2 p-2 bg-red-50 dark:bg-red-900/20 items-center justify-center rounded-md cursor-pointer">
+									<span class="material-symbols-rounded text-red-500">
+									delete
+									</span>
+								</div>
+								<button 
+									type="button"
+									class="rounded-xl border-2 border-dashed border-violet-500 dark:border-violet-400 flex items-center justify-center w-full h-full
+										bg-violet-50 dark:bg-violet-900/20 text-violet-400"
+									id="btn-add-cover"
 								>
+									<span class="material-symbols-rounded text-violet-400">
+										add
+									</span>
+									Thêm ảnh bìa
+								</button>
+								
 							</div>
-							<div class="rounded-xl border border-slate-200/50 dark:border-slate-700/50 flex items-center justify-center overflow-hidden">
-								<img 
-									alt="cover-photo" 
-									src="${pageContext.request.contextPath}/assets/images/books/biet-khi-nao-moi-gap-nhau-pic2.png"
-									class="w-full h-full object-cover"
+							
+							<div class="flex space-x-2 space-y-3 flex-wrap overflow-y-auto" id="photo-preview">
+								<!-- Render Image by JS -->
+								<button 
+										type="button"
+										class="rounded-xl border-2 border-dashed border-violet-500 dark:border-violet-400 flex items-center justify-center p-2
+											bg-violet-50 dark:bg-violet-900/20"
+										id="btn-add-photo"
 								>
+									<span class="material-symbols-rounded text-violet-400">
+									add
+									</span>
+								</button>
+								
 							</div>
-							<div class="rounded-xl border border-slate-200/50 dark:border-slate-700/50 flex items-center justify-center overflow-hidden">
-								<img 
-									alt="cover-photo" 
-									src="${pageContext.request.contextPath}/assets/images/books/biet-khi-nao-moi-gap-nhau-pic4.png"
-									class="w-full h-full object-cover"
-								>
-							</div>
-							<div class="rounded-xl border-2 border-dashed border-violet-500 dark:border-violet-400 flex items-center justify-center p-2
-										bg-violet-50 dark:bg-violet-900/20">
-								<span class="material-symbols-rounded text-violet-400">
-								add
-								</span>
-							</div>
+							<form action="${pageContext.request.contextPath}/admin/upload/add-book" method="post" enctype="multipart/form-data" id="formUpload">
+								<input id="uploadFile" type="file" name="coverPhoto" class="hidden">
+								<input id="upload-multifile" type="file" name="photo" class="hidden" multiple="multiple"> 	
+							</form>
 						</div>
+						
 						<!-- right -->
 						<div class="order-1 lg:order-2 row-span-2  gap-4">
 							<div class="flex items-start justify-between bg-white/80 dark:bg-slate-900/80 border-b border-dotted border-slate-200/50 drak:border-slate-700/50 rounded-b-md p-4">
@@ -144,7 +162,7 @@
 							</div>
 							
 							
-							<form action="">
+							<form action="${pageContext.request.contextPath}/admin/book?action=add" method="post">
 								<!-- Thông tin sách -->
 								<div class="p-4 bg-white/80 dark:bg-slate-900/80 rounded-md border-b border-dotted border-slate-200/50 drak:border-slate-700/50">
 									<div class="mb-3">
@@ -173,11 +191,12 @@
 												         text-slate-800 dark:text-white 
 												         bg-white dark:bg-slate-800 
 												         rounded-xl mt-2"
+												   name="category"
 											>
 												<option selected disabled class="text-sm text-slate-600 dark:text-slate-400">--Chọn thể loại--</option>
-												<option>Tiểu thuyết</option>
-												<option>Mânga</option>
-												<option>Truyện ngắn</option>
+												<c:forEach var="category" items="${categories}">
+													<option value="${category.id}">${category.name}</option>
+												</c:forEach>
 											</select>
 										</div>
 										
@@ -188,11 +207,12 @@
 												         text-slate-800 dark:text-white 
 												         bg-white dark:bg-slate-800 
 												         rounded-xl mt-2"
+												   name="author"
 											>
 												<option selected disabled class="text-sm text-slate-600 dark:text-slate-400">--Chọn tác giả--</option>
-												<option>Huỳnh Chí Bảo</option>
-												<option>Hoàng Khánh Duy</option>
-												<option>Akira</option>
+												<c:forEach var="author" items="${authors}">
+													<option value="${author.id}">${author.fullname}</option>
+												</c:forEach>
 											</select>
 										</div>
 									</div>
@@ -200,7 +220,9 @@
 										<label class="text-sm font-semibold text-slate-600 dark:text-slate-400">Mô tả</label>
 										<textarea class="w-full rounded-xl mt-2 p-2 border border-slate-500 dark:border-slate-400 
 												         text-slate-800 dark:text-white overflow-auto h-24 placeholder:text-sm placeholder:italic"
-												  placeholder="Mô tả sách để thêm thông tin chi tiết cho khách hàng"></textarea>
+												  placeholder="Mô tả sách để thêm thông tin chi tiết cho khách hàng"
+												  name="description">
+										</textarea>
 									</div>
 								</div>
 								
@@ -210,8 +232,8 @@
 											<label class="text-sm font-semibold text-slate-600 dark:text-slate-400">Giá bán <span class="text-red-500">*</span> </label>
 											<input
 												type="text"
-												id="name"
-												name="name"
+												id="price"
+												name="price"
 												class="w-full p-2 rounded-xl border border-slate-500 dark:border-slate-400 placeholder:text-sm placeholder:text-slate-600 
 													   dark:placeholder:text-slate-400 text-slate-800 dark:text-white mt-2"
 												placeholder="vd: 40.000 đ"
@@ -222,8 +244,8 @@
 											<label class="text-sm font-semibold text-slate-600 dark:text-slate-400">Số lượng <span class="text-red-500">*</span> </label>
 											<input
 												type="text"
-												id="name"
-												name="name"
+												id="inventory"
+												name="inventory"
 												class="w-full p-2 rounded-xl border border-slate-500 dark:border-slate-400 placeholder:text-sm placeholder:text-slate-600 
 													   dark:placeholder:text-slate-400 text-slate-800 dark:text-white mt-2"
 												placeholder="vd: 15"
@@ -236,11 +258,12 @@
 												         text-slate-800 dark:text-white 
 												         bg-white dark:bg-slate-800 
 												         rounded-xl mt-2"
+												  name="promotion"
 											>
 												<option selected disabled class="text-sm text-slate-600 dark:text-slate-400">--Chọn giảm giá--</option>
-												<option>Giảm 10% 20-10</option>
-												<option>Giảm 5% sách manga</option>
-												<option>Giảm 10% mua sách công nghệ</option>
+												<c:forEach var="promotion" items="${promotions}">
+													<option value="${promotion.id}">${promotion.name}</option>
+												</c:forEach>
 											</select>
 										</div>
 										<div class="">
@@ -249,6 +272,7 @@
 												type="text"
 												id="name"
 												name="name"
+												value=""
 												class="w-full p-2 rounded-xl border border-slate-500 dark:border-slate-400 placeholder:text-sm placeholder:text-slate-600 
 													   dark:placeholder:text-slate-400 text-slate-800 dark:text-white mt-2"
 												placeholder="vd: 15"
@@ -256,7 +280,6 @@
 										</div>
 									</div>
 								</div>
-								
 							</form>
 							
 						</div>
@@ -420,9 +443,11 @@
 			</div>
 		</div>
 	</div>
-	
+	<!-- sweetalert2 -->
+ 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer="defer"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/admin/main.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/admin/Book.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/admin/AjaxBook.js"></script>
 </body>
 </html>
