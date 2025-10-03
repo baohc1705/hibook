@@ -33,6 +33,9 @@ public class AdminController {
 				case "role":
 					redirect = PageConfig.ADMIN_ROLE;
 					break;
+				case "bill":
+					redirect = PageConfig.ADMIN_ORDER;
+					break;
 				default:
 					redirect = PageConfig.ADMIN_INDEX;
 					break;

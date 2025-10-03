@@ -14,4 +14,5 @@ public class PageConfig {
 	public static final String ADMIN_ADD_BOOK = "/WEB-INF/views/admin/book/AddBook.jsp";
 	public static final String ADMIN_ALL_USER = "/WEB-INF/views/admin/user/index.jsp";
 	public static final String ADMIN_ROLE = "/WEB-INF/views/admin/user/Role.jsp";
+	public static final String ADMIN_ORDER = "/WEB-INF/views/admin/order/index.jsp";
 }
