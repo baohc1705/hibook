@@ -1,3 +1,4 @@
+<%@page import="com.baohc.app.model.CateBookDTO"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.ArrayList"%>
@@ -129,17 +130,18 @@
 								
 							</div>
 							
-							<div class="flex space-x-2 space-y-3 flex-wrap overflow-y-auto" id="photo-preview">
+							<div class="flex items-center justify-center space-x-2 space-y-3 flex-wrap overflow-y-auto" id="photo-preview">
 								<!-- Render Image by JS -->
 								<button 
 										type="button"
 										class="rounded-xl border-2 border-dashed border-violet-500 dark:border-violet-400 flex items-center justify-center p-2
-											bg-violet-50 dark:bg-violet-900/20"
+											bg-violet-50 dark:bg-violet-900/20 w-24 h-24"
 										id="btn-add-photo"
 								>
 									<span class="material-symbols-rounded text-violet-400">
 									add
 									</span>
+									<span class="text-nowrap text-violet-400 text-sm">Ảnh phụ</span>
 								</button>
 								
 							</div>

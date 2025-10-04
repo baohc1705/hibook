@@ -53,6 +53,8 @@ $(document).ready(function() {
 									title: "Thành công!",
 									text: resUpload.message,
 									confirmButtonText: "OK"
+								}).then(()=>{
+									window.location.href = '/hibook/admin?page=book';
 								});
 							}
 							else {
@@ -132,7 +134,7 @@ $(document).ready(function() {
 	                    <img 
 	                        alt="book-photo" 
 	                        src="${e.target.result}"
-	                        class="object-contain h-24 w-full"
+	                        class="object-contain w-24 h-24"
 	                    >
 	                    <!-- Nút xoá -->
 	                    <div class="absolute top-2 right-2 p-1.5 bg-red-50 dark:bg-red-900/30 
@@ -143,7 +145,7 @@ $(document).ready(function() {
 	                    </div>
 	                </div>
 	            `;
-				$('#photo-preview').append(html);
+				$('#btn-add-photo').before(html);
 			}
 			render.readAsDataURL(file);
 		}

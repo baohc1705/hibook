@@ -1,10 +1,9 @@
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.Map"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,7 +31,14 @@
 </head>
 <body>
 <%
-
+	Map<Integer, String> cateColor = new HashMap<>();
+	cateColor.put(1, "text-emerald-500 bg-emerald-50 dark:bg-emerald-900/50 text-emerald-500");
+	cateColor.put(2, "text-yellow-500 bg-yellow-50 dark:bg-yellow-900/50 text-yellow-500");
+	cateColor.put(3, "text-violet-500 bg-violet-50 dark:bg-violet-900/50 text-violet-500");
+	cateColor.put(4, "text-blue-500 bg-blue-50 dark:bg-blue-900/50 text-blue-500");
+	cateColor.put(5, "text-orange-500 bg-orange-50 dark:bg-orange-900/50 text-orange-500");
+	
+	request.setAttribute("cateColor", cateColor);
 %>
 	<div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-800 trasition-all duration-300">
 		<div class="flex h-screen overflow-hidden">
@@ -112,6 +118,7 @@
 										    </button>
 										    
 										    <div class="hidden w-full flex flex-col">
+										    	<c:forEach var="category" items="${categories}">
 										    	<div class="w-full flex items-center space-x-2 text-slate-500 dark:text-slate-300 cursor-pointer p-1.5 hover:bg-slate-200/50 dark:hover:bg-slate-700/50
 										    				rounded-md">
 										    		<label class="relative inline-flex cursor-pointer">
@@ -122,32 +129,9 @@
 															<i class="fa-solid fa-check text-white text-xs"></i>
 														</span>
 													</label>
-													<span class="text-sm">Tiểu thuyết</span>
+													<span class="text-sm" data-id="${category.id}">${category.name}</span>
 										    	</div>
-										    	<div class="w-full flex items-center space-x-2 text-slate-500 dark:text-slate-300 cursor-pointer p-1.5 hover:bg-slate-200/50 dark:hover:bg-slate-700/50
-										    				rounded-md">
-										    		<label class="relative inline-flex cursor-pointer">
-														<input type="checkbox"
-															   class="peer appearance-none size-5 rounded border border-slate-300 dark:border-slate-600 
-														       		  checked:bg-violet-500 checked:border-violet-500" />
-														<span class="absolute inset-0 hidden peer-checked:flex items-center justify-center">
-															<i class="fa-solid fa-check text-white text-xs"></i>
-														</span>
-													</label>
-													<span class="text-sm">Truyện ngắn</span>
-										    	</div>
-										    	<div class="w-full flex items-center space-x-2 text-slate-500 dark:text-slate-300 cursor-pointer p-1.5 hover:bg-slate-200/50 dark:hover:bg-slate-700/50
-										    				rounded-md">
-										    		<label class="relative inline-flex cursor-pointer">
-														<input type="checkbox"
-															   class="peer appearance-none size-5 rounded border border-slate-300 dark:border-slate-600 
-														       		  checked:bg-violet-500 checked:border-violet-500" />
-														<span class="absolute inset-0 hidden peer-checked:flex items-center justify-center">
-															<i class="fa-solid fa-check text-white text-xs"></i>
-														</span>
-													</label>
-													<span class="text-sm">Công nghệ</span>
-										    	</div>
+										    	</c:forEach>
 										    </div>
 											
 											
@@ -258,6 +242,7 @@
 							      </tr>
 							    </thead>
 							    <tbody>
+							    <c:forEach var="book" items="${books}">
 							      <tr class="border-b border-slate-200/50 dark:border-slate-700/50 hover:bg-slate-50/50 dark:hover:bg-slate-800/50">
 							        <!-- Checkbox -->
 							        <td class="p-4 text-center">
@@ -273,34 +258,39 @@
 							        <!-- Book info -->
 							        <td class="p-2 max-w-64">
 							          <div class="flex space-x-2">
-							            <img src="${pageContext.request.contextPath}/assets/images/books/dragonball-tap16-bia.png"
+							            <img src="${pageContext.request.contextPath}/assets/images/books/${coverPhotos[book.id]}"
 							                 alt="book-cover" class="w-16 h-24 object-contain rounded" />
 							            <div class="flex flex-col justify-evenly ">
 							              <p class="text-sm font-bold text-slate-800 dark:text-white line-clamp-2">
-							                Dragon Ball Dragon Ball Dragon Ball Dragon Ball Dragon Ball
+							                ${book.name}
 							              </p>
-							              <p class="text-xs text-slate-600 dark:text-slate-400 ">#300043901</p>
+							              <p class="text-xs text-slate-600 dark:text-slate-400 ">${book.id}</p>
 							            </div>
 							          </div>
 							        </td>
 							        <!-- Category -->
 							        <td class="p-2">
-							          <span class="text-sm px-2 py-1 bg-orange-50 dark:bg-orange-900/50 text-orange-500 rounded-full whitespace-nowrap">
-							            Truyện ngắn
+							          <span class="text-sm ${cateColor[book.cateBook.id]} px-2 py-1 rounded-full whitespace-nowrap">
+							            ${book.cateBook.name}
 							          </span>
 							        </td>
 							        <!-- Price -->
 							        <td class="p-2 text-right">
-							          <span class="text-sm font-bold text-slate-800 dark:text-white">đ 25.000</span>
+							        	
+							          <span class="text-sm font-bold text-slate-800 dark:text-white">
+							          đ
+							          <fmt:setLocale value="vi-VN"/>
+							          <fmt:formatNumber value="${book.price}" />
+							          </span>
 							        </td>
 							        <!-- Quantity -->
 							        <td class="p-2 text-center">
-							          <span class="text-sm text-slate-800 dark:text-white">220</span>
+							          <span class="text-sm text-slate-800 dark:text-white">${book.amount}</span>
 							        </td>
 							        <!-- Date -->
 							        <td class="p-2 text-left">
 							          <span class="text-sm text-slate-800 dark:text-white whitespace-nowrap">
-							            12:31 30-09-2025
+							            ${book.createAt}
 							          </span>
 							        </td>
 							        <!-- Action -->
@@ -310,219 +300,30 @@
 							          </button>
 							        </td>
 							      </tr>
-							      <tr class="border-b border-slate-200/50 dark:border-slate-700/50 hover:bg-slate-50/50 dark:hover:bg-slate-800/50">
-							        <!-- Checkbox -->
-							        <td class="p-4 text-center">
-							          <label class="relative inline-flex cursor-pointer">
-							            <input type="checkbox"
-							              class="peer appearance-none size-5 rounded border border-slate-300 dark:border-slate-600 
-							                     checked:bg-violet-500 checked:border-violet-500" />
-							            <span class="absolute inset-0 hidden peer-checked:flex items-center justify-center">
-							              <i class="fa-solid fa-check text-white text-xs"></i>
-							            </span>
-							          </label>
-							        </td>
-							        <!-- Book info -->
-							        <td class="p-2 max-w-64">
-							          <div class="flex space-x-2">
-							            <img src="${pageContext.request.contextPath}/assets/images/books/dragonball-tap16-bia.png"
-							                 alt="book-cover" class="w-16 h-24 object-contain rounded" />
-							            <div class="flex flex-col justify-evenly ">
-							              <p class="text-sm font-bold text-slate-800 dark:text-white line-clamp-2">
-							                Dragon Ball Dragon Ball Dragon Ball Dragon Ball Dragon Ball
-							              </p>
-							              <p class="text-xs text-slate-600 dark:text-slate-400 ">#300043901</p>
-							            </div>
-							          </div>
-							        </td>
-							        <!-- Category -->
-							        <td class="p-2">
-							          <span class="text-sm px-2 py-1 bg-orange-50 dark:bg-orange-900/50 text-orange-500 rounded-full whitespace-nowrap">
-							            Truyện ngắn
-							          </span>
-							        </td>
-							        <!-- Price -->
-							        <td class="p-2 text-right">
-							          <span class="text-sm font-bold text-slate-800 dark:text-white">đ 25.000</span>
-							        </td>
-							        <!-- Quantity -->
-							        <td class="p-2 text-center">
-							          <span class="text-sm text-slate-800 dark:text-white">220</span>
-							        </td>
-							        <!-- Date -->
-							        <td class="p-2 text-left">
-							          <span class="text-sm text-slate-800 dark:text-white whitespace-nowrap">
-							            12:31 30-09-2025
-							          </span>
-							        </td>
-							        <!-- Action -->
-							        <td class="p-2 text-right">
-							          <button type="button" class="p-2 text-slate-500 dark:text-slate-300">
-							            <i class="fa-solid fa-ellipsis"></i>
-							          </button>
-							        </td>
-							      </tr>
-							      <tr class="border-b border-slate-200/50 dark:border-slate-700/50 hover:bg-slate-50/50 dark:hover:bg-slate-800/50">
-							        <!-- Checkbox -->
-							        <td class="p-4 text-center">
-							          <label class="relative inline-flex cursor-pointer">
-							            <input type="checkbox"
-							              class="peer appearance-none size-5 rounded border border-slate-300 dark:border-slate-600 
-							                     checked:bg-violet-500 checked:border-violet-500" />
-							            <span class="absolute inset-0 hidden peer-checked:flex items-center justify-center">
-							              <i class="fa-solid fa-check text-white text-xs"></i>
-							            </span>
-							          </label>
-							        </td>
-							        <!-- Book info -->
-							        <td class="p-2 max-w-64">
-							          <div class="flex space-x-2">
-							            <img src="${pageContext.request.contextPath}/assets/images/books/dragonball-tap16-bia.png"
-							                 alt="book-cover" class="w-16 h-24 object-contain rounded" />
-							            <div class="flex flex-col justify-evenly ">
-							              <p class="text-sm font-bold text-slate-800 dark:text-white line-clamp-2">
-							                Dragon Ball Dragon Ball Dragon Ball Dragon Ball Dragon Ball
-							              </p>
-							              <p class="text-xs text-slate-600 dark:text-slate-400 ">#300043901</p>
-							            </div>
-							          </div>
-							        </td>
-							        <!-- Category -->
-							        <td class="p-2">
-							          <span class="text-sm px-2 py-1 bg-orange-50 dark:bg-orange-900/50 text-orange-500 rounded-full whitespace-nowrap">
-							            Truyện ngắn
-							          </span>
-							        </td>
-							        <!-- Price -->
-							        <td class="p-2 text-right">
-							          <span class="text-sm font-bold text-slate-800 dark:text-white">đ 25.000</span>
-							        </td>
-							        <!-- Quantity -->
-							        <td class="p-2 text-center">
-							          <span class="text-sm text-slate-800 dark:text-white">220</span>
-							        </td>
-							        <!-- Date -->
-							        <td class="p-2 text-left">
-							          <span class="text-sm text-slate-800 dark:text-white whitespace-nowrap">
-							            12:31 30-09-2025
-							          </span>
-							        </td>
-							        <!-- Action -->
-							        <td class="p-2 text-right">
-							          <button type="button" class="p-2 text-slate-500 dark:text-slate-300">
-							            <i class="fa-solid fa-ellipsis"></i>
-							          </button>
-							        </td>
-							      </tr>
-							      <tr class="border-b border-slate-200/50 dark:border-slate-700/50 hover:bg-slate-50/50 dark:hover:bg-slate-800/50">
-							        <!-- Checkbox -->
-							        <td class="p-4 text-center">
-							          <label class="relative inline-flex cursor-pointer">
-							            <input type="checkbox"
-							              class="peer appearance-none size-5 rounded border border-slate-300 dark:border-slate-600 
-							                     checked:bg-violet-500 checked:border-violet-500" />
-							            <span class="absolute inset-0 hidden peer-checked:flex items-center justify-center">
-							              <i class="fa-solid fa-check text-white text-xs"></i>
-							            </span>
-							          </label>
-							        </td>
-							        <!-- Book info -->
-							        <td class="p-2 max-w-64">
-							          <div class="flex space-x-2">
-							            <img src="${pageContext.request.contextPath}/assets/images/books/dragonball-tap16-bia.png"
-							                 alt="book-cover" class="w-16 h-24 object-contain rounded" />
-							            <div class="flex flex-col justify-evenly ">
-							              <p class="text-sm font-bold text-slate-800 dark:text-white line-clamp-2">
-							                Dragon Ball Dragon Ball Dragon Ball Dragon Ball Dragon Ball
-							              </p>
-							              <p class="text-xs text-slate-600 dark:text-slate-400 ">#300043901</p>
-							            </div>
-							          </div>
-							        </td>
-							        <!-- Category -->
-							        <td class="p-2">
-							          <span class="text-sm px-2 py-1 bg-orange-50 dark:bg-orange-900/50 text-orange-500 rounded-full whitespace-nowrap">
-							            Truyện ngắn
-							          </span>
-							        </td>
-							        <!-- Price -->
-							        <td class="p-2 text-right">
-							          <span class="text-sm font-bold text-slate-800 dark:text-white">đ 25.000</span>
-							        </td>
-							        <!-- Quantity -->
-							        <td class="p-2 text-center">
-							          <span class="text-sm text-slate-800 dark:text-white">220</span>
-							        </td>
-							        <!-- Date -->
-							        <td class="p-2 text-left">
-							          <span class="text-sm text-slate-800 dark:text-white whitespace-nowrap">
-							            12:31 30-09-2025
-							          </span>
-							        </td>
-							        <!-- Action -->
-							        <td class="p-2 text-right">
-							          <button type="button" class="p-2 text-slate-500 dark:text-slate-300">
-							            <i class="fa-solid fa-ellipsis"></i>
-							          </button>
-							        </td>
-							      </tr>
-							      <tr class="border-b border-slate-200/50 dark:border-slate-700/50 hover:bg-slate-50/50 dark:hover:bg-slate-800/50">
-							        <!-- Checkbox -->
-							        <td class="p-4 text-center">
-							          <label class="relative inline-flex cursor-pointer">
-							            <input type="checkbox"
-							              class="peer appearance-none size-5 rounded border border-slate-300 dark:border-slate-600 
-							                     checked:bg-violet-500 checked:border-violet-500" />
-							            <span class="absolute inset-0 hidden peer-checked:flex items-center justify-center">
-							              <i class="fa-solid fa-check text-white text-xs"></i>
-							            </span>
-							          </label>
-							        </td>
-							        <!-- Book info -->
-							        <td class="p-2 max-w-64">
-							          <div class="flex space-x-2">
-							            <img src="${pageContext.request.contextPath}/assets/images/books/dragonball-tap16-bia.png"
-							                 alt="book-cover" class="w-16 h-24 object-contain rounded" />
-							            <div class="flex flex-col justify-evenly ">
-							              <p class="text-sm font-bold text-slate-800 dark:text-white line-clamp-2">
-							                Dragon Ball Dragon Ball Dragon Ball Dragon Ball Dragon Ball
-							              </p>
-							              <p class="text-xs text-slate-600 dark:text-slate-400 ">#300043901</p>
-							            </div>
-							          </div>
-							        </td>
-							        <!-- Category -->
-							        <td class="p-2">
-							          <span class="text-sm px-2 py-1 bg-orange-50 dark:bg-orange-900/50 text-orange-500 rounded-full whitespace-nowrap">
-							            Truyện ngắn
-							          </span>
-							        </td>
-							        <!-- Price -->
-							        <td class="p-2 text-right">
-							          <span class="text-sm font-bold text-slate-800 dark:text-white">đ 25.000</span>
-							        </td>
-							        <!-- Quantity -->
-							        <td class="p-2 text-center">
-							          <span class="text-sm text-slate-800 dark:text-white">220</span>
-							        </td>
-							        <!-- Date -->
-							        <td class="p-2 text-left">
-							          <span class="text-sm text-slate-800 dark:text-white whitespace-nowrap">
-							            12:31 30-09-2025
-							          </span>
-							        </td>
-							        <!-- Action -->
-							        <td class="p-2 text-right">
-							          <button type="button" class="p-2 text-slate-500 dark:text-slate-300">
-							            <i class="fa-solid fa-ellipsis"></i>
-							          </button>
-							        </td>
-							      </tr>
+							      </c:forEach>
 							    </tbody>
 							  </table>
-							
-							<!-- navigation -->
 						</div>
+						<!-- Mobile Cards -->
+						<div class="space-y-4 md:hidden p-4">
+							<c:forEach var="book" items="${books}">
+								<div class="bg-white/80 dark:bg-slate-900/80 rounded-xl p-4 shadow-sm">
+								    <div class="flex space-x-3">
+								      <img src="${pageContext.request.contextPath}/assets/images/books/${coverPhotos[book.id]}"
+								           class="w-16 h-24 object-contain rounded" />
+								      <div class="flex flex-col justify-between">
+								        <p class="text-sm font-bold text-slate-800 dark:text-white truncate">${book.name}</p>
+								        <p class="text-xs text-slate-600 dark:text-slate-400">${book.id}</p>
+								        <p class="text-sm text-slate-800 dark:text-white">đ  
+									        <fmt:setLocale value="vi-VN"/>
+								          	<fmt:formatNumber value="${book.price}" />
+								        </p>
+								        <p class="text-xs text-slate-600 dark:text-slate-400">${book.createAt}</p>
+								      </div>
+								    </div>
+								  </div>
+							</c:forEach>
+						</div>	
 						<div class="grid grid-cols-1 lg:grid-cols-2 place-items-center">
 							<div class="p-4 lg:place-self-start flex justify-between items-center w-full lg:flex-col lg:items-start">
 								<button type="button"
@@ -575,22 +376,6 @@
 								</div>
 							</div>							
 						</div>
-						<!-- Mobile Cards -->
-						<div class="space-y-4 md:hidden p-4">
-						  <div class="bg-white/80 dark:bg-slate-900/80 rounded-xl p-4 shadow-sm">
-						    <div class="flex space-x-3">
-						      <img src="${pageContext.request.contextPath}/assets/images/books/dragonball-tap16-bia.png"
-						           class="w-16 h-24 object-contain rounded" />
-						      <div class="flex flex-col justify-between">
-						        <p class="text-sm font-bold text-slate-800 dark:text-white truncate">Dragon Ball</p>
-						        <p class="text-xs text-slate-600 dark:text-slate-400">#300043901</p>
-						        <p class="text-sm text-slate-800 dark:text-white">đ 25.000</p>
-						        <p class="text-xs text-slate-600 dark:text-slate-400">220 pcs</p>
-						        <p class="text-xs text-slate-600 dark:text-slate-400">12:31 30-09-2025</p>
-						      </div>
-						    </div>
-						  </div>
-						</div>	
 					</div>
 					
 				</main>

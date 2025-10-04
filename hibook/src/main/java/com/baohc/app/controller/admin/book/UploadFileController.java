@@ -79,7 +79,7 @@ public class UploadFileController extends HttpServlet {
 			
 			// Thêm ảnh bìa (bắt buộc)
 			Part coverPhoto = request.getPart("coverPhoto");
-			String coverPhotoFileName = FileKit.uploadFile(coverPhoto, bookId, request);
+			String coverPhotoFileName = FileKit.uploadFile(coverPhoto, UPLOAD_DIR, request);
 			PhotoDTO photoDTO = new PhotoDTO();
 			photoDTO.setBook(book);
 			photoDTO.setPathname(coverPhotoFileName);
